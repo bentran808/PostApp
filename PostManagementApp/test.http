@@ -1,0 +1,51 @@
+@baseUrl=http://localhost:3000/api
+@resourceName=posts
+
+# @name getAll
+GET {{baseUrl}}/{{resourceName}}
+
+###
+
+# @name addNew
+POST {{baseUrl}}/{{resourceName}}
+Content-Type: application/json
+
+{
+    "author": {
+      "id": "621c4188dece66a40dad2951",
+      "avatar": "https://picsum.photos/200",
+      "name": "Blake Chen",
+      "gender": "male",
+      "email": "blakechen@entogrok.com",
+      "phone": "+84 (919) 507231",
+      "address": "199 Bergen Street, Bowie, Oregon, 7933"
+    },
+    "title": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.",
+    "content": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus",
+    "photos": [],
+    "likes": [],
+    "comments": []
+}
+
+###
+
+# @name update
+PATCH {{baseUrl}}/{{resourceName}}/1
+Content-Type: application/json
+
+{
+    "likes": [{
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "mcintyremorrison@entogrok.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139"
+    }]
+}
+
+###
+
+# @name remove
+DELETE  {{baseUrl}}/{{resourceName}}/1

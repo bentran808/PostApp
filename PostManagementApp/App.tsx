@@ -1,117 +1,117 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+// In App.js in a new project
 
-import React, {FC, ReactChildren, ReactNode} from 'react';
+import * as React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    useColorScheme,
-    View
-} from 'react-native';
+    createNativeStackNavigator,
+    NativeStackNavigationProp
+} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import FormButton from './components/FormButton';
+import FormInput from './components/FormInput';
 
-import {
-    Colors,
-    DebugInstructions,
-    Header,
-    LearnMoreLinks,
-    ReloadInstructions
-} from 'react-native/Libraries/NewAppScreen';
+type RootStackParamList = {
+    Home: undefined;
+    Login: undefined;
+};
 
-const Section: FC<{
-    children: ReactChildren | ReactNode;
-    title: String;
-}> = ({children, title}) => {
-    const isDarkMode = useColorScheme() === 'dark';
+type LoginNavigationProp = NativeStackNavigationProp<
+    RootStackParamList,
+    'Login'
+>;
+interface LoginProps {
+    navigation: LoginNavigationProp;
+}
+
+const Tab = createBottomTabNavigator();
+
+const TabsNavigation = () => {
     return (
-        <View style={styles.sectionContainer}>
-            <Text
-                style={[
-                    styles.sectionTitle,
-                    {
-                        color: isDarkMode ? Colors.white : Colors.black
-                    }
-                ]}>
-                {title}
-            </Text>
-            <Text
-                style={[
-                    styles.sectionDescription,
-                    {
-                        color: isDarkMode ? Colors.light : Colors.dark
-                    }
-                ]}>
-                {children}
-            </Text>
+        <Tab.Navigator initialRouteName="HomeTab">
+            <Tab.Screen
+                name="HomeTab"
+                component={Home}
+                options={{
+                    tabBarLabel: 'Home'
+                }}
+            />
+            <Tab.Screen
+                name="MyPost"
+                component={MyPost}
+                options={{
+                    tabBarLabel: 'My Post'
+                }}
+            />
+        </Tab.Navigator>
+    );
+};
+
+const LoginScreen = ({navigation}: LoginProps) => {
+    const [email, setEmail] = React.useState('');
+    return (
+        <View style={styles.body}>
+            <Text style={styles.text}>Login Screen</Text>
+            <FormInput
+                iconType="user"
+                value={email}
+                onChangeText={userEmail => setEmail(userEmail)}
+                placeholderText="Email"
+                keyboardType="email-address"
+                autoCorrect={false}
+                autoCapitalize="none"
+            />
+            <FormInput
+                iconType="lock"
+                value={email}
+                onChangeText={userEmail => setEmail(userEmail)}
+                placeholderText="Password"
+                secureTextEntry={true}
+            />
+            <FormButton
+                title="Login"
+                onPress={() => {
+                    navigation.navigate('Home');
+                }}
+            />
         </View>
     );
 };
 
+const Home = () => (
+    <View style={styles.body}>
+        <Text style={styles.text}>Home Tab</Text>
+    </View>
+);
+
+const MyPost = () => (
+    <View style={styles.body}>
+        <Text style={styles.text}>My Post Tab</Text>
+    </View>
+);
+
+const Stack = createNativeStackNavigator();
+
 const App = () => {
-    const isDarkMode = useColorScheme() === 'dark';
-
-    const backgroundStyle = {
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
-    };
-
     return (
-        <SafeAreaView style={backgroundStyle}>
-            <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            />
-            <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={backgroundStyle}>
-                <Header />
-                <View
-                    style={{
-                        backgroundColor: isDarkMode
-                            ? Colors.black
-                            : Colors.white
-                    }}>
-                    <Section title="Step One">
-                        Edit <Text style={styles.highlight}>App.js</Text> to
-                        change this screen and then come back to see your edits.
-                    </Section>
-                    <Section title="See Your Changes">
-                        <ReloadInstructions />
-                    </Section>
-                    <Section title="Debug">
-                        <DebugInstructions />
-                    </Section>
-                    <Section title="Learn More">
-                        Read the docs to discover what to do next:
-                    </Section>
-                    <LearnMoreLinks />
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Home" component={TabsNavigation} />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 };
 
 const styles = StyleSheet.create({
-    sectionContainer: {
-        marginTop: 32,
-        paddingHorizontal: 24
+    body: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: '600'
-    },
-    sectionDescription: {
-        marginTop: 8,
-        fontSize: 18,
-        fontWeight: '400'
-    },
-    highlight: {
-        fontWeight: '700'
+    text: {
+        fontSize: 30,
+        fontWeight: 'bold'
     }
 });
 
