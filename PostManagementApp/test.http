@@ -1,24 +1,40 @@
 @baseUrl=http://localhost:3000/api
 @resourceName=posts
 
+# @name loginWithParams
+POST http://localhost:3000/auth/login?email=mcintyremorrison@entogrok.com&password=123123
+
+###
+
+# @name loginWithBody
+POST http://192.168.56.1:3000/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+email=admin@admin.com&password=admin
+
+###
+
 # @name getAll
 GET {{baseUrl}}/{{resourceName}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInBhc3N3b3JkIjoiYWRtaW4iLCJpYXQiOjE2NDYxMjY5MTQsImV4cCI6MTY0NjEzMDUxNH0.deSzs6ZSarEnzsiXYk7g2VO1BWyaAZMgKPhWDbHDcqE
 
 ###
 
 # @name addNew
 POST {{baseUrl}}/{{resourceName}}
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInBhc3N3b3JkIjoiYWRtaW4iLCJpYXQiOjE2NDYxMjY5MTQsImV4cCI6MTY0NjEzMDUxNH0.deSzs6ZSarEnzsiXYk7g2VO1BWyaAZMgKPhWDbHDcqE
 
 {
     "author": {
-      "id": "621c4188dece66a40dad2951",
-      "avatar": "https://picsum.photos/200",
-      "name": "Blake Chen",
-      "gender": "male",
-      "email": "blakechen@entogrok.com",
-      "phone": "+84 (919) 507231",
-      "address": "199 Bergen Street, Bowie, Oregon, 7933"
+        "id": "621c4188dece66a40dad2951",
+        "avatar": "https://picsum.photos/200",
+        "name": "Admin",
+        "gender": "male",
+        "email": "admin@admin.com",
+        "phone": "+84 (919) 507231",
+        "address": "199 Bergen Street, Bowie, Oregon, 7933",
+        "role": "admin"
     },
     "title": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.",
     "content": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus",

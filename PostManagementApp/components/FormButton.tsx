@@ -4,12 +4,13 @@ import {windowHeight} from '../utils/Dimensions';
 
 type FormButtonProps = {
     title: string;
+    color?: string;
 } & ButtonProps;
 
-const FormButton = ({title, ...rest}: FormButtonProps) => {
+const FormButton = ({title, color, ...rest}: FormButtonProps) => {
     return (
         <TouchableOpacity style={styles.buttonContainer} {...rest}>
-            <Text>{title}</Text>
+            <Text style={(styles.buttonText, {color})}>{title}</Text>
         </TouchableOpacity>
     );
 };
