@@ -17,9 +17,11 @@ const FormInput = ({
 }: FormInputProps) => {
     return (
         <View style={styles.inputContainer}>
-            <View style={styles.iconStyle}>
-                <AntDesign name={iconType} size={25} color="#666" />
-            </View>
+            {iconType ? (
+                <View style={styles.iconStyle}>
+                    <AntDesign name={iconType} size={25} color="#666" />
+                </View>
+            ) : undefined}
             <TextInput
                 value={value}
                 numberOfLines={1}

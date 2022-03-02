@@ -4,7 +4,9 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import FormButton from '../components/FormButton';
 import FormInput from '../components/FormInput';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// import axios from 'axios';
+
+// Utilities
+import {axiosInstance} from '../utils/AxiosConfig';
 
 type LoginNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -17,28 +19,31 @@ interface LoginProps {
 const LoginScreen = ({navigation}: LoginProps) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState<unknown>();
     const disableButton = !email || !password;
 
     const login = async () => {
-        // await axios({
-        //     method: 'post',
-        //     url: 'https://192.168.56.1:3000/auth/login',
-        //     data: `email=${email}&password=${password}`,
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded',
-        //         Accept: 'application/json'
-        //     }
-        // })
-        //     .then(function (res) {
-        //         console.log(res);
-        //         navigation.navigate('Home');
-        //     })
-        //     .catch(function (err) {
-        //         console.log(error);
-        //         setError(err);
-        //     });
-        navigation.navigate('Home');
+        try {
+            const response = await axiosInstance.post(
+                'auth/login',
+                `email=${email}&password=${password}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        Accept: 'application/json'
+                    }
+                }
+            );
+            if (response.status === 200) {
+                setEmail('');
+                setPassword('');
+                navigation.navigate('Home');
+            } else {
+                throw new Error('An error has occurred');
+            }
+        } catch (err) {
+            setError(err);
+        }
     };
 
     return (

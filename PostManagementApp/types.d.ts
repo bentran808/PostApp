@@ -2,6 +2,9 @@ type RootStackParamList = {
     Home: undefined;
     Login: undefined;
     AddPost: undefined;
+    ShowImage: {
+        url: {};
+    };
 };
 
 type User = {

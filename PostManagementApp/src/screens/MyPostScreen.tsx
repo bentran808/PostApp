@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-const AddPostScreen = () => (
+const MyPostScreen = () => (
     <View style={styles.body}>
-        <Text style={styles.text}>Add Post Screen</Text>
+        <Text style={styles.text}>My Post Tab</Text>
     </View>
 );
 
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AddPostScreen;
+export default MyPostScreen;

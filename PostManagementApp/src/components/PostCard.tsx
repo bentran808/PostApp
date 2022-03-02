@@ -1,61 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {
-    FlatList,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ProgressiveImage from './ProgressiveImage';
 
-const posts = [
-    {
-        author: {
-            id: '621c4188dece66a40dad2951',
-            avatar: 'https://picsum.photos/200',
-            name: 'Admin',
-            gender: 'male',
-            email: 'admin@admin.com',
-            phone: '+84 (919) 507231',
-            address: '199 Bergen Street, Bowie, Oregon, 7933',
-            role: 'admin'
-        },
-        title: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-        content:
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
-        photos: [],
-        likes: [],
-        comments: [],
-        createdAt: 1646127024449,
-        updatedAt: 1646127024449,
-        id: 1
-    },
-    {
-        author: {
-            id: '621c4188dece66a40dad2951',
-            avatar: 'https://picsum.photos/200',
-            name: 'Admin',
-            gender: 'male',
-            email: 'admin@admin.com',
-            phone: '+84 (919) 507231',
-            address: '199 Bergen Street, Bowie, Oregon, 7933',
-            role: 'admin'
-        },
-        title: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.',
-        content:
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
-        photos: [],
-        likes: [],
-        comments: [],
-        createdAt: 1646127024449,
-        updatedAt: 1646127024449,
-        id: 2
-    }
-];
-
-const PostCard = ({item}: {item: Post}) => {
+const PostCard = ({item, onPress}: {item: Post; onPress: () => void}) => {
     const numberOfLikes = item.likes.length;
     const numberOfComments = item.comments.length;
     const likeIcon = numberOfLikes ? 'heart' : 'heart-outline';
@@ -79,6 +28,7 @@ const PostCard = ({item}: {item: Post}) => {
         <View style={styles.card}>
             <View style={styles.userInfo}>
                 <Image
+                    defaultSource={require('../assets/default-avatar.jpg')}
                     source={{
                         uri: item.author.avatar
                     }}
@@ -89,6 +39,15 @@ const PostCard = ({item}: {item: Post}) => {
                     <Text style={styles.postTime}>2 hours ago</Text>
                 </View>
             </View>
+            <TouchableOpacity onPress={onPress}>
+                <ProgressiveImage
+                    defaultImageSource={require('../assets/default-img.jpg')}
+                    source={{uri: item.author.avatar}}
+                    style={{width: '100%', height: 250}}
+                    resizeMode="cover"
+                />
+            </TouchableOpacity>
+            <Text style={styles.postTitle}>{item.title}</Text>
             <Text style={styles.postText}>{item.content}</Text>
             <View style={styles.divider} />
             <View style={styles.interactionWrapper}>
@@ -118,25 +77,8 @@ const PostCard = ({item}: {item: Post}) => {
         </View>
     );
 };
-const HomeScreen = () => {
-    return (
-        <View style={styles.container}>
-            <FlatList
-                data={posts}
-                renderItem={({item}: {item: Post}) => <PostCard item={item} />}
-                showsVerticalScrollIndicator={false}
-            />
-        </View>
-    );
-};
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        padding: 20
-    },
     card: {
         backgroundColor: '#f8f8f8',
         borderRadius: 10,
@@ -165,6 +107,12 @@ const styles = StyleSheet.create({
     postTime: {
         fontSize: 12,
         color: '#666'
+    },
+    postTitle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginVertical: 5,
+        paddingHorizontal: 15
     },
     postText: {
         fontSize: 14,
@@ -197,4 +145,5 @@ const styles = StyleSheet.create({
         marginLeft: 5
     }
 });
-export default HomeScreen;
+
+export default PostCard;
