@@ -1,7 +1,12 @@
 type RootStackParamList = {
     Home: undefined;
+    HomeScreen: undefined;
     Login: undefined;
-    AddPost: undefined;
+    AddPost:
+        | {
+              editedId: Number;
+          }
+        | undefined;
     ShowImage: {
         url: {};
     };
@@ -20,8 +25,14 @@ type User = {
 
 type Post = {
     author: User;
+    company: string;
+    year: number;
+    type: string;
+    status: boolean;
+    price: number;
+    address: string;
     title: string;
-    content: string;
+    description: string;
     photos: Array;
     likes: Array;
     comments: Array;

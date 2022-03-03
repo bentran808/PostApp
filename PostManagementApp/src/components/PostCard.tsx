@@ -1,10 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ProgressiveImage from './ProgressiveImage';
+import {Menu} from 'react-native-paper';
 
-const PostCard = ({item, onPress}: {item: Post; onPress: () => void}) => {
+type PostCardProps = {
+    item: Post;
+    onPress: () => void;
+    onDelete: () => void;
+    onEdit: () => void;
+};
+
+const PostCard = ({item, onPress, onDelete, onEdit}: PostCardProps) => {
+    const [visible, setVisible] = useState(false);
     const numberOfLikes = item.likes.length;
     const numberOfComments = item.comments.length;
     const likeIcon = numberOfLikes ? 'heart' : 'heart-outline';
@@ -26,6 +36,57 @@ const PostCard = ({item, onPress}: {item: Post; onPress: () => void}) => {
 
     return (
         <View style={styles.card}>
+            <TouchableOpacity onPress={onPress}>
+                <ProgressiveImage
+                    defaultImageSource={require('../assets/default-img.jpg')}
+                    source={{uri: item.author.avatar}}
+                    style={{width: '100%', height: 200}}
+                    resizeMode="cover"
+                />
+            </TouchableOpacity>
+            <View style={styles.infoSection}>
+                <View>
+                    <Text style={styles.postTitle}>{item.title}</Text>
+                    <Text style={styles.postPrice}>{item.price}</Text>
+                    <Text style={styles.postTime}>2 hours ago</Text>
+                    <View style={styles.postLocation}>
+                        <Ionicons
+                            name="md-location-outline"
+                            size={20}
+                            color="#000"
+                        />
+                        <Text style={styles.postAddress}>{item.address}</Text>
+                    </View>
+                </View>
+                <Menu
+                    visible={visible}
+                    onDismiss={() => setVisible(false)}
+                    anchor={
+                        <TouchableOpacity onPress={() => setVisible(true)}>
+                            <Ionicons
+                                name="ellipsis-vertical"
+                                size={20}
+                                color="#000"
+                            />
+                        </TouchableOpacity>
+                    }>
+                    <Menu.Item
+                        onPress={() => {
+                            setVisible(false);
+                            onEdit();
+                        }}
+                        title="Edit"
+                    />
+                    <Menu.Item
+                        onPress={() => {
+                            setVisible(false);
+                            onDelete();
+                        }}
+                        title="Delete"
+                    />
+                </Menu>
+            </View>
+            <View style={styles.divider} />
             <View style={styles.userInfo}>
                 <Image
                     defaultSource={require('../assets/default-avatar.jpg')}
@@ -36,19 +97,33 @@ const PostCard = ({item, onPress}: {item: Post; onPress: () => void}) => {
                 />
                 <View style={styles.userInfoText}>
                     <Text style={styles.userName}>{item.author.name}</Text>
-                    <Text style={styles.postTime}>2 hours ago</Text>
                 </View>
             </View>
-            <TouchableOpacity onPress={onPress}>
-                <ProgressiveImage
-                    defaultImageSource={require('../assets/default-img.jpg')}
-                    source={{uri: item.author.avatar}}
-                    style={{width: '100%', height: 250}}
-                    resizeMode="cover"
-                />
-            </TouchableOpacity>
-            <Text style={styles.postTitle}>{item.title}</Text>
-            <Text style={styles.postText}>{item.content}</Text>
+            <Text style={styles.postText}>{item.description}</Text>
+            <View style={styles.postLocation}>
+                <FontAwesome name="building-o" size={20} color="#000" />
+                <Text style={styles.postAddress}>
+                    Product Company: {item.company}
+                </Text>
+            </View>
+            <View style={styles.postLocation}>
+                <Ionicons name="pricetags-outline" size={20} color="#000" />
+                <Text style={styles.postAddress}>
+                    Type of product: {item.type}
+                </Text>
+            </View>
+            <View style={styles.postLocation}>
+                <Ionicons name="md-calendar-outline" size={20} color="#000" />
+                <Text style={styles.postAddress}>
+                    Year of registration: {item.year}
+                </Text>
+            </View>
+            <View style={styles.postLocation}>
+                <Ionicons name="md-card-outline" size={20} color="#000" />
+                <Text style={styles.postAddress}>
+                    Status: {item.status ? 'Used' : 'New'}
+                </Text>
+            </View>
             <View style={styles.divider} />
             <View style={styles.interactionWrapper}>
                 <TouchableOpacity
@@ -106,13 +181,36 @@ const styles = StyleSheet.create({
     },
     postTime: {
         fontSize: 12,
-        color: '#666'
-    },
-    postTitle: {
-        fontSize: 14,
-        fontWeight: 'bold',
+        color: '#666',
         marginVertical: 5,
         paddingHorizontal: 15
+    },
+    postTitle: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginBottom: 5,
+        paddingLeft: 15
+    },
+    postPrice: {
+        color: '#b80d0d',
+        fontSize: 14,
+        fontWeight: 'bold',
+        paddingLeft: 15
+    },
+    postLocation: {
+        flexDirection: 'row',
+        paddingLeft: 15
+    },
+    postAddress: {
+        color: '#000',
+        fontSize: 14,
+        marginLeft: 5
+    },
+    infoSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: 10
     },
     postText: {
         fontSize: 14,

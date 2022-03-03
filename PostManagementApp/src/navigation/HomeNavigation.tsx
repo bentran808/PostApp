@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeStack from './HomeStack';
 import MyPostScreen from '../screens/MyPostScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 const HomeNavigation = () => {
@@ -36,6 +37,20 @@ const HomeNavigation = () => {
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons
                             name="format-list-text"
+                            color={color}
+                            size={size}
+                        />
+                    )
+                }}
+            />
+            <Tab.Screen
+                name="Profile"
+                component={ProfileScreen}
+                options={{
+                    tabBarLabel: 'Profile',
+                    tabBarIcon: ({color, size}) => (
+                        <MaterialCommunityIcons
+                            name="account-settings"
                             color={color}
                             size={size}
                         />

@@ -3,14 +3,18 @@ import {ButtonProps, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {windowHeight} from '../utils/Dimensions';
 
 type FormButtonProps = {
-    title: string;
+    title?: string;
     color?: string;
 } & ButtonProps;
 
-const FormButton = ({title, color, ...rest}: FormButtonProps) => {
+const FormButton = ({
+    title = 'Button',
+    color = '#fff',
+    ...rest
+}: FormButtonProps) => {
     return (
         <TouchableOpacity style={styles.buttonContainer} {...rest}>
-            <Text style={(styles.buttonText, {color})}>{title}</Text>
+            <Text style={[styles.buttonText, {color}]}>{title}</Text>
         </TouchableOpacity>
     );
 };
@@ -27,7 +31,6 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     buttonText: {
-        color: '#fff',
         fontSize: 18,
         fontWeight: 'bold'
     }

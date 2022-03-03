@@ -9,20 +9,20 @@ import HomeScreen from '../screens/HomeScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 import ShowImageScreen from '../screens/ShowImageScreen';
 
-type AddPostNavigationProp = NativeStackNavigationProp<
+type HomeStackNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
     'AddPost'
 >;
 
-interface AddPostProps {
-    navigation: AddPostNavigationProp;
+interface HomeStackProps {
+    navigation: HomeStackNavigationProp;
 }
 
 const Stack = createNativeStackNavigator();
-const HomeStack = ({navigation}: AddPostProps) => (
+const HomeStack = ({navigation}: HomeStackProps) => (
     <Stack.Navigator>
         <Stack.Screen
-            name="Home"
+            name="HomeScreen"
             component={HomeScreen}
             options={{
                 headerTitleAlign: 'center',
@@ -30,6 +30,7 @@ const HomeStack = ({navigation}: AddPostProps) => (
                     color: '#2e64e5',
                     fontSize: 18
                 },
+                headerLeft: () => null,
                 headerRight: () => (
                     <View>
                         <FontAwesome5.Button
@@ -46,16 +47,19 @@ const HomeStack = ({navigation}: AddPostProps) => (
         <Stack.Screen
             name="AddPost"
             component={AddPostScreen}
-            options={{
-                title: 'Add Post',
-                headerTitleAlign: 'center',
-                headerTitleStyle: {
-                    color: '#2e64e5',
-                    fontSize: 18
-                },
-                headerStyle: {
-                    backgroundColor: '#2e64e515'
-                }
+            options={({route}) => {
+                const title = route.params
+                    ? 'Update a post'
+                    : 'Create a new post';
+
+                return {
+                    title,
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        color: '#2e64e5',
+                        fontSize: 18
+                    }
+                };
             }}
         />
         <Stack.Screen

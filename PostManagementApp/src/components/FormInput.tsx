@@ -4,19 +4,32 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {windowHeight} from '../utils/Dimensions';
 
 type FormInputProps = {
-    iconType: string;
-    value: string;
-    placeholderText: string;
+    iconType?: string;
+    value?: string;
+    placeholderText?: string;
+    multiline?: boolean;
+    numberOfLines?: number;
 } & TextInputProps;
 
 const FormInput = ({
-    iconType,
-    value,
-    placeholderText,
+    iconType = '',
+    value = '',
+    placeholderText = '',
+    multiline = false,
+    numberOfLines = 1,
     ...rest
 }: FormInputProps) => {
+    const textAlignVertical = multiline ? 'top' : 'center';
     return (
-        <View style={styles.inputContainer}>
+        <View
+            style={[
+                styles.inputContainer,
+                {
+                    height: multiline
+                        ? (windowHeight / 15) * numberOfLines
+                        : windowHeight / 15
+                }
+            ]}>
             {iconType ? (
                 <View style={styles.iconStyle}>
                     <AntDesign name={iconType} size={25} color="#666" />
@@ -24,10 +37,10 @@ const FormInput = ({
             ) : undefined}
             <TextInput
                 value={value}
-                numberOfLines={1}
+                numberOfLines={numberOfLines}
                 placeholder={placeholderText}
                 placeholderTextColor="#666"
-                style={styles.input}
+                style={[styles.input, {textAlignVertical}]}
                 {...rest}
             />
         </View>
@@ -36,13 +49,11 @@ const FormInput = ({
 
 const styles = StyleSheet.create({
     inputContainer: {
-        alignItems: 'center',
         backgroundColor: '#fff',
         borderColor: '#ccc',
         borderRadius: 3,
         borderWidth: 1,
         flexDirection: 'row',
-        height: windowHeight / 15,
         marginBottom: 10,
         marginTop: 5,
         width: '100%'

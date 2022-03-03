@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import FormButton from '../components/FormButton';
@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Utilities
 import {axiosInstance} from '../utils/AxiosConfig';
+import {CounterContext} from '../navigation/CounterContext';
 
 type LoginNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -20,6 +21,7 @@ const LoginScreen = ({navigation}: LoginProps) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<unknown>();
+    const {setUser} = useContext(CounterContext);
     const disableButton = !email || !password;
 
     const login = async () => {
@@ -37,12 +39,15 @@ const LoginScreen = ({navigation}: LoginProps) => {
             if (response.status === 200) {
                 setEmail('');
                 setPassword('');
+                console.log(response);
+                setUser(response.data);
                 navigation.navigate('Home');
             } else {
                 throw new Error('An error has occurred');
             }
         } catch (err) {
             setError(err);
+            console.log(err);
         }
     };
 

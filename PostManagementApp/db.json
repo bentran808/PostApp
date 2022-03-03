@@ -2,23 +2,55 @@
   "posts": [
     {
       "author": {
-        "id": "621c4188dece66a40dad2951",
+        "id": "621c41883112f1c216433dcf",
         "avatar": "https://picsum.photos/200",
-        "name": "Admin",
+        "name": "Mcintyre Morrison",
         "gender": "male",
-        "email": "admin@admin.com",
-        "phone": "+84 (919) 507231",
-        "address": "199 Bergen Street, Bowie, Oregon, 7933",
-        "role": "admin"
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
       },
-      "title": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.",
-      "content": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus",
+      "company": "Honda",
+      "year": "2021",
+      "type": "xe tay ga",
+      "status": true,
+      "price": "12000000",
+      "address": "123 asdas",
+      "title": "Sell",
+      "description": "test description",
       "photos": [],
       "likes": [],
       "comments": [],
-      "createdAt": 1646127024449,
-      "updatedAt": 1646127024449,
-      "id": 1
+      "createdAt": 1646291539350,
+      "updatedAt": 1646291539350,
+      "id": 2
+    },
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "company": "Yamaha",
+      "year": "2022",
+      "type": "xe so",
+      "status": true,
+      "price": "15000000",
+      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+      "title": "Sell off edited",
+      "description": "asdasdasdasdasdasdasdasdas",
+      "photos": [],
+      "likes": [],
+      "comments": [],
+      "createdAt": 1646298046938,
+      "updatedAt": 1646304348051,
+      "id": 3
     }
   ]
 }
