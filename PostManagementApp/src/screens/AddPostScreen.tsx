@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import FormButton from '../components/FormButton';
 import {launchImageLibrary} from 'react-native-image-picker';
-import FormInput from '../components/FormInput';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {axiosInstance} from '../utils/AxiosConfig';
 import {CounterContext} from '../navigation/CounterContext';
 import axios from 'axios';
+import {Button, HelperText, TextInput} from 'react-native-paper';
 
 type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -34,6 +34,17 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const postId = route.params && route.params.editedId;
+    const [errorInput, setErrorInput] = useState({
+        company: false,
+        year: false,
+        invalidYear: false,
+        type: false,
+        price: false,
+        minOfPrice: false,
+        maxOfPrice: false,
+        title: false,
+        description: false
+    });
 
     useEffect(() => {
         if (postId) {
@@ -78,7 +89,6 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
     const handleChoosePhoto = () => {
         launchImageLibrary(
             {
-                // noData: true,
                 mediaType: 'photo',
                 selectionLimit: 0
             },
@@ -176,21 +186,55 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
             )}
             <Text style={styles.titleSection}>Details</Text>
             <View style={styles.section}>
-                <FormInput
+                <TextInput
                     value={company}
+                    autoFocus
                     onChangeText={itemValue => setCompany(itemValue)}
-                    placeholderText="Product Company"
+                    label="Product Company"
+                    mode="outlined"
+                    error={errorInput.company}
+                    onBlur={() =>
+                        setErrorInput({...errorInput, company: !company})
+                    }
                 />
-                <FormInput
+                <HelperText type="error" visible={errorInput.company}>
+                    You must enter this field!
+                </HelperText>
+                <TextInput
                     value={year}
                     onChangeText={itemValue => setYear(itemValue)}
-                    placeholderText="Year of registration"
+                    label="Year of registration"
+                    keyboardType="number-pad"
+                    mode="outlined"
+                    error={errorInput.year || errorInput.invalidYear}
+                    onBlur={() => {
+                        const hasError =
+                            Number(year) > new Date().getFullYear();
+                        setErrorInput({
+                            ...errorInput,
+                            year: !year,
+                            invalidYear: hasError
+                        });
+                    }}
                 />
-                <FormInput
+                <HelperText
+                    type="error"
+                    visible={errorInput.year || errorInput.invalidYear}>
+                    {errorInput.year && 'You must enter this field!'}
+                    {errorInput.invalidYear &&
+                        'You must enter year less than current year!'}
+                </HelperText>
+                <TextInput
                     value={type}
                     onChangeText={itemValue => setType(itemValue)}
-                    placeholderText="Type of product"
+                    label="Type of product"
+                    mode="outlined"
+                    error={errorInput.type}
+                    onBlur={() => setErrorInput({...errorInput, type: !type})}
                 />
+                <HelperText type="error" visible={errorInput.type}>
+                    You must enter this field!
+                </HelperText>
                 <Text>Status</Text>
                 <View style={styles.statusWrapper}>
                     <Text
@@ -208,39 +252,89 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                         New
                     </Text>
                 </View>
-                <FormInput
+                <TextInput
                     value={price}
                     onChangeText={itemValue => setPrice(itemValue)}
-                    placeholderText="Price"
+                    label="Price"
                     keyboardType="number-pad"
+                    mode="outlined"
+                    error={
+                        errorInput.price ||
+                        errorInput.minOfPrice ||
+                        errorInput.maxOfPrice
+                    }
+                    onBlur={() =>
+                        setErrorInput({
+                            ...errorInput,
+                            price: !price,
+                            minOfPrice: Number(price) < 1000,
+                            maxOfPrice: Number(price) > 100000000
+                        })
+                    }
                 />
-                <FormInput
+                <HelperText
+                    type="error"
+                    visible={
+                        errorInput.price ||
+                        errorInput.minOfPrice ||
+                        errorInput.maxOfPrice
+                    }>
+                    {errorInput.price && 'You must enter this field!'}
+                    {errorInput.minOfPrice &&
+                        'You must enter the minimum price 1.000 VND!'}
+                    {errorInput.maxOfPrice &&
+                        'You can only enter the maximum price 100.000.000 VND!'}
+                </HelperText>
+                <TextInput
                     value={address}
                     onChangeText={itemValue => setAddress(itemValue)}
-                    placeholderText="Address"
+                    label="Address"
+                    mode="outlined"
                 />
             </View>
             <Text style={styles.titleSection}>Title and Description</Text>
             <View style={styles.section}>
-                <FormInput
+                <TextInput
                     value={title}
                     onChangeText={itemValue => setTitle(itemValue)}
-                    placeholderText="Title"
+                    label="Title"
+                    mode="outlined"
+                    error={errorInput.title}
+                    onBlur={() => setErrorInput({...errorInput, title: !title})}
                 />
-                <FormInput
+                <HelperText type="error" visible={errorInput.title}>
+                    You must enter this field!
+                </HelperText>
+                <TextInput
                     value={description}
                     onChangeText={itemValue => setDescription(itemValue)}
-                    placeholderText="Description"
+                    label="Description"
                     multiline
                     numberOfLines={4}
+                    mode="outlined"
+                    error={errorInput.description}
+                    onBlur={() =>
+                        setErrorInput({
+                            ...errorInput,
+                            description: !description
+                        })
+                    }
                 />
+                <HelperText type="error" visible={errorInput.description}>
+                    You must enter this field!
+                </HelperText>
             </View>
             <View style={{marginBottom: 20}}>
                 <FormButton title="Choose Photo" onPress={handleChoosePhoto} />
-                <FormButton
-                    title={postId ? 'Save' : 'Post'}
-                    onPress={postId ? editPost : addNewPost}
-                />
+                <Button
+                    mode="contained"
+                    color="#2e64e5"
+                    disabled={Object.values(errorInput).includes(true)}
+                    onPress={() => {
+                        postId ? editPost : addNewPost;
+                    }}>
+                    {postId ? 'Save' : 'Post'}
+                </Button>
             </View>
         </ScrollView>
     );
@@ -259,7 +353,7 @@ const styles = StyleSheet.create({
     section: {
         backgroundColor: '#fff',
         marginBottom: 20,
-        paddingHorizontal: 10,
+        padding: 10,
         width: '100%'
     },
     statusWrapper: {

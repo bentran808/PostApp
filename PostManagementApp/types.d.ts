@@ -40,3 +40,20 @@ type Post = {
     updatedAt: Number;
     id: Number;
 };
+
+type PostLike = {
+    author: User;
+    id: Number;
+    postId: Number;
+    createdAt: Number;
+    updatedAt: Number;
+};
+
+type PostComment = {
+    author: User;
+    id: Number;
+    postId: Number;
+    content: string;
+    createdAt: Number;
+    updatedAt: Number;
+};

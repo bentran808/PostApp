@@ -1,27 +1,71 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {
+    FlatList,
+    Image,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ProgressiveImage from './ProgressiveImage';
 import {Menu} from 'react-native-paper';
+import {CounterContext} from '../navigation/CounterContext';
+import FormInput from './FormInput';
+import {formatPrice} from '../screens/HomeScreen';
 
 type PostCardProps = {
     item: Post;
     onPress: () => void;
     onDelete: () => void;
     onEdit: () => void;
+    likesOfItem: PostLike[];
+    commentsOfItem: PostComment[];
+    likePost: (postId: Number) => void;
+    unlikePost: (likeId: Number) => void;
+    content: string;
+    setContent: (itemValue: string) => void;
+    addNewComment: (postId: Number) => void;
+    deleteComment: (commentId: Number) => void;
+    editContent: string;
+    setEditContent: (itemValue: string) => void;
+    onEditComment: (commentId: Number) => Promise<boolean>;
 };
 
-const PostCard = ({item, onPress, onDelete, onEdit}: PostCardProps) => {
-    const [visible, setVisible] = useState(false);
-    const numberOfLikes = item.likes.length;
-    const numberOfComments = item.comments.length;
-    const likeIcon = numberOfLikes ? 'heart' : 'heart-outline';
-    const likeIconColor = numberOfLikes ? '#2e64e5' : '#333';
+const PostCard = ({
+    item,
+    onPress,
+    onDelete,
+    onEdit,
+    likesOfItem,
+    commentsOfItem,
+    likePost,
+    unlikePost,
+    content,
+    setContent,
+    addNewComment,
+    deleteComment,
+    editContent,
+    setEditContent,
+    onEditComment
+}: PostCardProps) => {
+    const [visible, setVisible] = useState('');
+    const [visibleComment, setVisibleComment] = useState(false);
+    const [editComment, setEditComment] = useState('');
+    const {user} = useContext(CounterContext);
+    const userId = user.data.id;
+    const isAdmin = user.data.role === 'admin';
+    const isAuthor = userId === item.author.id || isAdmin;
+    const likedPost = likesOfItem.find(like => like.author.id === userId);
+    const numberOfLikes = likesOfItem.length;
+    const numberOfComments = commentsOfItem.length;
+    const likeIcon = likedPost ? 'heart' : 'heart-outline';
+    const likeIconColor = likedPost ? '#2e64e5' : '#333';
     let likeText = 'Like';
     let commentText = 'Comment';
-
+    console.log('first', item.price, typeof item.price);
     if (numberOfLikes === 1) {
         likeText = '1 Like';
     } else if (numberOfLikes > 1) {
@@ -47,7 +91,9 @@ const PostCard = ({item, onPress, onDelete, onEdit}: PostCardProps) => {
             <View style={styles.infoSection}>
                 <View>
                     <Text style={styles.postTitle}>{item.title}</Text>
-                    <Text style={styles.postPrice}>{item.price}</Text>
+                    <Text style={styles.postPrice}>
+                        {formatPrice(Number(item.price))}
+                    </Text>
                     <Text style={styles.postTime}>2 hours ago</Text>
                     <View style={styles.postLocation}>
                         <Ionicons
@@ -58,33 +104,36 @@ const PostCard = ({item, onPress, onDelete, onEdit}: PostCardProps) => {
                         <Text style={styles.postAddress}>{item.address}</Text>
                     </View>
                 </View>
-                <Menu
-                    visible={visible}
-                    onDismiss={() => setVisible(false)}
-                    anchor={
-                        <TouchableOpacity onPress={() => setVisible(true)}>
-                            <Ionicons
-                                name="ellipsis-vertical"
-                                size={20}
-                                color="#000"
-                            />
-                        </TouchableOpacity>
-                    }>
-                    <Menu.Item
-                        onPress={() => {
-                            setVisible(false);
-                            onEdit();
-                        }}
-                        title="Edit"
-                    />
-                    <Menu.Item
-                        onPress={() => {
-                            setVisible(false);
-                            onDelete();
-                        }}
-                        title="Delete"
-                    />
-                </Menu>
+                {isAuthor && (
+                    <Menu
+                        visible={visible === `post-${item.id}`}
+                        onDismiss={() => setVisible('')}
+                        anchor={
+                            <TouchableOpacity
+                                onPress={() => setVisible(`post-${item.id}`)}>
+                                <Ionicons
+                                    name="ellipsis-vertical"
+                                    size={20}
+                                    color="#000"
+                                />
+                            </TouchableOpacity>
+                        }>
+                        <Menu.Item
+                            onPress={() => {
+                                setVisible('');
+                                onEdit();
+                            }}
+                            title="Edit"
+                        />
+                        <Menu.Item
+                            onPress={() => {
+                                setVisible('');
+                                onDelete();
+                            }}
+                            title="Delete"
+                        />
+                    </Menu>
+                )}
             </View>
             <View style={styles.divider} />
             <View style={styles.userInfo}>
@@ -127,10 +176,15 @@ const PostCard = ({item, onPress, onDelete, onEdit}: PostCardProps) => {
             <View style={styles.divider} />
             <View style={styles.interactionWrapper}>
                 <TouchableOpacity
+                    onPress={
+                        likedPost
+                            ? () => unlikePost(likedPost.id)
+                            : () => likePost(item.id)
+                    }
                     style={[
                         styles.interaction,
                         {
-                            backgroundColor: numberOfLikes
+                            backgroundColor: likedPost
                                 ? '#2e64e515'
                                 : 'transparent'
                         }
@@ -139,16 +193,183 @@ const PostCard = ({item, onPress, onDelete, onEdit}: PostCardProps) => {
                     <Text
                         style={[
                             styles.interactionText,
-                            {color: numberOfLikes ? '#2e64e5' : '#333'}
+                            {color: likeIconColor}
                         ]}>
                         {likeText}
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.interaction}>
+                <TouchableOpacity
+                    style={styles.interaction}
+                    onPress={() => setVisibleComment(true)}>
                     <Ionicons name="md-chatbubble-outline" size={25} />
                     <Text style={styles.interactionText}>{commentText}</Text>
                 </TouchableOpacity>
             </View>
+            {visibleComment && (
+                <>
+                    <View style={styles.divider} />
+                    <FlatList
+                        data={commentsOfItem}
+                        renderItem={props => {
+                            const isAuthorComment =
+                                props.item.author.id === userId || isAdmin;
+                            return (
+                                <View style={styles.commentWrapper}>
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center'
+                                        }}>
+                                        <View style={styles.commentInfo}>
+                                            <Image
+                                                defaultSource={require('../assets/default-avatar.jpg')}
+                                                source={{
+                                                    uri: props.item.author
+                                                        .avatar
+                                                }}
+                                                style={styles.commentAvatar}
+                                            />
+                                            <Text
+                                                style={styles.commentUserName}>
+                                                {props.item.author.name}
+                                            </Text>
+                                            <Text style={styles.postTime}>
+                                                2 hours ago
+                                            </Text>
+                                        </View>
+                                        {isAuthorComment && (
+                                            <Menu
+                                                visible={
+                                                    visible ===
+                                                    `comment-${props.item.id}`
+                                                }
+                                                onDismiss={() => setVisible('')}
+                                                anchor={
+                                                    <TouchableOpacity
+                                                        onPress={() =>
+                                                            setVisible(
+                                                                `comment-${props.item.id}`
+                                                            )
+                                                        }>
+                                                        <Ionicons
+                                                            name="ellipsis-vertical"
+                                                            size={16}
+                                                            color="#000"
+                                                        />
+                                                    </TouchableOpacity>
+                                                }>
+                                                <Menu.Item
+                                                    onPress={() => {
+                                                        setVisible('');
+                                                        setEditComment(
+                                                            `comment-${props.item.id}`
+                                                        );
+                                                        setEditContent(
+                                                            props.item.content
+                                                        );
+                                                    }}
+                                                    title="Edit"
+                                                />
+                                                <Menu.Item
+                                                    onPress={() => {
+                                                        setVisible('');
+                                                        deleteComment(
+                                                            props.item.id
+                                                        );
+                                                    }}
+                                                    title="Delete"
+                                                />
+                                            </Menu>
+                                        )}
+                                    </View>
+                                    {editComment ===
+                                    `comment-${props.item.id}` ? (
+                                        <View
+                                            style={{
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                paddingHorizontal: 15
+                                            }}>
+                                            <FormInput
+                                                value={editContent}
+                                                onChangeText={itemValue =>
+                                                    setEditContent(itemValue)
+                                                }
+                                                placeholderText="Write a comment"
+                                                additionalContainerStyles={{
+                                                    flex: 1
+                                                }}
+                                            />
+                                            <TouchableOpacity
+                                                disabled={editContent === ''}
+                                                onPress={async () => {
+                                                    if (
+                                                        await onEditComment(
+                                                            props.item.id
+                                                        )
+                                                    ) {
+                                                        setEditComment('');
+                                                    }
+                                                }}>
+                                                <Text
+                                                    style={{
+                                                        color: '#2e64e5',
+                                                        padding: 5
+                                                    }}>
+                                                    Save
+                                                </Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    setEditComment('');
+                                                    setEditContent(
+                                                        props.item.content
+                                                    );
+                                                }}>
+                                                <Text
+                                                    style={{
+                                                        color: '#2e64e5',
+                                                        padding: 5
+                                                    }}>
+                                                    Cancel
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    ) : (
+                                        <Text>{props.item.content}</Text>
+                                    )}
+                                </View>
+                            );
+                        }}
+                    />
+                    <View style={styles.divider} />
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            paddingHorizontal: 15
+                        }}>
+                        <FormInput
+                            value={content}
+                            onChangeText={itemValue => setContent(itemValue)}
+                            placeholderText="Write a comment"
+                            additionalContainerStyles={{flex: 1}}
+                        />
+                        <TouchableOpacity
+                            disabled={content === ''}
+                            onPress={() => addNewComment(item.id)}>
+                            <Text
+                                style={{
+                                    color: '#2e64e5',
+                                    padding: 10
+                                }}>
+                                Send
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            )}
         </View>
     );
 };
@@ -158,6 +379,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8',
         borderRadius: 10,
         marginBottom: 20,
+        paddingBottom: 10,
         width: '100%'
     },
     userInfo: {
@@ -227,7 +449,8 @@ const styles = StyleSheet.create({
     interactionWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        padding: 15
+        paddingHorizontal: 15,
+        paddingTop: 15
     },
     interaction: {
         borderRadius: 5,
@@ -241,6 +464,26 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 5,
         marginLeft: 5
+    },
+    commentWrapper: {
+        paddingHorizontal: 15,
+        paddingVertical: 5
+    },
+    commentInfo: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    commentAvatar: {
+        borderRadius: 25,
+        height: 25,
+        width: 25
+    },
+    commentUserName: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: 'bold',
+        paddingLeft: 15
     }
 });
 

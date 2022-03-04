@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, TextInput, TextInputProps, View} from 'react-native';
+import {
+    StyleSheet,
+    TextInput,
+    TextInputProps,
+    View,
+    ViewStyle
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {windowHeight} from '../utils/Dimensions';
 
@@ -9,6 +15,7 @@ type FormInputProps = {
     placeholderText?: string;
     multiline?: boolean;
     numberOfLines?: number;
+    additionalContainerStyles?: ViewStyle;
 } & TextInputProps;
 
 const FormInput = ({
@@ -17,6 +24,7 @@ const FormInput = ({
     placeholderText = '',
     multiline = false,
     numberOfLines = 1,
+    additionalContainerStyles,
     ...rest
 }: FormInputProps) => {
     const textAlignVertical = multiline ? 'top' : 'center';
@@ -24,10 +32,11 @@ const FormInput = ({
         <View
             style={[
                 styles.inputContainer,
+                additionalContainerStyles,
                 {
                     height: multiline
-                        ? (windowHeight / 15) * numberOfLines
-                        : windowHeight / 15
+                        ? (windowHeight / 20) * numberOfLines
+                        : windowHeight / 20
                 }
             ]}>
             {iconType ? (
@@ -64,7 +73,6 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         height: '100%',
         justifyContent: 'center',
-        padding: 10,
         width: 50
     },
     input: {
