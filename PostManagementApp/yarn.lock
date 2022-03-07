@@ -5361,6 +5361,11 @@ react-native-gradle-plugin@^0.0.3:
   dependencies:
     react-native-codegen "*"
 
+react-native-hook-image-slider@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-hook-image-slider/-/react-native-hook-image-slider-1.2.1.tgz#960c2ce60af90e4a9dcfd1667a90db6833654249"
+  integrity sha512-O3UO7vnWIJcgqZomaGWSNXcx9WDLl764TwZ3bXqecP+4szuNBO3NkLyt9CQwJ4X7Fhy2q/clME6Ic+gxkQgYow==
+
 react-native-image-picker@^4.7.3:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-4.7.3.tgz#f5863b27bf2e76c83649dd8efea4598426bd04e8"

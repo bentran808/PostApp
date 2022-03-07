@@ -10,51 +10,58 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import ProgressiveImage from './ProgressiveImage';
-import {Menu} from 'react-native-paper';
-import {CounterContext} from '../navigation/CounterContext';
+import {Button, Menu} from 'react-native-paper';
 import FormInput from './FormInput';
-import {formatPrice} from '../screens/HomeScreen';
+import Slider from 'react-native-hook-image-slider';
+
+import {formatPrice} from '../utils/helpers';
+import {AppContext} from '../navigation/AppContext';
 
 type PostCardProps = {
     item: Post;
     onPress: () => void;
     onDelete: () => void;
     onEdit: () => void;
-    likesOfItem: PostLike[];
-    commentsOfItem: PostComment[];
-    likePost: (postId: Number) => void;
-    unlikePost: (likeId: Number) => void;
-    content: string;
-    setContent: (itemValue: string) => void;
-    addNewComment: (postId: Number) => void;
-    deleteComment: (commentId: Number) => void;
-    editContent: string;
-    setEditContent: (itemValue: string) => void;
-    onEditComment: (commentId: Number) => Promise<boolean>;
+    isMyPost?: Boolean;
+    likesOfItem?: PostLike[];
+    commentsOfItem?: PostComment[];
+    likePost?: (postId: Number) => void;
+    unlikePost?: (likeId: Number) => void;
+    content?: string;
+    setContent?: (itemValue: string) => void;
+    addNewComment?: (postId: Number) => void;
+    deleteComment?: (commentId: Number) => void;
+    editContent?: string;
+    setEditContent?: (itemValue: string) => void;
+    onEditComment?: (commentId: Number) => Promise<boolean>;
+    approvePost?: () => Promise<void>;
+    rejectPost?: () => Promise<void>;
 };
 
 const PostCard = ({
     item,
-    onPress,
     onDelete,
     onEdit,
-    likesOfItem,
-    commentsOfItem,
-    likePost,
-    unlikePost,
-    content,
-    setContent,
-    addNewComment,
-    deleteComment,
-    editContent,
-    setEditContent,
-    onEditComment
+    isMyPost = false,
+    likesOfItem = [],
+    commentsOfItem = [],
+    likePost = () => {},
+    unlikePost = () => {},
+    content = '',
+    setContent = () => {},
+    addNewComment = () => {},
+    deleteComment = () => {},
+    editContent = '',
+    setEditContent = () => {},
+    onEditComment = async () => false,
+    approvePost = async () => {},
+    rejectPost = async () => {}
 }: PostCardProps) => {
     const [visible, setVisible] = useState('');
+    const [visibleDetails, setVisibleDetails] = useState(false);
     const [visibleComment, setVisibleComment] = useState(false);
     const [editComment, setEditComment] = useState('');
-    const {user} = useContext(CounterContext);
+    const {user} = useContext(AppContext);
     const userId = user.data.id;
     const isAdmin = user.data.role === 'admin';
     const isAuthor = userId === item.author.id || isAdmin;
@@ -65,7 +72,7 @@ const PostCard = ({
     const likeIconColor = likedPost ? '#2e64e5' : '#333';
     let likeText = 'Like';
     let commentText = 'Comment';
-    console.log('first', item.price, typeof item.price);
+
     if (numberOfLikes === 1) {
         likeText = '1 Like';
     } else if (numberOfLikes > 1) {
@@ -79,15 +86,11 @@ const PostCard = ({
     }
 
     return (
-        <View style={styles.card}>
-            <TouchableOpacity onPress={onPress}>
-                <ProgressiveImage
-                    defaultImageSource={require('../assets/default-img.jpg')}
-                    source={{uri: item.author.avatar}}
-                    style={{width: '100%', height: 200}}
-                    resizeMode="cover"
-                />
-            </TouchableOpacity>
+        <View style={styles.card} key={`Post-${item.id}`}>
+            <Slider
+                images={item.photos.map((photo: {uri: string}) => photo.uri)}
+                imageHeight={200}
+            />
             <View style={styles.infoSection}>
                 <View>
                     <Text style={styles.postTitle}>{item.title}</Text>
@@ -135,79 +138,159 @@ const PostCard = ({
                     </Menu>
                 )}
             </View>
-            <View style={styles.divider} />
-            <View style={styles.userInfo}>
-                <Image
-                    defaultSource={require('../assets/default-avatar.jpg')}
-                    source={{
-                        uri: item.author.avatar
-                    }}
-                    style={styles.avatar}
-                />
-                <View style={styles.userInfoText}>
-                    <Text style={styles.userName}>{item.author.name}</Text>
-                </View>
-            </View>
-            <Text style={styles.postText}>{item.description}</Text>
-            <View style={styles.postLocation}>
-                <FontAwesome name="building-o" size={20} color="#000" />
-                <Text style={styles.postAddress}>
-                    Product Company: {item.company}
-                </Text>
-            </View>
-            <View style={styles.postLocation}>
-                <Ionicons name="pricetags-outline" size={20} color="#000" />
-                <Text style={styles.postAddress}>
-                    Type of product: {item.type}
-                </Text>
-            </View>
-            <View style={styles.postLocation}>
-                <Ionicons name="md-calendar-outline" size={20} color="#000" />
-                <Text style={styles.postAddress}>
-                    Year of registration: {item.year}
-                </Text>
-            </View>
-            <View style={styles.postLocation}>
-                <Ionicons name="md-card-outline" size={20} color="#000" />
-                <Text style={styles.postAddress}>
-                    Status: {item.status ? 'Used' : 'New'}
-                </Text>
-            </View>
-            <View style={styles.divider} />
-            <View style={styles.interactionWrapper}>
-                <TouchableOpacity
-                    onPress={
-                        likedPost
-                            ? () => unlikePost(likedPost.id)
-                            : () => likePost(item.id)
-                    }
-                    style={[
-                        styles.interaction,
-                        {
-                            backgroundColor: likedPost
-                                ? '#2e64e515'
-                                : 'transparent'
-                        }
-                    ]}>
-                    <Ionicons name={likeIcon} size={25} color={likeIconColor} />
-                    <Text
-                        style={[
-                            styles.interactionText,
-                            {color: likeIconColor}
-                        ]}>
-                        {likeText}
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.interaction}
-                    onPress={() => setVisibleComment(true)}>
-                    <Ionicons name="md-chatbubble-outline" size={25} />
-                    <Text style={styles.interactionText}>{commentText}</Text>
-                </TouchableOpacity>
-            </View>
-            {visibleComment && (
+            {visibleDetails && (
                 <>
                     <View style={styles.divider} />
+                    <View style={styles.userInfo}>
+                        <Image
+                            defaultSource={require('../assets/default-avatar.jpg')}
+                            source={{
+                                uri: item.author.avatar
+                            }}
+                            style={styles.avatar}
+                        />
+                        <View style={styles.userInfoText}>
+                            <Text style={styles.userName}>
+                                {item.author.name}
+                            </Text>
+                        </View>
+                    </View>
+                    <Text style={styles.postText}>{item.description}</Text>
+                    <View style={styles.postLocation}>
+                        <FontAwesome name="building-o" size={20} color="#000" />
+                        <Text style={styles.postAddress}>
+                            Product Company: {item.company}
+                        </Text>
+                    </View>
+                    <View style={styles.postLocation}>
+                        <Ionicons
+                            name="pricetags-outline"
+                            size={20}
+                            color="#000"
+                        />
+                        <Text style={styles.postAddress}>
+                            Type of product: {item.type}
+                        </Text>
+                    </View>
+                    <View style={styles.postLocation}>
+                        <Ionicons
+                            name="md-calendar-outline"
+                            size={20}
+                            color="#000"
+                        />
+                        <Text style={styles.postAddress}>
+                            Year of registration: {item.year}
+                        </Text>
+                    </View>
+                    <View style={styles.postLocation}>
+                        <Ionicons
+                            name="md-card-outline"
+                            size={20}
+                            color="#000"
+                        />
+                        <Text style={styles.postAddress}>
+                            Status: {item.status ? 'Used' : 'New'}
+                        </Text>
+                    </View>
+                </>
+            )}
+            <Button
+                color="#333"
+                icon={visibleDetails ? 'chevron-up' : 'chevron-down'}
+                style={{
+                    paddingVertical: 0,
+                    marginVertical: 0
+                }}
+                labelStyle={{
+                    fontSize: 12
+                }}
+                uppercase={false}
+                onPress={() => setVisibleDetails(!visibleDetails)}>
+                {visibleDetails ? 'Show less' : 'Show more'}
+            </Button>
+            {isMyPost ? (
+                isAdmin ? (
+                    <>
+                        <View style={styles.divider} />
+                        <View
+                            style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-around',
+                                paddingVertical: 10
+                            }}>
+                            <Button
+                                mode="contained"
+                                icon="check"
+                                color="#2e64e5"
+                                onPress={approvePost}>
+                                Approve
+                            </Button>
+                            <Button
+                                mode="contained"
+                                icon="close"
+                                color="#b80d0d"
+                                onPress={rejectPost}>
+                                Reject
+                            </Button>
+                        </View>
+                    </>
+                ) : (
+                    item.pending && (
+                        <>
+                            <View style={styles.divider} />
+                            <Text style={{textAlign: 'center', marginTop: 10}}>
+                                This post is pending approval
+                            </Text>
+                        </>
+                    )
+                )
+            ) : (
+                <>
+                    <View style={styles.divider} />
+                    <View style={styles.interactionWrapper}>
+                        <TouchableOpacity
+                            onPress={() =>
+                                likedPost
+                                    ? unlikePost(likedPost.id)
+                                    : likePost(item.id)
+                            }
+                            style={[
+                                styles.interaction,
+                                {
+                                    backgroundColor: likedPost
+                                        ? '#2e64e515'
+                                        : 'transparent'
+                                }
+                            ]}>
+                            <Ionicons
+                                name={likeIcon}
+                                size={25}
+                                color={likeIconColor}
+                            />
+                            <Text
+                                style={[
+                                    styles.interactionText,
+                                    {color: likeIconColor}
+                                ]}>
+                                {likeText}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.interaction}
+                            onPress={() => setVisibleComment(true)}>
+                            <Ionicons name="md-chatbubble-outline" size={25} />
+                            <Text style={styles.interactionText}>
+                                {commentText}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+            )}
+            {visibleComment && (
+                <>
+                    {numberOfComments ? (
+                        <View style={styles.divider} />
+                    ) : undefined}
                     <FlatList
                         data={commentsOfItem}
                         renderItem={props => {
@@ -301,7 +384,12 @@ const PostCard = ({
                                                     flex: 1
                                                 }}
                                             />
-                                            <TouchableOpacity
+                                            <Button
+                                                color="#2e64e5"
+                                                labelStyle={{
+                                                    fontSize: 12
+                                                }}
+                                                uppercase={false}
                                                 disabled={editContent === ''}
                                                 onPress={async () => {
                                                     if (
@@ -312,29 +400,22 @@ const PostCard = ({
                                                         setEditComment('');
                                                     }
                                                 }}>
-                                                <Text
-                                                    style={{
-                                                        color: '#2e64e5',
-                                                        padding: 5
-                                                    }}>
-                                                    Save
-                                                </Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
+                                                Save
+                                            </Button>
+                                            <Button
+                                                color="#2e64e5"
+                                                labelStyle={{
+                                                    fontSize: 12
+                                                }}
+                                                uppercase={false}
                                                 onPress={() => {
                                                     setEditComment('');
                                                     setEditContent(
                                                         props.item.content
                                                     );
                                                 }}>
-                                                <Text
-                                                    style={{
-                                                        color: '#2e64e5',
-                                                        padding: 5
-                                                    }}>
-                                                    Cancel
-                                                </Text>
-                                            </TouchableOpacity>
+                                                Cancel
+                                            </Button>
                                         </View>
                                     ) : (
                                         <Text>{props.item.content}</Text>
@@ -356,17 +437,13 @@ const PostCard = ({
                             placeholderText="Write a comment"
                             additionalContainerStyles={{flex: 1}}
                         />
-                        <TouchableOpacity
+                        <Button
+                            color="#2e64e5"
+                            uppercase={false}
                             disabled={content === ''}
                             onPress={() => addNewComment(item.id)}>
-                            <Text
-                                style={{
-                                    color: '#2e64e5',
-                                    padding: 10
-                                }}>
-                                Send
-                            </Text>
-                        </TouchableOpacity>
+                            Send
+                        </Button>
                     </View>
                 </>
             )}

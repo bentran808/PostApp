@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import FormButton from '../components/FormButton';
-import {CounterContext} from '../navigation/CounterContext';
+import {AppContext} from '../navigation/AppContext';
 
 type LoginNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -14,7 +14,7 @@ interface LoginProps {
 }
 
 const ProfileScreen = ({navigation}: LoginProps) => {
-    const {logoutUser} = useContext(CounterContext);
+    const {logoutUser} = useContext(AppContext);
     return (
         <View style={styles.body}>
             <FormButton

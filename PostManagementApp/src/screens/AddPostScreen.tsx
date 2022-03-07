@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useEffect, useState} from 'react';
 import {
     FlatList,
@@ -5,15 +6,17 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View
 } from 'react-native';
-import FormButton from '../components/FormButton';
+import axios from 'axios';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {axiosInstance} from '../utils/AxiosConfig';
-import {CounterContext} from '../navigation/CounterContext';
-import axios from 'axios';
 import {Button, HelperText, TextInput} from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import {axiosInstance} from '../utils/AxiosConfig';
+import {AppContext} from '../navigation/AppContext';
 
 type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -23,8 +26,8 @@ interface AddPostProps {
 }
 
 const AddPostScreen = ({navigation, route}: AddPostProps) => {
-    const {user} = useContext(CounterContext);
-    const [photo, setPhoto] = useState<any>();
+    const {user} = useContext(AppContext);
+    const [photos, setPhoto] = useState<any>([]);
     const [company, setCompany] = useState('');
     const [year, setYear] = useState('');
     const [type, setType] = useState('');
@@ -61,6 +64,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                         }
                     );
                     if (response.status === 200) {
+                        setPhoto(response.data.photos);
                         setCompany(response.data.company);
                         setYear(response.data.year);
                         setType(response.data.type);
@@ -93,8 +97,8 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                 selectionLimit: 0
             },
             response => {
-                if (response) {
-                    setPhoto(response.assets);
+                if (response && response.assets) {
+                    setPhoto(photos.concat(response.assets));
                 }
             }
         );
@@ -114,22 +118,26 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                     address: address || user.data.address,
                     title,
                     description,
-                    photos: [],
-                    likes: [],
-                    comments: []
+                    photos,
+                    pending: true
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${user.access_token}`,
-                        'Content-Type': 'application/json'
+                        Authorization: `Bearer ${user.access_token}`
                     }
                 }
             );
-            if (response.status === 200) {
-                navigation.navigate('HomeScreen');
+            if ([200, 201].includes(response.status)) {
+                navigation.reset({
+                    index: 0,
+                    routes: [{name: 'HomeScreen'}]
+                });
+                navigation.navigate('MyPost', {
+                    data: response.data
+                });
                 return;
             } else {
-                throw new Error('Failed to fetch users');
+                throw new Error('Failed to add a new post');
             }
         } catch (error) {
             console.log(error);
@@ -141,6 +149,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
             const response = await axiosInstance.patch(
                 `api/posts/${postId}`,
                 {
+                    photos,
                     company,
                     year,
                     type,
@@ -152,16 +161,17 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${user.access_token}`,
-                        'Content-Type': 'application/json'
+                        Authorization: `Bearer ${user.access_token}`
                     }
                 }
             );
             if (response.status === 200) {
-                navigation.navigate('HomeScreen');
+                navigation.navigate('HomeScreen', {
+                    data: response.data
+                });
                 return;
             } else {
-                throw new Error('Failed to fetch users');
+                throw new Error('Failed to update a post');
             }
         } catch (error) {
             console.log(error);
@@ -170,25 +180,47 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
 
     return (
         <ScrollView style={styles.body}>
-            {photo?.length && (
-                <>
+            <View style={styles.photoSection}>
+                <View style={styles.photoWrapper}>
+                    <TouchableOpacity
+                        onPress={handleChoosePhoto}
+                        style={styles.photoButton}>
+                        <Ionicons name="camera" size={30} color="#333" />
+                        <Text>Choose Photo</Text>
+                    </TouchableOpacity>
+                </View>
+                {photos.length ? (
                     <FlatList
-                        data={photo}
+                        data={photos}
                         horizontal
-                        renderItem={({item}) => (
-                            <Image
-                                source={{uri: item.uri}}
-                                style={{width: 100, height: 100}}
-                            />
+                        extraData={photos}
+                        renderItem={({item, index}) => (
+                            <>
+                                <Image
+                                    source={{uri: item.uri}}
+                                    style={styles.previewPhoto}
+                                />
+                                <Ionicons
+                                    name="close"
+                                    size={20}
+                                    color="#b80d0d"
+                                    style={styles.closeButton}
+                                    onPress={() => {
+                                        photos.splice(index, 1);
+                                        setPhoto((prevState: any) => [
+                                            ...prevState
+                                        ]);
+                                    }}
+                                />
+                            </>
                         )}
                     />
-                </>
-            )}
+                ) : undefined}
+            </View>
             <Text style={styles.titleSection}>Details</Text>
             <View style={styles.section}>
                 <TextInput
                     value={company}
-                    autoFocus
                     onChangeText={itemValue => setCompany(itemValue)}
                     label="Product Company"
                     mode="outlined"
@@ -324,14 +356,13 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                     You must enter this field!
                 </HelperText>
             </View>
-            <View style={{marginBottom: 20}}>
-                <FormButton title="Choose Photo" onPress={handleChoosePhoto} />
+            <View style={{marginBottom: 40}}>
                 <Button
                     mode="contained"
                     color="#2e64e5"
                     disabled={Object.values(errorInput).includes(true)}
                     onPress={() => {
-                        postId ? editPost : addNewPost;
+                        postId ? editPost() : addNewPost();
                     }}>
                     {postId ? 'Save' : 'Post'}
                 </Button>
@@ -344,6 +375,30 @@ const styles = StyleSheet.create({
     body: {
         flex: 1,
         paddingVertical: 20
+    },
+    photoSection: {
+        flexDirection: 'row'
+    },
+    photoWrapper: {
+        padding: 10,
+        borderColor: '#333',
+        backgroundColor: '#ddd',
+        marginLeft: 10,
+        flex: 0
+    },
+    photoButton: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    previewPhoto: {
+        width: 75,
+        height: 75,
+        marginLeft: 10
+    },
+    closeButton: {
+        position: 'relative',
+        left: -15,
+        top: -5
     },
     titleSection: {
         color: '#333',

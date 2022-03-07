@@ -17,36 +17,36 @@ const initialState = {
     }
 };
 
-const counterContextWrapper = (component?: Component) => ({
+const appContextWrapper = (component?: Component) => ({
     ...initialState,
     setUser: (user: {access_token: ''; data: User}) => {
         initialState.user = user;
-        component?.setState({context: counterContextWrapper(component)});
+        component?.setState({context: appContextWrapper(component)});
     },
     logoutUser: () => {
         initialState.user = initialState.user;
-        component?.setState({context: counterContextWrapper(component)});
+        component?.setState({context: appContextWrapper(component)});
     }
 });
 
-type Context = ReturnType<typeof counterContextWrapper>;
+type Context = ReturnType<typeof appContextWrapper>;
 
-export const CounterContext = createContext<Context>(counterContextWrapper());
+export const AppContext = createContext<Context>(appContextWrapper());
 
 interface State {
     context: Context;
 }
 
-export class CounterContextProvider extends Component {
+export class AppContextProvider extends Component {
     state: State = {
-        context: counterContextWrapper(this)
+        context: appContextWrapper(this)
     };
 
     render() {
         return (
-            <CounterContext.Provider value={this.state.context}>
+            <AppContext.Provider value={this.state.context}>
                 {this.props.children}
-            </CounterContext.Provider>
+            </AppContext.Provider>
         );
     }
 }

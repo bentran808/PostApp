@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // Utilities
 import {axiosInstance} from '../utils/AxiosConfig';
-import {CounterContext} from '../navigation/CounterContext';
+import {AppContext} from '../navigation/AppContext';
 
 type LoginNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -21,7 +21,7 @@ const LoginScreen = ({navigation}: LoginProps) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<unknown>();
-    const {setUser} = useContext(CounterContext);
+    const {setUser} = useContext(AppContext);
     const disableButton = !email || !password;
 
     const login = async () => {

@@ -1,12 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import axios, {CancelTokenSource} from 'axios';
+import axios from 'axios';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {FlatList, StyleSheet, ToastAndroid, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {Text} from 'react-native-paper';
 import PostCard from '../components/PostCard';
-import {CounterContext} from '../navigation/CounterContext';
+import {AppContext} from '../navigation/AppContext';
 
 // Utilities
 import {axiosInstance} from '../utils/AxiosConfig';
+import {getAllPostsRequest, getApprovedPosts, sortDesc} from '../utils/helpers';
 
 type ShowImageNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -15,45 +18,21 @@ type ShowImageNavigationProp = NativeStackNavigationProp<
 
 interface ShowImageProps {
     navigation: ShowImageNavigationProp;
+    route: {
+        params: {
+            data: Post;
+        };
+    };
 }
 
-const getAllPostsRequest = async (
-    user: {access_token: string; data: User},
-    source?: CancelTokenSource
-) => {
-    const config = {
-        cancelToken: source?.token,
-        headers: {
-            Authorization: `Bearer ${user.access_token}`
-        }
-    };
-    const concurrentRequests = [
-        axiosInstance.get('api/posts', config),
-        axiosInstance.get('api/likes', config),
-        axiosInstance.get('api/comments', config)
-    ];
-    return Promise.all(concurrentRequests);
-};
-
-const sortDesc = (arr: Post[]) => {
-    return arr.sort((a, b) => (a.id < b.id ? 1 : -1));
-};
-
-export const formatPrice = (price: Number) => {
-    return price.toLocaleString('it-IT', {
-        style: 'currency',
-        currency: 'VND'
-    });
-};
-
-const HomeScreen = ({navigation}: ShowImageProps) => {
-    const [posts, setPosts] = useState<Post[]>();
+const HomeScreen = ({navigation, route}: ShowImageProps) => {
+    const [posts, setPosts] = useState<Post[]>([]);
     const [likes, setLikes] = useState<PostLike[]>([]);
     const [comments, setComments] = useState<PostComment[]>([]);
     const [content, setContent] = useState('');
     const [editContent, setEditContent] = useState('');
     const [loading, setLoading] = useState(false);
-    const {user} = useContext(CounterContext);
+    const {user} = useContext(AppContext);
     const config = {
         headers: {
             Authorization: `Bearer ${user.access_token}`
@@ -66,7 +45,7 @@ const HomeScreen = ({navigation}: ShowImageProps) => {
             try {
                 const response = await getAllPostsRequest(user, source);
                 if (response[0].status === 200) {
-                    setPosts(sortDesc(response[0].data));
+                    setPosts(getApprovedPosts(sortDesc(response[0].data)));
                     setLikes(response[1].data);
                     setComments(response[2].data);
                     return;
@@ -85,6 +64,19 @@ const HomeScreen = ({navigation}: ShowImageProps) => {
         return () => source.cancel('Data fetching cancelled');
     }, [user, user.access_token]);
 
+    useEffect(() => {
+        const data = route.params && route.params.data;
+        if (data) {
+            if (data.createdAt !== data.updatedAt) {
+                setPosts(
+                    sortDesc(
+                        posts.map(post => (data.id === post.id ? data : post))
+                    )
+                );
+            }
+        }
+    }, [route.params]);
+
     const onDelete = async (postId: Number) => {
         try {
             const response = await axiosInstance.delete(
@@ -96,7 +88,7 @@ const HomeScreen = ({navigation}: ShowImageProps) => {
                 setPosts(newPosts);
                 return;
             } else {
-                throw new Error('Failed to delete user');
+                throw new Error('Failed to delete a post');
             }
         } catch (error) {
             console.log(error);
@@ -108,9 +100,9 @@ const HomeScreen = ({navigation}: ShowImageProps) => {
         try {
             const response = await getAllPostsRequest(user);
             if (response[0].status === 200) {
-                setPosts(sortDesc(response[0].data));
+                setPosts(getApprovedPosts(sortDesc(response[0].data)));
             } else {
-                throw new Error('Failed to fetch users');
+                throw new Error('Failed to refresh posts');
             }
         } catch (error) {
             console.log(error);
@@ -173,7 +165,6 @@ const HomeScreen = ({navigation}: ShowImageProps) => {
             }
         } catch (error) {
             console.log(error);
-            ToastAndroid.show('Failed to comment on post', ToastAndroid.SHORT);
         }
     };
 
@@ -204,7 +195,7 @@ const HomeScreen = ({navigation}: ShowImageProps) => {
                 },
                 config
             );
-            console.log('edit', response);
+
             if (response.status === 200) {
                 setEditContent('');
                 setComments(
@@ -220,10 +211,6 @@ const HomeScreen = ({navigation}: ShowImageProps) => {
             }
         } catch (error) {
             console.log(error);
-            ToastAndroid.show(
-                'Failed to update comment of post',
-                ToastAndroid.SHORT
-            );
             return false;
         }
     };
@@ -266,6 +253,11 @@ const HomeScreen = ({navigation}: ShowImageProps) => {
                         setEditContent={setEditContent}
                         onEditComment={onEditComment}
                     />
+                )}
+                ListEmptyComponent={() => (
+                    <Text>
+                        There are no posts to display. You can create new posts.
+                    </Text>
                 )}
                 showsVerticalScrollIndicator={false}
             />

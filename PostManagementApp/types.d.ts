@@ -1,6 +1,8 @@
 type RootStackParamList = {
     Home: undefined;
-    HomeScreen: undefined;
+    HomeScreen: {
+        data: Post;
+    };
     Login: undefined;
     AddPost:
         | {
@@ -9,6 +11,9 @@ type RootStackParamList = {
         | undefined;
     ShowImage: {
         url: {};
+    };
+    MyPost: {
+        data: Post;
     };
 };
 
@@ -34,8 +39,7 @@ type Post = {
     title: string;
     description: string;
     photos: Array;
-    likes: Array;
-    comments: Array;
+    pending: Boolean;
     createdAt: Number;
     updatedAt: Number;
     id: Number;

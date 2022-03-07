@@ -7,12 +7,12 @@ import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {CounterContextProvider} from './src/navigation/CounterContext';
+import {AppContextProvider} from './src/navigation/AppContext';
 
 AppRegistry.registerComponent(appName, () => () => (
-    <CounterContextProvider>
+    <AppContextProvider>
         <PaperProvider>
             <App />
         </PaperProvider>
-    </CounterContextProvider>
+    </AppContextProvider>
 ));
