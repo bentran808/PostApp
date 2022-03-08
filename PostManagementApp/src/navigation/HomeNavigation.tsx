@@ -4,6 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import HomeStack from './HomeStack';
 import MyPostScreen from '../screens/MyPostScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import {colors} from '../constants/colors';
 
 const Tab = createBottomTabNavigator();
 const HomeNavigation = () => {
@@ -13,7 +14,7 @@ const HomeNavigation = () => {
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: {height: 40},
-                tabBarActiveTintColor: '#2e64e5'
+                tabBarActiveTintColor: colors.royalBlue
             }}>
             <Tab.Screen
                 name="HomeTab"

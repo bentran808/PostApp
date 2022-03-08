@@ -1,5 +1,66 @@
 {
-  "posts": [],
+  "posts": [
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "company": "Honda",
+      "year": "2021",
+      "type": "Air Blade",
+      "status": true,
+      "price": "35000000",
+      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+      "title": "Ban xe",
+      "description": "Xe can ban",
+      "photos": [
+        {
+          "height": 480,
+          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_b592a259-5e83-4735-8856-7fa568b64d6f.jpg",
+          "width": 480,
+          "fileName": "rn_image_picker_lib_temp_b592a259-5e83-4735-8856-7fa568b64d6f.jpg",
+          "type": "image/jpeg",
+          "fileSize": 6839
+        },
+        {
+          "height": 480,
+          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_eeb558f5-f8b0-4aa7-a347-c53c755d1008.jpg",
+          "width": 480,
+          "fileName": "rn_image_picker_lib_temp_eeb558f5-f8b0-4aa7-a347-c53c755d1008.jpg",
+          "type": "image/jpeg",
+          "fileSize": 6758
+        }
+      ],
+      "pending": false,
+      "createdAt": 1646704144185,
+      "updatedAt": 1646704627747,
+      "id": 1
+    }
+  ],
   "likes": [],
-  "comments": []
+  "comments": [
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "postId": "1",
+      "content": "a",
+      "createdAt": 1646707000191,
+      "updatedAt": 1646707338615,
+      "id": 1
+    }
+  ]
 }

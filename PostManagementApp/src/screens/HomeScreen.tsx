@@ -3,7 +3,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import axios from 'axios';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-paper';
+import {Colors, Text} from 'react-native-paper';
 import PostCard from '../components/PostCard';
 import {AppContext} from '../navigation/AppContext';
 
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: Colors.white,
         padding: 20
     }
 });

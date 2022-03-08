@@ -1,13 +1,11 @@
 import React, {useContext} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import FormButton from '../components/FormButton';
 import {AppContext} from '../navigation/AppContext';
+import {Button} from 'react-native-paper';
+import {colors} from '../constants/colors';
 
-type LoginNavigationProp = NativeStackNavigationProp<
-    RootStackParamList,
-    'Login'
->;
+type LoginNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface LoginProps {
     navigation: LoginNavigationProp;
@@ -17,13 +15,16 @@ const ProfileScreen = ({navigation}: LoginProps) => {
     const {logoutUser} = useContext(AppContext);
     return (
         <View style={styles.body}>
-            <FormButton
-                title="Logout"
+            <Button
+                mode="contained"
+                color={colors.royalBlue}
+                uppercase={false}
                 onPress={() => {
                     logoutUser();
                     navigation.navigate('Login');
-                }}
-            />
+                }}>
+                Logout
+            </Button>
         </View>
     );
 };

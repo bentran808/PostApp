@@ -12,11 +12,13 @@ import {
 import axios from 'axios';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Button, HelperText, TextInput} from 'react-native-paper';
+import {Button, Chip, Colors, HelperText, TextInput} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {axiosInstance} from '../utils/AxiosConfig';
 import {AppContext} from '../navigation/AppContext';
+import {colors} from '../constants/colors';
+import {errorMessages} from '../constants/messages';
 
 type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -75,7 +77,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                         setDescription(response.data.description);
                         return;
                     } else {
-                        throw new Error('Failed to fetch users');
+                        throw new Error('Failed to fetch edit post data');
                     }
                 } catch (error) {
                     if (axios.isCancel(error)) {
@@ -104,7 +106,21 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
         );
     };
 
+    const validateInput = () => {
+        setErrorInput({
+            ...errorInput,
+            company: !company,
+            year: !year,
+            type: !type,
+            price: !price,
+            title: !title,
+            description: !description
+        });
+        return;
+    };
+
     const addNewPost = async () => {
+        validateInput();
         try {
             const response = await axiosInstance.post(
                 'api/posts',
@@ -145,6 +161,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
     };
 
     const editPost = async () => {
+        validateInput();
         try {
             const response = await axiosInstance.patch(
                 `api/posts/${postId}`,
@@ -185,7 +202,11 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                     <TouchableOpacity
                         onPress={handleChoosePhoto}
                         style={styles.photoButton}>
-                        <Ionicons name="camera" size={30} color="#333" />
+                        <Ionicons
+                            name="camera"
+                            size={30}
+                            color={colors.nightRider}
+                        />
                         <Text>Choose Photo</Text>
                     </TouchableOpacity>
                 </View>
@@ -203,7 +224,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                                 <Ionicons
                                     name="close"
                                     size={20}
-                                    color="#b80d0d"
+                                    color={colors.freeSpeechRed}
                                     style={styles.closeButton}
                                     onPress={() => {
                                         photos.splice(index, 1);
@@ -230,7 +251,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                     }
                 />
                 <HelperText type="error" visible={errorInput.company}>
-                    You must enter this field!
+                    {errorMessages.requiredInput}
                 </HelperText>
                 <TextInput
                     value={year}
@@ -252,7 +273,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                 <HelperText
                     type="error"
                     visible={errorInput.year || errorInput.invalidYear}>
-                    {errorInput.year && 'You must enter this field!'}
+                    {errorInput.year && errorMessages.requiredInput}
                     {errorInput.invalidYear &&
                         'You must enter year less than current year!'}
                 </HelperText>
@@ -265,24 +286,47 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                     onBlur={() => setErrorInput({...errorInput, type: !type})}
                 />
                 <HelperText type="error" visible={errorInput.type}>
-                    You must enter this field!
+                    {errorMessages.requiredInput}
                 </HelperText>
                 <Text>Status</Text>
                 <View style={styles.statusWrapper}>
-                    <Text
-                        onPress={() => setStatus(true)}
-                        style={
-                            status ? styles.statusActive : styles.statusInactive
-                        }>
+                    <Chip
+                        selected={status}
+                        selectedColor={
+                            status ? colors.selectiveYellow : Colors.black
+                        }
+                        textStyle={{
+                            color: status
+                                ? colors.selectiveYellow
+                                : Colors.black
+                        }}
+                        style={{
+                            backgroundColor: status
+                                ? colors.oasis
+                                : colors.lightGrey,
+                            marginRight: 10
+                        }}
+                        onPress={() => setStatus(true)}>
                         Used
-                    </Text>
-                    <Text
-                        onPress={() => setStatus(false)}
-                        style={
-                            status ? styles.statusInactive : styles.statusActive
-                        }>
+                    </Chip>
+                    <Chip
+                        selected={!status}
+                        selectedColor={
+                            !status ? colors.selectiveYellow : Colors.black
+                        }
+                        textStyle={{
+                            color: !status
+                                ? colors.selectiveYellow
+                                : Colors.black
+                        }}
+                        style={{
+                            backgroundColor: !status
+                                ? colors.oasis
+                                : colors.lightGrey
+                        }}
+                        onPress={() => setStatus(false)}>
                         New
-                    </Text>
+                    </Chip>
                 </View>
                 <TextInput
                     value={price}
@@ -311,8 +355,9 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                         errorInput.minOfPrice ||
                         errorInput.maxOfPrice
                     }>
-                    {errorInput.price && 'You must enter this field!'}
-                    {errorInput.minOfPrice &&
+                    {errorInput.price && errorMessages.requiredInput}
+                    {!errorInput.price &&
+                        errorInput.minOfPrice &&
                         'You must enter the minimum price 1.000 VND!'}
                     {errorInput.maxOfPrice &&
                         'You can only enter the maximum price 100.000.000 VND!'}
@@ -335,7 +380,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                     onBlur={() => setErrorInput({...errorInput, title: !title})}
                 />
                 <HelperText type="error" visible={errorInput.title}>
-                    You must enter this field!
+                    {errorMessages.requiredInput}
                 </HelperText>
                 <TextInput
                     value={description}
@@ -353,13 +398,13 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                     }
                 />
                 <HelperText type="error" visible={errorInput.description}>
-                    You must enter this field!
+                    {errorMessages.requiredInput}
                 </HelperText>
             </View>
             <View style={{marginBottom: 40}}>
                 <Button
                     mode="contained"
-                    color="#2e64e5"
+                    color={colors.royalBlue}
                     disabled={Object.values(errorInput).includes(true)}
                     onPress={() => {
                         postId ? editPost() : addNewPost();
@@ -381,8 +426,8 @@ const styles = StyleSheet.create({
     },
     photoWrapper: {
         padding: 10,
-        borderColor: '#333',
-        backgroundColor: '#ddd',
+        borderColor: colors.nightRider,
+        backgroundColor: colors.gainsboro,
         marginLeft: 10,
         flex: 0
     },
@@ -401,12 +446,12 @@ const styles = StyleSheet.create({
         top: -5
     },
     titleSection: {
-        color: '#333',
+        color: colors.nightRider,
         fontWeight: 'bold',
         paddingHorizontal: 10
     },
     section: {
-        backgroundColor: '#fff',
+        backgroundColor: Colors.white,
         marginBottom: 20,
         padding: 10,
         width: '100%'
@@ -417,7 +462,7 @@ const styles = StyleSheet.create({
     },
     statusInactive: {
         backgroundColor: '#ccc',
-        color: '#000',
+        color: Colors.black,
         paddingVertical: 5,
         paddingHorizontal: 10,
         borderRadius: 10,

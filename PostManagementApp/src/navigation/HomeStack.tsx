@@ -8,6 +8,8 @@ import {View} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 import ShowImageScreen from '../screens/ShowImageScreen';
+import {colors} from '../constants/colors';
+import {Colors} from 'react-native-paper';
 
 type HomeStackNavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -27,7 +29,7 @@ const HomeStack = ({navigation}: HomeStackProps) => (
             options={{
                 headerTitleAlign: 'center',
                 headerTitleStyle: {
-                    color: '#2e64e5',
+                    color: colors.royalBlue,
                     fontSize: 18
                 },
                 headerLeft: () => null,
@@ -36,8 +38,8 @@ const HomeStack = ({navigation}: HomeStackProps) => (
                         <FontAwesome5.Button
                             name="plus"
                             size={22}
-                            backgroundColor="#fff"
-                            color="#2e64e5"
+                            backgroundColor={Colors.white}
+                            color={colors.royalBlue}
                             onPress={() => navigation.navigate('AddPost')}
                         />
                     </View>
@@ -56,7 +58,7 @@ const HomeStack = ({navigation}: HomeStackProps) => (
                     title,
                     headerTitleAlign: 'center',
                     headerTitleStyle: {
-                        color: '#2e64e5',
+                        color: colors.royalBlue,
                         fontSize: 18
                     }
                 };

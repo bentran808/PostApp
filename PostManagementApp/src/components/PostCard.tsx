@@ -10,12 +10,13 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Button, Menu} from 'react-native-paper';
-import FormInput from './FormInput';
+import {Button, Colors, Menu, TextInput} from 'react-native-paper';
 import Slider from 'react-native-hook-image-slider';
 
 import {formatPrice} from '../utils/helpers';
 import {AppContext} from '../navigation/AppContext';
+import {windowHeight, windowWidth} from '../utils/Dimensions';
+import {colors} from '../constants/colors';
 
 type PostCardProps = {
     item: Post;
@@ -69,7 +70,7 @@ const PostCard = ({
     const numberOfLikes = likesOfItem.length;
     const numberOfComments = commentsOfItem.length;
     const likeIcon = likedPost ? 'heart' : 'heart-outline';
-    const likeIconColor = likedPost ? '#2e64e5' : '#333';
+    const likeIconColor = likedPost ? colors.royalBlue : colors.nightRider;
     let likeText = 'Like';
     let commentText = 'Comment';
 
@@ -102,7 +103,7 @@ const PostCard = ({
                         <Ionicons
                             name="md-location-outline"
                             size={20}
-                            color="#000"
+                            color={Colors.black}
                         />
                         <Text style={styles.postAddress}>{item.address}</Text>
                     </View>
@@ -117,7 +118,7 @@ const PostCard = ({
                                 <Ionicons
                                     name="ellipsis-vertical"
                                     size={20}
-                                    color="#000"
+                                    color={Colors.black}
                                 />
                             </TouchableOpacity>
                         }>
@@ -157,7 +158,11 @@ const PostCard = ({
                     </View>
                     <Text style={styles.postText}>{item.description}</Text>
                     <View style={styles.postLocation}>
-                        <FontAwesome name="building-o" size={20} color="#000" />
+                        <FontAwesome
+                            name="building-o"
+                            size={20}
+                            color={Colors.black}
+                        />
                         <Text style={styles.postAddress}>
                             Product Company: {item.company}
                         </Text>
@@ -166,7 +171,7 @@ const PostCard = ({
                         <Ionicons
                             name="pricetags-outline"
                             size={20}
-                            color="#000"
+                            color={Colors.black}
                         />
                         <Text style={styles.postAddress}>
                             Type of product: {item.type}
@@ -176,7 +181,7 @@ const PostCard = ({
                         <Ionicons
                             name="md-calendar-outline"
                             size={20}
-                            color="#000"
+                            color={Colors.black}
                         />
                         <Text style={styles.postAddress}>
                             Year of registration: {item.year}
@@ -186,7 +191,7 @@ const PostCard = ({
                         <Ionicons
                             name="md-card-outline"
                             size={20}
-                            color="#000"
+                            color={Colors.black}
                         />
                         <Text style={styles.postAddress}>
                             Status: {item.status ? 'Used' : 'New'}
@@ -195,7 +200,7 @@ const PostCard = ({
                 </>
             )}
             <Button
-                color="#333"
+                color={colors.nightRider}
                 icon={visibleDetails ? 'chevron-up' : 'chevron-down'}
                 style={{
                     paddingVertical: 0,
@@ -221,14 +226,14 @@ const PostCard = ({
                             <Button
                                 mode="contained"
                                 icon="check"
-                                color="#2e64e5"
+                                color={colors.royalBlue}
                                 onPress={approvePost}>
                                 Approve
                             </Button>
                             <Button
                                 mode="contained"
                                 icon="close"
-                                color="#b80d0d"
+                                color={colors.freeSpeechRed}
                                 onPress={rejectPost}>
                                 Reject
                             </Button>
@@ -338,7 +343,7 @@ const PostCard = ({
                                                         <Ionicons
                                                             name="ellipsis-vertical"
                                                             size={16}
-                                                            color="#000"
+                                                            color={Colors.black}
                                                         />
                                                     </TouchableOpacity>
                                                 }>
@@ -374,18 +379,23 @@ const PostCard = ({
                                                 alignItems: 'center',
                                                 paddingHorizontal: 15
                                             }}>
-                                            <FormInput
+                                            <TextInput
+                                                mode="outlined"
                                                 value={editContent}
+                                                activeOutlineColor={
+                                                    colors.royalBlue
+                                                }
+                                                style={{
+                                                    width: windowWidth / 2,
+                                                    height: windowHeight / 20
+                                                }}
                                                 onChangeText={itemValue =>
                                                     setEditContent(itemValue)
                                                 }
-                                                placeholderText="Write a comment"
-                                                additionalContainerStyles={{
-                                                    flex: 1
-                                                }}
+                                                placeholder="Write a comment"
                                             />
                                             <Button
-                                                color="#2e64e5"
+                                                color={colors.royalBlue}
                                                 labelStyle={{
                                                     fontSize: 12
                                                 }}
@@ -403,7 +413,7 @@ const PostCard = ({
                                                 Save
                                             </Button>
                                             <Button
-                                                color="#2e64e5"
+                                                color={colors.royalBlue}
                                                 labelStyle={{
                                                     fontSize: 12
                                                 }}
@@ -431,14 +441,19 @@ const PostCard = ({
                             alignItems: 'center',
                             paddingHorizontal: 15
                         }}>
-                        <FormInput
+                        <TextInput
+                            mode="outlined"
                             value={content}
+                            activeOutlineColor={colors.royalBlue}
+                            style={{
+                                width: '80%',
+                                height: windowHeight / 20
+                            }}
                             onChangeText={itemValue => setContent(itemValue)}
-                            placeholderText="Write a comment"
-                            additionalContainerStyles={{flex: 1}}
+                            placeholder="Write a comment"
                         />
                         <Button
-                            color="#2e64e5"
+                            color={colors.royalBlue}
                             uppercase={false}
                             disabled={content === ''}
                             onPress={() => addNewComment(item.id)}>
@@ -485,14 +500,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15
     },
     postTitle: {
-        color: '#000',
+        color: Colors.black,
         fontSize: 14,
         fontWeight: 'bold',
         marginBottom: 5,
         paddingLeft: 15
     },
     postPrice: {
-        color: '#b80d0d',
+        color: colors.freeSpeechRed,
         fontSize: 14,
         fontWeight: 'bold',
         paddingLeft: 15
@@ -502,7 +517,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15
     },
     postAddress: {
-        color: '#000',
+        color: Colors.black,
         fontSize: 14,
         marginLeft: 5
     },
@@ -518,7 +533,7 @@ const styles = StyleSheet.create({
     },
     divider: {
         alignSelf: 'center',
-        borderBottomColor: '#ddd',
+        borderBottomColor: colors.gainsboro,
         borderBottomWidth: 1,
         marginTop: 15,
         width: '92%'
@@ -557,7 +572,7 @@ const styles = StyleSheet.create({
         width: 25
     },
     commentUserName: {
-        color: '#000',
+        color: Colors.black,
         fontSize: 14,
         fontWeight: 'bold',
         paddingLeft: 15
