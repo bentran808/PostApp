@@ -1,5 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useEffect, useState} from 'react';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     FlatList,
     Image,
@@ -9,26 +11,23 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import axios from 'axios';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Button, Chip, Colors, HelperText, TextInput} from 'react-native-paper';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { Button, Chip, Colors, HelperText, TextInput } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import {axiosInstance} from '../utils/AxiosConfig';
-import {AppContext} from '../navigation/AppContext';
-import {colors} from '../constants/colors';
-import {errorMessages} from '../constants/messages';
+import { axiosInstance } from '../../api';
+import { colors } from '../../constants/colors';
+import { errorMessages } from '../../constants/messages';
+import { AppContext } from '../../navigation/AppContext';
 
 type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface AddPostProps {
     navigation: AddPostNavigationProp;
-    route: {params: {editedId: Number}};
+    route: { params: { editedId: Number } };
 }
 
-const AddPostScreen = ({navigation, route}: AddPostProps) => {
-    const {user} = useContext(AppContext);
+const AddPostScreen = ({ navigation, route }: AddPostProps) => {
+    const { user } = useContext(AppContext);
     const [photos, setPhoto] = useState<any>([]);
     const [company, setCompany] = useState('');
     const [year, setYear] = useState('');
@@ -56,15 +55,12 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
             const source = axios.CancelToken.source();
             const getEditedPost = async () => {
                 try {
-                    const response = await axiosInstance.get(
-                        `api/posts/${postId}`,
-                        {
-                            cancelToken: source.token,
-                            headers: {
-                                Authorization: `Bearer ${user.access_token}`
-                            }
+                    const response = await axiosInstance.get(`api/posts/${postId}`, {
+                        cancelToken: source.token,
+                        headers: {
+                            Authorization: `Bearer ${user.access_token}`
                         }
-                    );
+                    });
                     if (response.status === 200) {
                         setPhoto(response.data.photos);
                         setCompany(response.data.company);
@@ -98,7 +94,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                 mediaType: 'photo',
                 selectionLimit: 0
             },
-            response => {
+            (response) => {
                 if (response && response.assets) {
                     setPhoto(photos.concat(response.assets));
                 }
@@ -146,7 +142,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
             if ([200, 201].includes(response.status)) {
                 navigation.reset({
                     index: 0,
-                    routes: [{name: 'HomeScreen'}]
+                    routes: [{ name: 'HomeScreen' }]
                 });
                 navigation.navigate('MyPost', {
                     data: response.data
@@ -199,14 +195,8 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
         <ScrollView style={styles.body}>
             <View style={styles.photoSection}>
                 <View style={styles.photoWrapper}>
-                    <TouchableOpacity
-                        onPress={handleChoosePhoto}
-                        style={styles.photoButton}>
-                        <Ionicons
-                            name="camera"
-                            size={30}
-                            color={colors.nightRider}
-                        />
+                    <TouchableOpacity onPress={handleChoosePhoto} style={styles.photoButton}>
+                        <Ionicons name="camera" size={30} color={colors.nightRider} />
                         <Text>Choose Photo</Text>
                     </TouchableOpacity>
                 </View>
@@ -215,12 +205,9 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                         data={photos}
                         horizontal
                         extraData={photos}
-                        renderItem={({item, index}) => (
+                        renderItem={({ item, index }) => (
                             <>
-                                <Image
-                                    source={{uri: item.uri}}
-                                    style={styles.previewPhoto}
-                                />
+                                <Image source={{ uri: item.uri }} style={styles.previewPhoto} />
                                 <Ionicons
                                     name="close"
                                     size={20}
@@ -228,9 +215,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                                     style={styles.closeButton}
                                     onPress={() => {
                                         photos.splice(index, 1);
-                                        setPhoto((prevState: any) => [
-                                            ...prevState
-                                        ]);
+                                        setPhoto((prevState: any) => [...prevState]);
                                     }}
                                 />
                             </>
@@ -242,27 +227,24 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
             <View style={styles.section}>
                 <TextInput
                     value={company}
-                    onChangeText={itemValue => setCompany(itemValue)}
+                    onChangeText={(itemValue) => setCompany(itemValue)}
                     label="Product Company"
                     mode="outlined"
                     error={errorInput.company}
-                    onBlur={() =>
-                        setErrorInput({...errorInput, company: !company})
-                    }
+                    onBlur={() => setErrorInput({ ...errorInput, company: !company })}
                 />
                 <HelperText type="error" visible={errorInput.company}>
                     {errorMessages.requiredInput}
                 </HelperText>
                 <TextInput
                     value={year}
-                    onChangeText={itemValue => setYear(itemValue)}
+                    onChangeText={(itemValue) => setYear(itemValue)}
                     label="Year of registration"
                     keyboardType="number-pad"
                     mode="outlined"
                     error={errorInput.year || errorInput.invalidYear}
                     onBlur={() => {
-                        const hasError =
-                            Number(year) > new Date().getFullYear();
+                        const hasError = Number(year) > new Date().getFullYear();
                         setErrorInput({
                             ...errorInput,
                             year: !year,
@@ -270,20 +252,17 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                         });
                     }}
                 />
-                <HelperText
-                    type="error"
-                    visible={errorInput.year || errorInput.invalidYear}>
+                <HelperText type="error" visible={errorInput.year || errorInput.invalidYear}>
                     {errorInput.year && errorMessages.requiredInput}
-                    {errorInput.invalidYear &&
-                        'You must enter year less than current year!'}
+                    {errorInput.invalidYear && 'You must enter year less than current year!'}
                 </HelperText>
                 <TextInput
                     value={type}
-                    onChangeText={itemValue => setType(itemValue)}
+                    onChangeText={(itemValue) => setType(itemValue)}
                     label="Type of product"
                     mode="outlined"
                     error={errorInput.type}
-                    onBlur={() => setErrorInput({...errorInput, type: !type})}
+                    onBlur={() => setErrorInput({ ...errorInput, type: !type })}
                 />
                 <HelperText type="error" visible={errorInput.type}>
                     {errorMessages.requiredInput}
@@ -292,53 +271,39 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                 <View style={styles.statusWrapper}>
                     <Chip
                         selected={status}
-                        selectedColor={
-                            status ? colors.selectiveYellow : Colors.black
-                        }
+                        selectedColor={status ? colors.selectiveYellow : Colors.black}
                         textStyle={{
-                            color: status
-                                ? colors.selectiveYellow
-                                : Colors.black
+                            color: status ? colors.selectiveYellow : Colors.black
                         }}
                         style={{
-                            backgroundColor: status
-                                ? colors.oasis
-                                : colors.lightGrey,
+                            backgroundColor: status ? colors.oasis : colors.lightGrey,
                             marginRight: 10
                         }}
-                        onPress={() => setStatus(true)}>
+                        onPress={() => setStatus(true)}
+                    >
                         Used
                     </Chip>
                     <Chip
                         selected={!status}
-                        selectedColor={
-                            !status ? colors.selectiveYellow : Colors.black
-                        }
+                        selectedColor={!status ? colors.selectiveYellow : Colors.black}
                         textStyle={{
-                            color: !status
-                                ? colors.selectiveYellow
-                                : Colors.black
+                            color: !status ? colors.selectiveYellow : Colors.black
                         }}
                         style={{
-                            backgroundColor: !status
-                                ? colors.oasis
-                                : colors.lightGrey
+                            backgroundColor: !status ? colors.oasis : colors.lightGrey
                         }}
-                        onPress={() => setStatus(false)}>
+                        onPress={() => setStatus(false)}
+                    >
                         New
                     </Chip>
                 </View>
                 <TextInput
                     value={price}
-                    onChangeText={itemValue => setPrice(itemValue)}
+                    onChangeText={(itemValue) => setPrice(itemValue)}
                     label="Price"
                     keyboardType="number-pad"
                     mode="outlined"
-                    error={
-                        errorInput.price ||
-                        errorInput.minOfPrice ||
-                        errorInput.maxOfPrice
-                    }
+                    error={errorInput.price || errorInput.minOfPrice || errorInput.maxOfPrice}
                     onBlur={() =>
                         setErrorInput({
                             ...errorInput,
@@ -350,11 +315,8 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                 />
                 <HelperText
                     type="error"
-                    visible={
-                        errorInput.price ||
-                        errorInput.minOfPrice ||
-                        errorInput.maxOfPrice
-                    }>
+                    visible={errorInput.price || errorInput.minOfPrice || errorInput.maxOfPrice}
+                >
                     {errorInput.price && errorMessages.requiredInput}
                     {!errorInput.price &&
                         errorInput.minOfPrice &&
@@ -364,7 +326,7 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                 </HelperText>
                 <TextInput
                     value={address}
-                    onChangeText={itemValue => setAddress(itemValue)}
+                    onChangeText={(itemValue) => setAddress(itemValue)}
                     label="Address"
                     mode="outlined"
                 />
@@ -373,18 +335,18 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
             <View style={styles.section}>
                 <TextInput
                     value={title}
-                    onChangeText={itemValue => setTitle(itemValue)}
+                    onChangeText={(itemValue) => setTitle(itemValue)}
                     label="Title"
                     mode="outlined"
                     error={errorInput.title}
-                    onBlur={() => setErrorInput({...errorInput, title: !title})}
+                    onBlur={() => setErrorInput({ ...errorInput, title: !title })}
                 />
                 <HelperText type="error" visible={errorInput.title}>
                     {errorMessages.requiredInput}
                 </HelperText>
                 <TextInput
                     value={description}
-                    onChangeText={itemValue => setDescription(itemValue)}
+                    onChangeText={(itemValue) => setDescription(itemValue)}
                     label="Description"
                     multiline
                     numberOfLines={4}
@@ -401,14 +363,15 @@ const AddPostScreen = ({navigation, route}: AddPostProps) => {
                     {errorMessages.requiredInput}
                 </HelperText>
             </View>
-            <View style={{marginBottom: 40}}>
+            <View style={{ marginBottom: 40 }}>
                 <Button
                     mode="contained"
                     color={colors.royalBlue}
                     disabled={Object.values(errorInput).includes(true)}
                     onPress={() => {
                         postId ? editPost() : addNewPost();
-                    }}>
+                    }}
+                >
                     {postId ? 'Save' : 'Post'}
                 </Button>
             </View>

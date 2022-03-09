@@ -1,8 +1,9 @@
-import {CancelTokenSource} from 'axios';
-import {axiosInstance} from './AxiosConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CancelTokenSource } from 'axios';
+import { axiosInstance } from '../api';
 
 const getAllPostsRequest = async (
-    user: {access_token: string; data: User},
+    user: { access_token: string; data: User },
     source?: CancelTokenSource
 ) => {
     const config = {
@@ -30,6 +31,19 @@ const formatPrice = (price: Number) => {
     });
 };
 
-const getApprovedPosts = (arr: Post[]) => arr.filter(item => !item.pending);
+const getApprovedPosts = (arr: Post[]) => arr.filter((item) => !item.pending);
 
-export {getAllPostsRequest, sortDesc, formatPrice, getApprovedPosts};
+const setAccessToken = async (access_token: string) =>
+    await AsyncStorage.setItem('access_token', access_token);
+const getAccessToken = async () => await AsyncStorage.getItem('access_token');
+const removeAccessToken = async () => await AsyncStorage.removeItem('access_token');
+
+export {
+    getAllPostsRequest,
+    sortDesc,
+    formatPrice,
+    getApprovedPosts,
+    setAccessToken,
+    getAccessToken,
+    removeAccessToken
+};

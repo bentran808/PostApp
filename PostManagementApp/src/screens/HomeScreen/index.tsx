@@ -1,20 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import axios from 'axios';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {Colors, Text} from 'react-native-paper';
-import PostCard from '../components/PostCard';
-import {AppContext} from '../navigation/AppContext';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { Colors, Text } from 'react-native-paper';
 
 // Utilities
-import {axiosInstance} from '../utils/AxiosConfig';
-import {getAllPostsRequest, getApprovedPosts, sortDesc} from '../utils/helpers';
+import { axiosInstance } from '../../api';
+import PostCard from '../../components/PostCard';
+import { AppContext } from '../../navigation/AppContext';
+import { getAllPostsRequest, getApprovedPosts, sortDesc } from '../../utils/helpers';
 
-type ShowImageNavigationProp = NativeStackNavigationProp<
-    RootStackParamList,
-    'ShowImage'
->;
+type ShowImageNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ShowImage'>;
 
 interface ShowImageProps {
     navigation: ShowImageNavigationProp;
@@ -25,14 +22,14 @@ interface ShowImageProps {
     };
 }
 
-const HomeScreen = ({navigation, route}: ShowImageProps) => {
+const HomeScreen = ({ navigation, route }: ShowImageProps) => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [likes, setLikes] = useState<PostLike[]>([]);
     const [comments, setComments] = useState<PostComment[]>([]);
     const [content, setContent] = useState('');
     const [editContent, setEditContent] = useState('');
     const [loading, setLoading] = useState(false);
-    const {user} = useContext(AppContext);
+    const { user } = useContext(AppContext);
     const config = {
         headers: {
             Authorization: `Bearer ${user.access_token}`
@@ -68,23 +65,16 @@ const HomeScreen = ({navigation, route}: ShowImageProps) => {
         const data = route.params && route.params.data;
         if (data) {
             if (data.createdAt !== data.updatedAt) {
-                setPosts(
-                    sortDesc(
-                        posts.map(post => (data.id === post.id ? data : post))
-                    )
-                );
+                setPosts(sortDesc(posts.map((post) => (data.id === post.id ? data : post))));
             }
         }
     }, [route.params]);
 
     const onDelete = async (postId: Number) => {
         try {
-            const response = await axiosInstance.delete(
-                `api/posts/${postId}`,
-                config
-            );
+            const response = await axiosInstance.delete(`api/posts/${postId}`, config);
             if (response.status === 200) {
-                const newPosts = posts?.filter(item => item.id !== postId);
+                const newPosts = posts?.filter((item) => item.id !== postId);
                 setPosts(newPosts);
                 return;
             } else {
@@ -132,12 +122,9 @@ const HomeScreen = ({navigation, route}: ShowImageProps) => {
 
     const unlikePost = async (likeId: Number) => {
         try {
-            const response = await axiosInstance.delete(
-                `api/likes/${likeId}`,
-                config
-            );
+            const response = await axiosInstance.delete(`api/likes/${likeId}`, config);
             if (response.status === 200) {
-                setLikes(likes.filter(like => like.id !== likeId));
+                setLikes(likes.filter((like) => like.id !== likeId));
             } else {
                 throw new Error('Failed to unlike post');
             }
@@ -170,14 +157,9 @@ const HomeScreen = ({navigation, route}: ShowImageProps) => {
 
     const deleteComment = async (commentId: Number) => {
         try {
-            const response = await axiosInstance.delete(
-                `api/comments/${commentId}`,
-                config
-            );
+            const response = await axiosInstance.delete(`api/comments/${commentId}`, config);
             if (response.status === 200) {
-                setComments(
-                    comments.filter(comment => comment.id !== commentId)
-                );
+                setComments(comments.filter((comment) => comment.id !== commentId));
             } else {
                 throw new Error('Failed to delete comment of post');
             }
@@ -199,10 +181,8 @@ const HomeScreen = ({navigation, route}: ShowImageProps) => {
             if (response.status === 200) {
                 setEditContent('');
                 setComments(
-                    comments.map(comment =>
-                        response.data.id === comment.id
-                            ? response.data
-                            : comment
+                    comments.map((comment) =>
+                        response.data.id === comment.id ? response.data : comment
                     )
                 );
                 return true;
@@ -221,7 +201,7 @@ const HomeScreen = ({navigation, route}: ShowImageProps) => {
                 data={posts}
                 refreshing={loading}
                 onRefresh={onRefresh}
-                renderItem={({item}: {item: Post}) => (
+                renderItem={({ item }: { item: Post }) => (
                     <PostCard
                         item={item}
                         onPress={() =>
@@ -237,11 +217,9 @@ const HomeScreen = ({navigation, route}: ShowImageProps) => {
                                 editedId: item.id
                             })
                         }
-                        likesOfItem={likes.filter(
-                            like => Number(like.postId) === item.id
-                        )}
+                        likesOfItem={likes.filter((like) => Number(like.postId) === item.id)}
                         commentsOfItem={comments.filter(
-                            comment => Number(comment.postId) === item.id
+                            (comment) => Number(comment.postId) === item.id
                         )}
                         likePost={likePost}
                         unlikePost={unlikePost}
@@ -255,9 +233,7 @@ const HomeScreen = ({navigation, route}: ShowImageProps) => {
                     />
                 )}
                 ListEmptyComponent={() => (
-                    <Text>
-                        There are no posts to display. You can create new posts.
-                    </Text>
+                    <Text>There are no posts to display. You can create new posts.</Text>
                 )}
                 showsVerticalScrollIndicator={false}
             />

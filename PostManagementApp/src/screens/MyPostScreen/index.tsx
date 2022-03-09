@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import axios from 'axios';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {Colors, Text} from 'react-native-paper';
-import PostCard from '../components/PostCard';
-import {AppContext} from '../navigation/AppContext';
-import {axiosInstance} from '../utils/AxiosConfig';
-import {sortDesc} from '../utils/helpers';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { Colors, Text } from 'react-native-paper';
+import { axiosInstance } from '../../api';
+import PostCard from '../../components/PostCard';
+import { AppContext } from '../../navigation/AppContext';
+import { sortDesc } from '../../utils/helpers';
 
 type MyPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -20,10 +20,10 @@ interface MyPostProps {
     };
 }
 
-const MyPostScreen = ({navigation, route}: MyPostProps) => {
+const MyPostScreen = ({ navigation, route }: MyPostProps) => {
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(false);
-    const {user} = useContext(AppContext);
+    const { user } = useContext(AppContext);
     const config = {
         headers: {
             Authorization: `Bearer ${user.access_token}`
@@ -60,11 +60,7 @@ const MyPostScreen = ({navigation, route}: MyPostProps) => {
             if (data.createdAt === data.updatedAt) {
                 setPosts(sortDesc(posts.concat(data)));
             } else {
-                setPosts(
-                    sortDesc(
-                        posts.map(post => (data.id === post.id ? data : post))
-                    )
-                );
+                setPosts(sortDesc(posts.map((post) => (data.id === post.id ? data : post))));
             }
         }
     }, [route.params]);
@@ -72,17 +68,14 @@ const MyPostScreen = ({navigation, route}: MyPostProps) => {
     const getPosts = async () => await axiosInstance.get('api/posts', config);
     const getMyPosts = (arr: Post[]) =>
         user.data.role === 'admin'
-            ? arr.filter(post => post.pending)
-            : arr.filter(post => post.author.id === user.data.id);
+            ? arr.filter((post) => post.pending)
+            : arr.filter((post) => post.author.id === user.data.id);
 
     const onDelete = async (postId: Number) => {
         try {
-            const response = await axiosInstance.delete(
-                `api/posts/${postId}`,
-                config
-            );
+            const response = await axiosInstance.delete(`api/posts/${postId}`, config);
             if (response.status === 200) {
-                const newPosts = posts?.filter(item => item.id !== postId);
+                const newPosts = posts?.filter((item) => item.id !== postId);
                 setPosts(newPosts);
                 return;
             } else {
@@ -124,9 +117,7 @@ const MyPostScreen = ({navigation, route}: MyPostProps) => {
             if (response.status === 200) {
                 setPosts(
                     getMyPosts(
-                        posts.map(post =>
-                            response.data.id === post.id ? response.data : post
-                        )
+                        posts.map((post) => (response.data.id === post.id ? response.data : post))
                     )
                 );
                 return;
@@ -140,12 +131,9 @@ const MyPostScreen = ({navigation, route}: MyPostProps) => {
 
     const rejectPost = async (postId: Number) => {
         try {
-            const response = await axiosInstance.delete(
-                `api/posts/${postId}`,
-                config
-            );
+            const response = await axiosInstance.delete(`api/posts/${postId}`, config);
             if (response.status === 200) {
-                const newPosts = posts?.filter(item => item.id !== postId);
+                const newPosts = posts?.filter((item) => item.id !== postId);
                 setPosts(newPosts);
                 return;
             } else {
@@ -162,7 +150,7 @@ const MyPostScreen = ({navigation, route}: MyPostProps) => {
                 data={posts}
                 refreshing={loading}
                 onRefresh={onRefresh}
-                renderItem={({item}: {item: Post}) => (
+                renderItem={({ item }: { item: Post }) => (
                     <PostCard
                         item={item}
                         onPress={() =>
@@ -183,9 +171,7 @@ const MyPostScreen = ({navigation, route}: MyPostProps) => {
                         rejectPost={() => rejectPost(item.id)}
                     />
                 )}
-                ListEmptyComponent={() => (
-                    <Text>There are no posts to approve</Text>
-                )}
+                ListEmptyComponent={() => <Text>There are no posts to approve</Text>}
                 showsVerticalScrollIndicator={false}
             />
         </View>

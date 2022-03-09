@@ -1,27 +1,24 @@
-import React from 'react';
 import {
     createNativeStackNavigator,
     NativeStackNavigationProp
 } from '@react-navigation/native-stack';
+import React from 'react';
+import { View } from 'react-native';
+import { Colors } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {View} from 'react-native';
-import HomeScreen from '../screens/HomeScreen';
+import { colors } from '../constants/colors';
 import AddPostScreen from '../screens/AddPostScreen';
+import HomeScreen from '../screens/HomeScreen';
 import ShowImageScreen from '../screens/ShowImageScreen';
-import {colors} from '../constants/colors';
-import {Colors} from 'react-native-paper';
 
-type HomeStackNavigationProp = NativeStackNavigationProp<
-    RootStackParamList,
-    'AddPost'
->;
+type HomeStackNavigationProp = NativeStackNavigationProp<RootStackParamList, 'AddPost'>;
 
 interface HomeStackProps {
     navigation: HomeStackNavigationProp;
 }
 
 const Stack = createNativeStackNavigator();
-const HomeStack = ({navigation}: HomeStackProps) => (
+const HomeStack = ({ navigation }: HomeStackProps) => (
     <Stack.Navigator>
         <Stack.Screen
             name="HomeScreen"
@@ -49,10 +46,8 @@ const HomeStack = ({navigation}: HomeStackProps) => (
         <Stack.Screen
             name="AddPost"
             component={AddPostScreen}
-            options={({route}) => {
-                const title = route.params
-                    ? 'Update a post'
-                    : 'Create a new post';
+            options={({ route }) => {
+                const title = route.params ? 'Update a post' : 'Create a new post';
 
                 return {
                     title,

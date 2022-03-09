@@ -1,12 +1,8 @@
 import React from 'react';
-import {Image, ImageSourcePropType, StyleSheet, View} from 'react-native';
-import {windowHeight, windowWidth} from '../utils/Dimensions';
+import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
+import { windowHeight, windowWidth } from '../../utils/Dimensions';
 
-const ShowImageScreen = ({
-    route
-}: {
-    route: {params: {url: ImageSourcePropType}};
-}) => {
+const ShowImageScreen = ({ route }: { route: { params: { url: ImageSourcePropType } } }) => {
     const imageUrl = route.params.url;
     return (
         <View style={styles.container}>

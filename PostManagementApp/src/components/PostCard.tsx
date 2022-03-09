@@ -1,22 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState} from 'react';
-import {
-    FlatList,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
-} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Button, Colors, Menu, TextInput} from 'react-native-paper';
+import React, { useContext, useState } from 'react';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Slider from 'react-native-hook-image-slider';
-
-import {formatPrice} from '../utils/helpers';
-import {AppContext} from '../navigation/AppContext';
-import {windowHeight, windowWidth} from '../utils/Dimensions';
-import {colors} from '../constants/colors';
+import { Button, Colors, Menu, TextInput } from 'react-native-paper';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { colors } from '../constants/colors';
+import { AppContext } from '../navigation/AppContext';
+import { windowHeight, windowWidth } from '../utils/Dimensions';
+import { formatPrice } from '../utils/helpers';
 
 type PostCardProps = {
     item: Post;
@@ -62,11 +54,11 @@ const PostCard = ({
     const [visibleDetails, setVisibleDetails] = useState(false);
     const [visibleComment, setVisibleComment] = useState(false);
     const [editComment, setEditComment] = useState('');
-    const {user} = useContext(AppContext);
+    const { user } = useContext(AppContext);
     const userId = user.data.id;
     const isAdmin = user.data.role === 'admin';
     const isAuthor = userId === item.author.id || isAdmin;
-    const likedPost = likesOfItem.find(like => like.author.id === userId);
+    const likedPost = likesOfItem.find((like) => like.author.id === userId);
     const numberOfLikes = likesOfItem.length;
     const numberOfComments = commentsOfItem.length;
     const likeIcon = likedPost ? 'heart' : 'heart-outline';
@@ -89,22 +81,16 @@ const PostCard = ({
     return (
         <View style={styles.card} key={`Post-${item.id}`}>
             <Slider
-                images={item.photos.map((photo: {uri: string}) => photo.uri)}
+                images={item.photos.map((photo: { uri: string }) => photo.uri)}
                 imageHeight={200}
             />
             <View style={styles.infoSection}>
                 <View>
                     <Text style={styles.postTitle}>{item.title}</Text>
-                    <Text style={styles.postPrice}>
-                        {formatPrice(Number(item.price))}
-                    </Text>
+                    <Text style={styles.postPrice}>{formatPrice(Number(item.price))}</Text>
                     <Text style={styles.postTime}>2 hours ago</Text>
                     <View style={styles.postLocation}>
-                        <Ionicons
-                            name="md-location-outline"
-                            size={20}
-                            color={Colors.black}
-                        />
+                        <Ionicons name="md-location-outline" size={20} color={Colors.black} />
                         <Text style={styles.postAddress}>{item.address}</Text>
                     </View>
                 </View>
@@ -113,15 +99,11 @@ const PostCard = ({
                         visible={visible === `post-${item.id}`}
                         onDismiss={() => setVisible('')}
                         anchor={
-                            <TouchableOpacity
-                                onPress={() => setVisible(`post-${item.id}`)}>
-                                <Ionicons
-                                    name="ellipsis-vertical"
-                                    size={20}
-                                    color={Colors.black}
-                                />
+                            <TouchableOpacity onPress={() => setVisible(`post-${item.id}`)}>
+                                <Ionicons name="ellipsis-vertical" size={20} color={Colors.black} />
                             </TouchableOpacity>
-                        }>
+                        }
+                    >
                         <Menu.Item
                             onPress={() => {
                                 setVisible('');
@@ -151,48 +133,24 @@ const PostCard = ({
                             style={styles.avatar}
                         />
                         <View style={styles.userInfoText}>
-                            <Text style={styles.userName}>
-                                {item.author.name}
-                            </Text>
+                            <Text style={styles.userName}>{item.author.name}</Text>
                         </View>
                     </View>
                     <Text style={styles.postText}>{item.description}</Text>
                     <View style={styles.postLocation}>
-                        <FontAwesome
-                            name="building-o"
-                            size={20}
-                            color={Colors.black}
-                        />
-                        <Text style={styles.postAddress}>
-                            Product Company: {item.company}
-                        </Text>
+                        <FontAwesome name="building-o" size={20} color={Colors.black} />
+                        <Text style={styles.postAddress}>Product Company: {item.company}</Text>
                     </View>
                     <View style={styles.postLocation}>
-                        <Ionicons
-                            name="pricetags-outline"
-                            size={20}
-                            color={Colors.black}
-                        />
-                        <Text style={styles.postAddress}>
-                            Type of product: {item.type}
-                        </Text>
+                        <Ionicons name="pricetags-outline" size={20} color={Colors.black} />
+                        <Text style={styles.postAddress}>Type of product: {item.type}</Text>
                     </View>
                     <View style={styles.postLocation}>
-                        <Ionicons
-                            name="md-calendar-outline"
-                            size={20}
-                            color={Colors.black}
-                        />
-                        <Text style={styles.postAddress}>
-                            Year of registration: {item.year}
-                        </Text>
+                        <Ionicons name="md-calendar-outline" size={20} color={Colors.black} />
+                        <Text style={styles.postAddress}>Year of registration: {item.year}</Text>
                     </View>
                     <View style={styles.postLocation}>
-                        <Ionicons
-                            name="md-card-outline"
-                            size={20}
-                            color={Colors.black}
-                        />
+                        <Ionicons name="md-card-outline" size={20} color={Colors.black} />
                         <Text style={styles.postAddress}>
                             Status: {item.status ? 'Used' : 'New'}
                         </Text>
@@ -210,7 +168,8 @@ const PostCard = ({
                     fontSize: 12
                 }}
                 uppercase={false}
-                onPress={() => setVisibleDetails(!visibleDetails)}>
+                onPress={() => setVisibleDetails(!visibleDetails)}
+            >
                 {visibleDetails ? 'Show less' : 'Show more'}
             </Button>
             {isMyPost ? (
@@ -222,19 +181,22 @@ const PostCard = ({
                                 flexDirection: 'row',
                                 justifyContent: 'space-around',
                                 paddingVertical: 10
-                            }}>
+                            }}
+                        >
                             <Button
                                 mode="contained"
                                 icon="check"
                                 color={colors.royalBlue}
-                                onPress={approvePost}>
+                                onPress={approvePost}
+                            >
                                 Approve
                             </Button>
                             <Button
                                 mode="contained"
                                 icon="close"
                                 color={colors.freeSpeechRed}
-                                onPress={rejectPost}>
+                                onPress={rejectPost}
+                            >
                                 Reject
                             </Button>
                         </View>
@@ -243,7 +205,7 @@ const PostCard = ({
                     item.pending && (
                         <>
                             <View style={styles.divider} />
-                            <Text style={{textAlign: 'center', marginTop: 10}}>
+                            <Text style={{ textAlign: 'center', marginTop: 10 }}>
                                 This post is pending approval
                             </Text>
                         </>
@@ -255,52 +217,37 @@ const PostCard = ({
                     <View style={styles.interactionWrapper}>
                         <TouchableOpacity
                             onPress={() =>
-                                likedPost
-                                    ? unlikePost(likedPost.id)
-                                    : likePost(item.id)
+                                likedPost ? unlikePost(likedPost.id) : likePost(item.id)
                             }
                             style={[
                                 styles.interaction,
                                 {
-                                    backgroundColor: likedPost
-                                        ? '#2e64e515'
-                                        : 'transparent'
+                                    backgroundColor: likedPost ? '#2e64e515' : 'transparent'
                                 }
-                            ]}>
-                            <Ionicons
-                                name={likeIcon}
-                                size={25}
-                                color={likeIconColor}
-                            />
-                            <Text
-                                style={[
-                                    styles.interactionText,
-                                    {color: likeIconColor}
-                                ]}>
+                            ]}
+                        >
+                            <Ionicons name={likeIcon} size={25} color={likeIconColor} />
+                            <Text style={[styles.interactionText, { color: likeIconColor }]}>
                                 {likeText}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.interaction}
-                            onPress={() => setVisibleComment(true)}>
+                            onPress={() => setVisibleComment(true)}
+                        >
                             <Ionicons name="md-chatbubble-outline" size={25} />
-                            <Text style={styles.interactionText}>
-                                {commentText}
-                            </Text>
+                            <Text style={styles.interactionText}>{commentText}</Text>
                         </TouchableOpacity>
                     </View>
                 </>
             )}
             {visibleComment && (
                 <>
-                    {numberOfComments ? (
-                        <View style={styles.divider} />
-                    ) : undefined}
+                    {numberOfComments ? <View style={styles.divider} /> : undefined}
                     <FlatList
                         data={commentsOfItem}
-                        renderItem={props => {
-                            const isAuthorComment =
-                                props.item.author.id === userId || isAdmin;
+                        renderItem={(props) => {
+                            const isAuthorComment = props.item.author.id === userId || isAdmin;
                             return (
                                 <View style={styles.commentWrapper}>
                                     <View
@@ -308,88 +255,74 @@ const PostCard = ({
                                             flexDirection: 'row',
                                             justifyContent: 'space-between',
                                             alignItems: 'center'
-                                        }}>
+                                        }}
+                                    >
                                         <View style={styles.commentInfo}>
                                             <Image
                                                 defaultSource={require('../assets/default-avatar.jpg')}
                                                 source={{
-                                                    uri: props.item.author
-                                                        .avatar
+                                                    uri: props.item.author.avatar
                                                 }}
                                                 style={styles.commentAvatar}
                                             />
-                                            <Text
-                                                style={styles.commentUserName}>
+                                            <Text style={styles.commentUserName}>
                                                 {props.item.author.name}
                                             </Text>
-                                            <Text style={styles.postTime}>
-                                                2 hours ago
-                                            </Text>
+                                            <Text style={styles.postTime}>2 hours ago</Text>
                                         </View>
                                         {isAuthorComment && (
                                             <Menu
-                                                visible={
-                                                    visible ===
-                                                    `comment-${props.item.id}`
-                                                }
+                                                visible={visible === `comment-${props.item.id}`}
                                                 onDismiss={() => setVisible('')}
                                                 anchor={
                                                     <TouchableOpacity
                                                         onPress={() =>
-                                                            setVisible(
-                                                                `comment-${props.item.id}`
-                                                            )
-                                                        }>
+                                                            setVisible(`comment-${props.item.id}`)
+                                                        }
+                                                    >
                                                         <Ionicons
                                                             name="ellipsis-vertical"
                                                             size={16}
                                                             color={Colors.black}
                                                         />
                                                     </TouchableOpacity>
-                                                }>
+                                                }
+                                            >
                                                 <Menu.Item
                                                     onPress={() => {
                                                         setVisible('');
-                                                        setEditComment(
-                                                            `comment-${props.item.id}`
-                                                        );
-                                                        setEditContent(
-                                                            props.item.content
-                                                        );
+                                                        setEditComment(`comment-${props.item.id}`);
+                                                        setEditContent(props.item.content);
                                                     }}
                                                     title="Edit"
                                                 />
                                                 <Menu.Item
                                                     onPress={() => {
                                                         setVisible('');
-                                                        deleteComment(
-                                                            props.item.id
-                                                        );
+                                                        deleteComment(props.item.id);
                                                     }}
                                                     title="Delete"
                                                 />
                                             </Menu>
                                         )}
                                     </View>
-                                    {editComment ===
-                                    `comment-${props.item.id}` ? (
+                                    {editComment === `comment-${props.item.id}` ? (
                                         <View
                                             style={{
                                                 flexDirection: 'row',
                                                 alignItems: 'center',
                                                 paddingHorizontal: 15
-                                            }}>
+                                            }}
+                                        >
                                             <TextInput
                                                 mode="outlined"
                                                 value={editContent}
-                                                activeOutlineColor={
-                                                    colors.royalBlue
-                                                }
+                                                activeOutlineColor={colors.royalBlue}
                                                 style={{
                                                     width: windowWidth / 2,
                                                     height: windowHeight / 20
                                                 }}
-                                                onChangeText={itemValue =>
+                                                onChangeText={(itemValue) =>
                                                     setEditContent(itemValue)
                                                 }
                                                 placeholder="Write a comment"
@@ -402,14 +335,11 @@ const PostCard = ({
                                                 uppercase={false}
                                                 disabled={editContent === ''}
                                                 onPress={async () => {
-                                                    if (
-                                                        await onEditComment(
-                                                            props.item.id
-                                                        )
-                                                    ) {
+                                                    if (await onEditComment(props.item.id)) {
                                                         setEditComment('');
                                                     }
-                                                }}>
+                                                }}
+                                            >
                                                 Save
                                             </Button>
                                             <Button
@@ -420,10 +350,9 @@ const PostCard = ({
                                                 uppercase={false}
                                                 onPress={() => {
                                                     setEditComment('');
-                                                    setEditContent(
-                                                        props.item.content
-                                                    );
-                                                }}>
+                                                    setEditContent(props.item.content);
+                                                }}
+                                            >
                                                 Cancel
                                             </Button>
                                         </View>
@@ -440,7 +369,8 @@ const PostCard = ({
                             flexDirection: 'row',
                             alignItems: 'center',
                             paddingHorizontal: 15
-                        }}>
+                        }}
+                    >
                         <TextInput
                             mode="outlined"
                             value={content}
@@ -449,14 +379,15 @@ const PostCard = ({
                                 width: '80%',
                                 height: windowHeight / 20
                             }}
-                            onChangeText={itemValue => setContent(itemValue)}
+                            onChangeText={(itemValue) => setContent(itemValue)}
                             placeholder="Write a comment"
                         />
                         <Button
                             color={colors.royalBlue}
                             uppercase={false}
                             disabled={content === ''}
-                            onPress={() => addNewComment(item.id)}>
+                            onPress={() => addNewComment(item.id)}
+                        >
                             Send
                         </Button>
                     </View>

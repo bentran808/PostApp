@@ -1,4 +1,4 @@
-import React, {Component, createContext} from 'react';
+import React, { Component, createContext } from 'react';
 
 // Declaring the state object globally.
 const initialState = {
@@ -19,13 +19,13 @@ const initialState = {
 
 const appContextWrapper = (component?: Component) => ({
     ...initialState,
-    setUser: (user: {access_token: ''; data: User}) => {
+    setUser: (user: { access_token: ''; data: User }) => {
         initialState.user = user;
-        component?.setState({context: appContextWrapper(component)});
+        component?.setState({ context: appContextWrapper(component) });
     },
     logoutUser: () => {
         initialState.user = initialState.user;
-        component?.setState({context: appContextWrapper(component)});
+        component?.setState({ context: appContextWrapper(component) });
     }
 });
 
