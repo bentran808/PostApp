@@ -55,7 +55,7 @@ const MyPostScreen = ({ navigation, route }: MyPostProps) => {
 
     useEffect(() => {
         const data = route.params && route.params.data;
-        console.log('data', data);
+
         if (data) {
             if (data.createdAt === data.updatedAt) {
                 setPosts(sortDesc(posts.concat(data)));

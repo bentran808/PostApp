@@ -2,14 +2,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CancelTokenSource } from 'axios';
 import { axiosInstance } from '../api';
 
-const getAllPostsRequest = async (
-    user: { access_token: string; data: User },
-    source?: CancelTokenSource
-) => {
+const getAllPostsRequest = async (access_token: string | null, source?: CancelTokenSource) => {
     const config = {
         cancelToken: source?.token,
         headers: {
-            Authorization: `Bearer ${user.access_token}`
+            Authorization: `Bearer ${access_token}`
         }
     };
     const concurrentRequests = [
@@ -35,7 +32,9 @@ const getApprovedPosts = (arr: Post[]) => arr.filter((item) => !item.pending);
 
 const setAccessToken = async (access_token: string) =>
     await AsyncStorage.setItem('access_token', access_token);
+
 const getAccessToken = async () => await AsyncStorage.getItem('access_token');
+
 const removeAccessToken = async () => await AsyncStorage.removeItem('access_token');
 
 export {

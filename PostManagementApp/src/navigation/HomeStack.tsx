@@ -7,8 +7,9 @@ import { View } from 'react-native';
 import { Colors } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '../constants/colors';
-import AddPostScreen from '../screens/AddPostScreen';
-import HomeScreen from '../screens/HomeScreen';
+import { Screens } from '../constants/screens';
+import AddPostScreenContainer from '../container/AddPostScreen';
+import HomeScreenContainer from '../container/HomeScreen';
 import ShowImageScreen from '../screens/ShowImageScreen';
 
 type HomeStackNavigationProp = NativeStackNavigationProp<RootStackParamList, 'AddPost'>;
@@ -19,10 +20,10 @@ interface HomeStackProps {
 
 const Stack = createNativeStackNavigator();
 const HomeStack = ({ navigation }: HomeStackProps) => (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName={Screens.HOME_SCREEN}>
         <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
+            name={Screens.HOME_SCREEN}
+            component={HomeScreenContainer}
             options={{
                 headerTitleAlign: 'center',
                 headerTitleStyle: {
@@ -44,8 +45,8 @@ const HomeStack = ({ navigation }: HomeStackProps) => (
             }}
         />
         <Stack.Screen
-            name="AddPost"
-            component={AddPostScreen}
+            name={Screens.ADD_POST_SCREEN}
+            component={AddPostScreenContainer}
             options={({ route }) => {
                 const title = route.params ? 'Update a post' : 'Create a new post';
 
@@ -60,7 +61,7 @@ const HomeStack = ({ navigation }: HomeStackProps) => (
             }}
         />
         <Stack.Screen
-            name="ShowImage"
+            name={Screens.SHOW_IMAGE_SCREEN}
             component={ShowImageScreen}
             options={{
                 headerShown: false

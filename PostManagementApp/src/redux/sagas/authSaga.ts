@@ -6,12 +6,13 @@ import { authActions } from '../slices';
 
 function* handleLogin(payload: String) {
     try {
-        const response: { access_token: string; data: User } = yield call(
+        const response: { data: { access_token: string; data: User } } = yield call(
             authApi.loginRequest,
             payload
         );
+
         if (response) {
-            setAccessToken(response.access_token);
+            yield call(setAccessToken, response.data.access_token);
             yield put(authActions.loginSuccess(response.data));
         }
     } catch (error) {
@@ -22,7 +23,6 @@ function* handleLogin(payload: String) {
 }
 
 function* handleLogout() {
-    console.log('logout');
     yield call(removeAccessToken);
 }
 

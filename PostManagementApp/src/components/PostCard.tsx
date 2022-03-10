@@ -12,20 +12,20 @@ import { formatPrice } from '../utils/helpers';
 
 type PostCardProps = {
     item: Post;
-    onPress: () => void;
-    onDelete: () => void;
-    onEdit: () => void;
     isMyPost?: Boolean;
     likesOfItem?: PostLike[];
     commentsOfItem?: PostComment[];
-    likePost?: (postId: Number) => void;
-    unlikePost?: (likeId: Number) => void;
     content?: string;
-    setContent?: (itemValue: string) => void;
-    addNewComment?: (postId: Number) => void;
-    deleteComment?: (commentId: Number) => void;
     editContent?: string;
-    setEditContent?: (itemValue: string) => void;
+    onShowImage: (photos: Photo[]) => void;
+    onEdit: () => void;
+    onDelete: () => void;
+    onLikePost?: (postId: Number) => void;
+    onUnlikePost?: (likeId: Number) => void;
+    onSetContent?: (value: string) => void;
+    onSetEditContent?: (value: string) => void;
+    onAddNewComment?: (postId: Number) => void;
+    onDeleteComment?: (commentId: Number) => void;
     onEditComment?: (commentId: Number) => Promise<boolean>;
     approvePost?: () => Promise<void>;
     rejectPost?: () => Promise<void>;
@@ -33,19 +33,20 @@ type PostCardProps = {
 
 const PostCard = ({
     item,
-    onDelete,
-    onEdit,
     isMyPost = false,
     likesOfItem = [],
     commentsOfItem = [],
-    likePost = () => {},
-    unlikePost = () => {},
     content = '',
-    setContent = () => {},
-    addNewComment = () => {},
-    deleteComment = () => {},
     editContent = '',
-    setEditContent = () => {},
+    onShowImage,
+    onEdit,
+    onDelete,
+    onLikePost = () => {},
+    onUnlikePost = () => {},
+    onSetContent = () => {},
+    onSetEditContent = () => {},
+    onAddNewComment = () => {},
+    onDeleteComment = () => {},
     onEditComment = async () => false,
     approvePost = async () => {},
     rejectPost = async () => {}
@@ -80,10 +81,12 @@ const PostCard = ({
 
     return (
         <View style={styles.card} key={`Post-${item.id}`}>
-            <Slider
-                images={item.photos.map((photo: { uri: string }) => photo.uri)}
-                imageHeight={200}
-            />
+            <TouchableOpacity onPress={() => onShowImage(item.photos)}>
+                <Slider
+                    images={item.photos.map((photo: { uri: string }) => photo.uri)}
+                    imageHeight={200}
+                />
+            </TouchableOpacity>
             <View style={styles.infoSection}>
                 <View>
                     <Text style={styles.postTitle}>{item.title}</Text>
@@ -217,7 +220,7 @@ const PostCard = ({
                     <View style={styles.interactionWrapper}>
                         <TouchableOpacity
                             onPress={() =>
-                                likedPost ? unlikePost(likedPost.id) : likePost(item.id)
+                                likedPost ? onUnlikePost(likedPost.id) : onLikePost(item.id)
                             }
                             style={[
                                 styles.interaction,
@@ -292,14 +295,14 @@ const PostCard = ({
                                                     onPress={() => {
                                                         setVisible('');
                                                         setEditComment(`comment-${props.item.id}`);
-                                                        setEditContent(props.item.content);
+                                                        onSetEditContent(props.item.content);
                                                     }}
                                                     title="Edit"
                                                 />
                                                 <Menu.Item
                                                     onPress={() => {
                                                         setVisible('');
-                                                        deleteComment(props.item.id);
+                                                        onDeleteComment(props.item.id);
                                                     }}
                                                     title="Delete"
                                                 />
@@ -323,7 +326,7 @@ const PostCard = ({
                                                     height: windowHeight / 20
                                                 }}
                                                 onChangeText={(itemValue) =>
-                                                    setEditContent(itemValue)
+                                                    onSetEditContent(itemValue)
                                                 }
                                                 placeholder="Write a comment"
                                             />
@@ -350,7 +353,7 @@ const PostCard = ({
                                                 uppercase={false}
                                                 onPress={() => {
                                                     setEditComment('');
-                                                    setEditContent(props.item.content);
+                                                    onSetEditContent(props.item.content);
                                                 }}
                                             >
                                                 Cancel
@@ -379,14 +382,14 @@ const PostCard = ({
                                 width: '80%',
                                 height: windowHeight / 20
                             }}
-                            onChangeText={(itemValue) => setContent(itemValue)}
+                            onChangeText={(itemValue) => onSetContent(itemValue)}
                             placeholder="Write a comment"
                         />
                         <Button
                             color={colors.royalBlue}
                             uppercase={false}
                             disabled={content === ''}
-                            onPress={() => addNewComment(item.id)}
+                            onPress={() => onAddNewComment(item.id)}
                         >
                             Send
                         </Button>

@@ -61,6 +61,23 @@
       "createdAt": 1646707000191,
       "updatedAt": 1646707338615,
       "id": 1
+    },
+    {
+      "author": {
+        "id": "621c4188dece66a40dad2951",
+        "avatar": "https://picsum.photos/200",
+        "name": "Admin",
+        "gender": "male",
+        "email": "admin@admin.com",
+        "phone": "+84 (919) 507231",
+        "address": "199 Bergen Street, Bowie, Oregon, 7933",
+        "role": "admin"
+      },
+      "postId": "1",
+      "content": "a",
+      "createdAt": 1646903851517,
+      "updatedAt": 1646903851517,
+      "id": 2
     }
   ]
 }

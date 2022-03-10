@@ -10,7 +10,7 @@ type RootStackParamList = {
           }
         | undefined;
     ShowImage: {
-        url: {};
+        photos: Photo[];
     };
     MyPost: {
         data: Post;
@@ -60,4 +60,13 @@ type PostComment = {
     content: string;
     createdAt: Number;
     updatedAt: Number;
+};
+
+type Photo = {
+    height: Number;
+    uri: string;
+    width: Number;
+    fileName: string;
+    type: string;
+    fileSize: Number;
 };

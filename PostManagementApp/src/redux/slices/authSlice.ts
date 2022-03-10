@@ -4,12 +4,14 @@ interface AuthState {
     isLoggedIn: Boolean;
     logging?: Boolean;
     currentUser?: User;
+    accessToken: string | null;
 }
 
 const initialState: AuthState = {
     isLoggedIn: false,
     logging: false,
-    currentUser: undefined
+    currentUser: undefined,
+    accessToken: ''
 };
 
 const authSlice = createSlice({
@@ -19,10 +21,11 @@ const authSlice = createSlice({
         login(state, _action: PayloadAction<String>) {
             state.logging = true;
         },
-        loginSuccess(state, _action: PayloadAction<User>) {
+        loginSuccess(state, _action: PayloadAction<{ data: User; access_token: string }>) {
             state.logging = false;
             state.isLoggedIn = true;
-            state.currentUser = _action.payload;
+            state.currentUser = _action.payload.data;
+            state.accessToken = _action.payload.access_token;
         },
         loginFailed(state, _action: PayloadAction<String>) {
             state.logging = false;
@@ -30,6 +33,7 @@ const authSlice = createSlice({
         logout(state) {
             state.isLoggedIn = false;
             state.currentUser = undefined;
+            state.accessToken = '';
         }
     }
 });

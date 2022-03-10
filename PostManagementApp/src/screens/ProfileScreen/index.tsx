@@ -1,10 +1,9 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { colors } from '../../constants/colors';
 import { useAppDispatch } from '../../hooks';
-import { AppContext } from '../../navigation/AppContext';
 import { authActions } from '../../redux/slices';
 
 type LoginNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -14,7 +13,6 @@ interface LoginProps {
 }
 
 const ProfileScreen = ({ navigation }: LoginProps) => {
-    const { logoutUser } = useContext(AppContext);
     const dispatch = useAppDispatch();
 
     return (
@@ -24,7 +22,6 @@ const ProfileScreen = ({ navigation }: LoginProps) => {
                 color={colors.royalBlue}
                 uppercase={false}
                 onPress={() => {
-                    logoutUser();
                     dispatch(authActions.logout());
                     navigation.navigate('Login');
                 }}

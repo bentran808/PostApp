@@ -1,19 +1,14 @@
 import React from 'react';
-import { Image, ImageSourcePropType, StyleSheet, View } from 'react-native';
-import { windowHeight, windowWidth } from '../../utils/Dimensions';
+import { StyleSheet, View } from 'react-native';
+import Slider from 'react-native-hook-image-slider';
+import { windowHeight } from '../../utils/Dimensions';
 
-const ShowImageScreen = ({ route }: { route: { params: { url: ImageSourcePropType } } }) => {
-    const imageUrl = route.params.url;
+const ShowImageScreen = ({ route }: { route: { params: { photos: Photo[] } } }) => {
+    const photos = route.params.photos;
+
     return (
         <View style={styles.container}>
-            <Image
-                source={imageUrl}
-                style={{
-                    height: windowHeight / 3,
-                    width: windowWidth
-                }}
-                resizeMode="cover"
-            />
+            <Slider images={photos.map((photo: { uri: string }) => photo.uri)} />
         </View>
     );
 };

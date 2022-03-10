@@ -1,210 +1,54 @@
 /* eslint-disable react-native/no-inline-styles */
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import {
-    FlatList,
-    Image,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
-} from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
+import React from 'react';
+import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Chip, Colors, HelperText, TextInput } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { axiosInstance } from '../../api';
 import { colors } from '../../constants/colors';
 import { errorMessages } from '../../constants/messages';
-import { AppContext } from '../../navigation/AppContext';
+import {
+    ErrorInputState,
+    initialErrorInput,
+    initialPost,
+    PostState
+} from '../../container/AddPostScreen';
+import { styles } from '../../styles/AddPostScreenStyles';
 
-type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+type AddPostScreenProps = {
+    post: PostState;
+    postId: Number;
+    errorInput: ErrorInputState;
+    onChoosePhoto: () => void;
+    onSetPost: (post: PostState) => void;
+    onSetErrorInput: (errorInput: ErrorInputState) => void;
+    onAddNewPost: () => void;
+    onEditPost: () => void;
+};
 
-interface AddPostProps {
-    navigation: AddPostNavigationProp;
-    route: { params: { editedId: Number } };
-}
-
-const AddPostScreen = ({ navigation, route }: AddPostProps) => {
-    const { user } = useContext(AppContext);
-    const [photos, setPhoto] = useState<any>([]);
-    const [company, setCompany] = useState('');
-    const [year, setYear] = useState('');
-    const [type, setType] = useState('');
-    const [status, setStatus] = useState(true);
-    const [price, setPrice] = useState('');
-    const [address, setAddress] = useState('');
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const postId = route.params && route.params.editedId;
-    const [errorInput, setErrorInput] = useState({
-        company: false,
-        year: false,
-        invalidYear: false,
-        type: false,
-        price: false,
-        minOfPrice: false,
-        maxOfPrice: false,
-        title: false,
-        description: false
-    });
-
-    useEffect(() => {
-        if (postId) {
-            const source = axios.CancelToken.source();
-            const getEditedPost = async () => {
-                try {
-                    const response = await axiosInstance.get(`api/posts/${postId}`, {
-                        cancelToken: source.token,
-                        headers: {
-                            Authorization: `Bearer ${user.access_token}`
-                        }
-                    });
-                    if (response.status === 200) {
-                        setPhoto(response.data.photos);
-                        setCompany(response.data.company);
-                        setYear(response.data.year);
-                        setType(response.data.type);
-                        setStatus(response.data.status);
-                        setPrice(response.data.price);
-                        setAddress(response.data.address);
-                        setTitle(response.data.title);
-                        setDescription(response.data.description);
-                        return;
-                    } else {
-                        throw new Error('Failed to fetch edit post data');
-                    }
-                } catch (error) {
-                    if (axios.isCancel(error)) {
-                        console.log('Data fetching cancelled');
-                    } else {
-                        console.log(error);
-                    }
-                }
-            };
-            getEditedPost();
-            return () => source.cancel('Data fetching cancelled');
-        }
-    }, [postId, user.access_token]);
-
-    const handleChoosePhoto = () => {
-        launchImageLibrary(
-            {
-                mediaType: 'photo',
-                selectionLimit: 0
-            },
-            (response) => {
-                if (response && response.assets) {
-                    setPhoto(photos.concat(response.assets));
-                }
-            }
-        );
-    };
-
-    const validateInput = () => {
-        setErrorInput({
-            ...errorInput,
-            company: !company,
-            year: !year,
-            type: !type,
-            price: !price,
-            title: !title,
-            description: !description
-        });
-        return;
-    };
-
-    const addNewPost = async () => {
-        validateInput();
-        try {
-            const response = await axiosInstance.post(
-                'api/posts',
-                {
-                    author: user.data,
-                    company,
-                    year,
-                    type,
-                    status,
-                    price,
-                    address: address || user.data.address,
-                    title,
-                    description,
-                    photos,
-                    pending: true
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.access_token}`
-                    }
-                }
-            );
-            if ([200, 201].includes(response.status)) {
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'HomeScreen' }]
-                });
-                navigation.navigate('MyPost', {
-                    data: response.data
-                });
-                return;
-            } else {
-                throw new Error('Failed to add a new post');
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const editPost = async () => {
-        validateInput();
-        try {
-            const response = await axiosInstance.patch(
-                `api/posts/${postId}`,
-                {
-                    photos,
-                    company,
-                    year,
-                    type,
-                    status,
-                    price,
-                    address: address || user.data.address,
-                    title,
-                    description
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.access_token}`
-                    }
-                }
-            );
-            if (response.status === 200) {
-                navigation.navigate('HomeScreen', {
-                    data: response.data
-                });
-                return;
-            } else {
-                throw new Error('Failed to update a post');
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
+const AddPostScreen = ({
+    post = initialPost,
+    postId,
+    errorInput = initialErrorInput,
+    onChoosePhoto,
+    onSetPost,
+    onSetErrorInput,
+    onAddNewPost,
+    onEditPost
+}: AddPostScreenProps) => {
+    console.log('check', typeof onSetPost);
     return (
         <ScrollView style={styles.body}>
             <View style={styles.photoSection}>
                 <View style={styles.photoWrapper}>
-                    <TouchableOpacity onPress={handleChoosePhoto} style={styles.photoButton}>
+                    <TouchableOpacity onPress={onChoosePhoto} style={styles.photoButton}>
                         <Ionicons name="camera" size={30} color={colors.nightRider} />
                         <Text>Choose Photo</Text>
                     </TouchableOpacity>
                 </View>
-                {photos.length ? (
+                {(post.photos || []).length ? (
                     <FlatList
-                        data={photos}
+                        data={post.photos}
                         horizontal
-                        extraData={photos}
+                        extraData={post.photos}
                         renderItem={({ item, index }) => (
                             <>
                                 <Image source={{ uri: item.uri }} style={styles.previewPhoto} />
@@ -214,8 +58,9 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
                                     color={colors.freeSpeechRed}
                                     style={styles.closeButton}
                                     onPress={() => {
-                                        photos.splice(index, 1);
-                                        setPhoto((prevState: any) => [...prevState]);
+                                        post.photos.splice(index, 1);
+                                        // onSetPost('photos', post.photos);
+                                        onSetPost({ ...post, photos: post.photos });
                                     }}
                                 />
                             </>
@@ -226,28 +71,27 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
             <Text style={styles.titleSection}>Details</Text>
             <View style={styles.section}>
                 <TextInput
-                    value={company}
-                    onChangeText={(itemValue) => setCompany(itemValue)}
+                    value={post.company}
+                    onChangeText={(itemValue) => onSetPost({ ...post, company: itemValue })}
                     label="Product Company"
                     mode="outlined"
                     error={errorInput.company}
-                    onBlur={() => setErrorInput({ ...errorInput, company: !company })}
                 />
                 <HelperText type="error" visible={errorInput.company}>
                     {errorMessages.requiredInput}
                 </HelperText>
                 <TextInput
-                    value={year}
-                    onChangeText={(itemValue) => setYear(itemValue)}
+                    value={post.year}
+                    onChangeText={(itemValue) => onSetPost({ ...post, year: itemValue })}
                     label="Year of registration"
                     keyboardType="number-pad"
                     mode="outlined"
                     error={errorInput.year || errorInput.invalidYear}
                     onBlur={() => {
-                        const hasError = Number(year) > new Date().getFullYear();
-                        setErrorInput({
+                        const hasError = Number(post.year) > new Date().getFullYear();
+                        onSetErrorInput({
                             ...errorInput,
-                            year: !year,
+                            year: !post.year,
                             invalidYear: hasError
                         });
                     }}
@@ -257,12 +101,12 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
                     {errorInput.invalidYear && 'You must enter year less than current year!'}
                 </HelperText>
                 <TextInput
-                    value={type}
-                    onChangeText={(itemValue) => setType(itemValue)}
+                    value={post.type}
+                    onChangeText={(itemValue) => onSetPost({ ...post, type: itemValue })}
                     label="Type of product"
                     mode="outlined"
                     error={errorInput.type}
-                    onBlur={() => setErrorInput({ ...errorInput, type: !type })}
+                    onBlur={() => onSetErrorInput({ ...errorInput, type: !post.type })}
                 />
                 <HelperText type="error" visible={errorInput.type}>
                     {errorMessages.requiredInput}
@@ -270,46 +114,46 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
                 <Text>Status</Text>
                 <View style={styles.statusWrapper}>
                     <Chip
-                        selected={status}
-                        selectedColor={status ? colors.selectiveYellow : Colors.black}
+                        selected={post.status}
+                        selectedColor={post.status ? colors.selectiveYellow : Colors.black}
                         textStyle={{
-                            color: status ? colors.selectiveYellow : Colors.black
+                            color: post.status ? colors.selectiveYellow : Colors.black
                         }}
                         style={{
-                            backgroundColor: status ? colors.oasis : colors.lightGrey,
+                            backgroundColor: post.status ? colors.oasis : colors.lightGrey,
                             marginRight: 10
                         }}
-                        onPress={() => setStatus(true)}
+                        onPress={() => onSetPost({ ...post, status: true })}
                     >
                         Used
                     </Chip>
                     <Chip
-                        selected={!status}
-                        selectedColor={!status ? colors.selectiveYellow : Colors.black}
+                        selected={!post.status}
+                        selectedColor={!post.status ? colors.selectiveYellow : Colors.black}
                         textStyle={{
-                            color: !status ? colors.selectiveYellow : Colors.black
+                            color: !post.status ? colors.selectiveYellow : Colors.black
                         }}
                         style={{
-                            backgroundColor: !status ? colors.oasis : colors.lightGrey
+                            backgroundColor: !post.status ? colors.oasis : colors.lightGrey
                         }}
-                        onPress={() => setStatus(false)}
+                        onPress={() => onSetPost({ ...post, status: false })}
                     >
                         New
                     </Chip>
                 </View>
                 <TextInput
-                    value={price}
-                    onChangeText={(itemValue) => setPrice(itemValue)}
+                    value={post.price}
+                    onChangeText={(itemValue) => onSetPost({ ...post, price: itemValue })}
                     label="Price"
                     keyboardType="number-pad"
                     mode="outlined"
                     error={errorInput.price || errorInput.minOfPrice || errorInput.maxOfPrice}
                     onBlur={() =>
-                        setErrorInput({
+                        onSetErrorInput({
                             ...errorInput,
-                            price: !price,
-                            minOfPrice: Number(price) < 1000,
-                            maxOfPrice: Number(price) > 100000000
+                            price: !post.price,
+                            minOfPrice: Number(post.price) < 1000,
+                            maxOfPrice: Number(post.price) > 100000000
                         })
                     }
                 />
@@ -325,8 +169,8 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
                         'You can only enter the maximum price 100.000.000 VND!'}
                 </HelperText>
                 <TextInput
-                    value={address}
-                    onChangeText={(itemValue) => setAddress(itemValue)}
+                    value={post.address}
+                    onChangeText={(itemValue) => onSetPost({ ...post, address: itemValue })}
                     label="Address"
                     mode="outlined"
                 />
@@ -334,28 +178,28 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
             <Text style={styles.titleSection}>Title and Description</Text>
             <View style={styles.section}>
                 <TextInput
-                    value={title}
-                    onChangeText={(itemValue) => setTitle(itemValue)}
+                    value={post.title}
+                    onChangeText={(itemValue) => onSetPost({ ...post, title: itemValue })}
                     label="Title"
                     mode="outlined"
                     error={errorInput.title}
-                    onBlur={() => setErrorInput({ ...errorInput, title: !title })}
+                    onBlur={() => onSetErrorInput({ ...errorInput, title: !post.title })}
                 />
                 <HelperText type="error" visible={errorInput.title}>
                     {errorMessages.requiredInput}
                 </HelperText>
                 <TextInput
-                    value={description}
-                    onChangeText={(itemValue) => setDescription(itemValue)}
+                    value={post.description}
+                    onChangeText={(itemValue) => onSetPost({ ...post, description: itemValue })}
                     label="Description"
                     multiline
                     numberOfLines={4}
                     mode="outlined"
                     error={errorInput.description}
                     onBlur={() =>
-                        setErrorInput({
+                        onSetErrorInput({
                             ...errorInput,
-                            description: !description
+                            description: !post.description
                         })
                     }
                 />
@@ -369,7 +213,7 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
                     color={colors.royalBlue}
                     disabled={Object.values(errorInput).includes(true)}
                     onPress={() => {
-                        postId ? editPost() : addNewPost();
+                        postId ? onEditPost() : onAddNewPost();
                     }}
                 >
                     {postId ? 'Save' : 'Post'}
@@ -378,67 +222,5 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
         </ScrollView>
     );
 };
-
-const styles = StyleSheet.create({
-    body: {
-        flex: 1,
-        paddingVertical: 20
-    },
-    photoSection: {
-        flexDirection: 'row'
-    },
-    photoWrapper: {
-        padding: 10,
-        borderColor: colors.nightRider,
-        backgroundColor: colors.gainsboro,
-        marginLeft: 10,
-        flex: 0
-    },
-    photoButton: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    previewPhoto: {
-        width: 75,
-        height: 75,
-        marginLeft: 10
-    },
-    closeButton: {
-        position: 'relative',
-        left: -15,
-        top: -5
-    },
-    titleSection: {
-        color: colors.nightRider,
-        fontWeight: 'bold',
-        paddingHorizontal: 10
-    },
-    section: {
-        backgroundColor: Colors.white,
-        marginBottom: 20,
-        padding: 10,
-        width: '100%'
-    },
-    statusWrapper: {
-        flexDirection: 'row',
-        marginVertical: 10
-    },
-    statusInactive: {
-        backgroundColor: '#ccc',
-        color: Colors.black,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 10,
-        marginRight: 10
-    },
-    statusActive: {
-        backgroundColor: '#faedc8',
-        color: '#fcba03',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 10,
-        marginRight: 10
-    }
-});
 
 export default AddPostScreen;

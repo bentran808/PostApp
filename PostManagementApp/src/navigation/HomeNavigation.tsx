@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { colors } from '../constants/colors';
+import { Tabs } from '../constants/screens';
 import MyPostScreen from '../screens/MyPostScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HomeStack from './HomeStack';
@@ -10,7 +11,7 @@ const Tab = createBottomTabNavigator();
 const HomeNavigation = () => {
     return (
         <Tab.Navigator
-            initialRouteName="HomeTab"
+            initialRouteName={Tabs.HOME}
             screenOptions={{
                 headerShown: false,
                 tabBarStyle: { height: 40 },
@@ -18,7 +19,7 @@ const HomeNavigation = () => {
             }}
         >
             <Tab.Screen
-                name="HomeTab"
+                name={Tabs.HOME}
                 component={HomeStack}
                 options={{
                     tabBarLabel: 'Home',
@@ -28,7 +29,7 @@ const HomeNavigation = () => {
                 }}
             />
             <Tab.Screen
-                name="MyPost"
+                name={Tabs.MY_POST}
                 component={MyPostScreen}
                 options={{
                     tabBarLabel: 'My Post',
@@ -38,7 +39,7 @@ const HomeNavigation = () => {
                 }}
             />
             <Tab.Screen
-                name="Profile"
+                name={Tabs.PROFILE}
                 component={ProfileScreen}
                 options={{
                     tabBarLabel: 'Profile',
