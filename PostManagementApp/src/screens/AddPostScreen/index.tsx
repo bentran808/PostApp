@@ -18,7 +18,7 @@ type AddPostScreenProps = {
     postId: Number;
     errorInput: ErrorInputState;
     onChoosePhoto: () => void;
-    onSetPost: (post: PostState) => void;
+    onSetPost: (key: string, value: any) => void;
     onSetErrorInput: (errorInput: ErrorInputState) => void;
     onAddNewPost: () => void;
     onEditPost: () => void;
@@ -34,7 +34,6 @@ const AddPostScreen = ({
     onAddNewPost,
     onEditPost
 }: AddPostScreenProps) => {
-    console.log('check', typeof onSetPost);
     return (
         <ScrollView style={styles.body}>
             <View style={styles.photoSection}>
@@ -59,8 +58,7 @@ const AddPostScreen = ({
                                     style={styles.closeButton}
                                     onPress={() => {
                                         post.photos.splice(index, 1);
-                                        // onSetPost('photos', post.photos);
-                                        onSetPost({ ...post, photos: post.photos });
+                                        onSetPost('photos', post.photos);
                                     }}
                                 />
                             </>
@@ -72,7 +70,7 @@ const AddPostScreen = ({
             <View style={styles.section}>
                 <TextInput
                     value={post.company}
-                    onChangeText={(itemValue) => onSetPost({ ...post, company: itemValue })}
+                    onChangeText={(itemValue) => onSetPost('company', itemValue)}
                     label="Product Company"
                     mode="outlined"
                     error={errorInput.company}
@@ -82,7 +80,7 @@ const AddPostScreen = ({
                 </HelperText>
                 <TextInput
                     value={post.year}
-                    onChangeText={(itemValue) => onSetPost({ ...post, year: itemValue })}
+                    onChangeText={(itemValue) => onSetPost('year', itemValue)}
                     label="Year of registration"
                     keyboardType="number-pad"
                     mode="outlined"
@@ -102,7 +100,7 @@ const AddPostScreen = ({
                 </HelperText>
                 <TextInput
                     value={post.type}
-                    onChangeText={(itemValue) => onSetPost({ ...post, type: itemValue })}
+                    onChangeText={(itemValue) => onSetPost('type', itemValue)}
                     label="Type of product"
                     mode="outlined"
                     error={errorInput.type}
@@ -123,7 +121,7 @@ const AddPostScreen = ({
                             backgroundColor: post.status ? colors.oasis : colors.lightGrey,
                             marginRight: 10
                         }}
-                        onPress={() => onSetPost({ ...post, status: true })}
+                        onPress={() => onSetPost('status', true)}
                     >
                         Used
                     </Chip>
@@ -136,14 +134,14 @@ const AddPostScreen = ({
                         style={{
                             backgroundColor: !post.status ? colors.oasis : colors.lightGrey
                         }}
-                        onPress={() => onSetPost({ ...post, status: false })}
+                        onPress={() => onSetPost('status', false)}
                     >
                         New
                     </Chip>
                 </View>
                 <TextInput
                     value={post.price}
-                    onChangeText={(itemValue) => onSetPost({ ...post, price: itemValue })}
+                    onChangeText={(itemValue) => onSetPost('price', itemValue)}
                     label="Price"
                     keyboardType="number-pad"
                     mode="outlined"
@@ -170,7 +168,7 @@ const AddPostScreen = ({
                 </HelperText>
                 <TextInput
                     value={post.address}
-                    onChangeText={(itemValue) => onSetPost({ ...post, address: itemValue })}
+                    onChangeText={(itemValue) => onSetPost('address', itemValue)}
                     label="Address"
                     mode="outlined"
                 />
@@ -179,7 +177,7 @@ const AddPostScreen = ({
             <View style={styles.section}>
                 <TextInput
                     value={post.title}
-                    onChangeText={(itemValue) => onSetPost({ ...post, title: itemValue })}
+                    onChangeText={(itemValue) => onSetPost('title', itemValue)}
                     label="Title"
                     mode="outlined"
                     error={errorInput.title}
@@ -190,7 +188,7 @@ const AddPostScreen = ({
                 </HelperText>
                 <TextInput
                     value={post.description}
-                    onChangeText={(itemValue) => onSetPost({ ...post, description: itemValue })}
+                    onChangeText={(itemValue) => onSetPost('description', itemValue)}
                     label="Description"
                     multiline
                     numberOfLines={4}

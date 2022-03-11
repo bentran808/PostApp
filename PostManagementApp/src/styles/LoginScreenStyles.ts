@@ -7,12 +7,10 @@ export const styles = StyleSheet.create({
         padding: 20
     },
     alignCenter: {
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 20
     },
     textCenter: {
         textAlign: 'center'
-    },
-    marginBottom: {
-        marginBottom: 10
     }
 });

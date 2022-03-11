@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { getAccessToken } from '../utils/helpers';
 
 export const axiosInstance = axios.create({
     baseURL: 'http://192.168.56.1:3000/',
@@ -9,8 +10,11 @@ export const axiosInstance = axios.create({
 
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
-    function (config: AxiosRequestConfig) {
+    async function (config: AxiosRequestConfig) {
         // Do something before request is sent
+        const access_token = await getAccessToken();
+        config.headers!.Authorization = access_token ? `Bearer ${access_token}` : '';
+
         return config;
     },
     function (error) {

@@ -41,6 +41,40 @@
       "createdAt": 1646704144185,
       "updatedAt": 1646704627747,
       "id": 1
+    },
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "company": "test",
+      "year": 2021,
+      "type": "test",
+      "status": true,
+      "price": 2222,
+      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+      "title": "test",
+      "description": "test",
+      "photos": [
+        {
+          "height": 480,
+          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_938f9c3b-0cb0-4a1a-8b3d-726c8f9c726d.jpg",
+          "width": 480,
+          "fileName": "rn_image_picker_lib_temp_938f9c3b-0cb0-4a1a-8b3d-726c8f9c726d.jpg",
+          "type": "image/jpeg",
+          "fileSize": 6815
+        }
+      ],
+      "pending": true,
+      "createdAt": 1646994727979,
+      "updatedAt": 1646994727979,
+      "id": 2
     }
   ],
   "likes": [],

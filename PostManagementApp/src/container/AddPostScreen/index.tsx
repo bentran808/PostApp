@@ -3,7 +3,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { axiosInstance } from '../../api';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { postActions, selectAccessToken, selectCurrentUser } from '../../redux/slices';
 import AddPostScreen from '../../screens/AddPostScreen';
 
 type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -64,8 +65,9 @@ export const initialErrorInput = {
 const AddPostScreenContainer = ({ navigation, route }: AddPostProps) => {
     const [post, setPost] = useState<PostState>(initialPost);
     const [errorInput, setErrorInput] = useState<ErrorInputState>(initialErrorInput);
-    const accessToken = useAppSelector((state) => state.auth.accessToken);
-    const currentUser = useAppSelector((state) => state.auth.currentUser);
+    const dispatch = useAppDispatch();
+    const accessToken = useAppSelector((state) => selectAccessToken(state));
+    const currentUser = useAppSelector((state) => selectCurrentUser(state));
     const postId = route.params && route.params.editedId;
 
     useEffect(() => {
@@ -122,46 +124,31 @@ const AddPostScreenContainer = ({ navigation, route }: AddPostProps) => {
         );
     };
 
-    const handleChangePost = (data: PostState) => setPost(data);
+    const handleChangePost = (key: string, value: any) => {
+        setPost({ ...post, [key]: value });
+    };
 
     const handleAddNewPost = async () => {
-        try {
-            const response = await axiosInstance.post(
-                'api/posts',
-                {
-                    author: currentUser,
-                    company: post.company,
-                    year: post.year,
-                    type: post.type,
-                    status: post.status,
-                    price: post.price,
-                    address: post.address || currentUser?.address,
-                    title: post.title,
-                    description: post.description,
-                    photos: post.photos,
-                    pending: true
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                }
-            );
-            if ([200, 201].includes(response.status)) {
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'HomeScreen' }]
-                });
-                navigation.navigate('MyPost', {
-                    data: response.data
-                });
-                return;
-            } else {
-                throw new Error('Failed to add a new post');
-            }
-        } catch (error) {
-            console.log(error);
-        }
+        dispatch(
+            postActions.addPost({
+                author: currentUser,
+                company: post.company,
+                year: Number(post.year),
+                type: post.type,
+                status: post.status,
+                price: Number(post.price),
+                address: post.address || currentUser.address,
+                title: post.title,
+                description: post.description,
+                photos: post.photos,
+                pending: true
+            })
+        );
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'HomeScreen' }]
+        });
+        navigation.navigate('MyPost');
     };
 
     const handleEditPost = async () => {

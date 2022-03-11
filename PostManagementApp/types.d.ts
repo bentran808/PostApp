@@ -12,9 +12,7 @@ type RootStackParamList = {
     ShowImage: {
         photos: Photo[];
     };
-    MyPost: {
-        data: Post;
-    };
+    MyPost: undefined;
 };
 
 type User = {
@@ -35,14 +33,14 @@ type Post = {
     type: string;
     status: boolean;
     price: number;
-    address: string;
+    address?: string;
     title: string;
     description: string;
     photos: Array;
     pending: Boolean;
-    createdAt: Number;
-    updatedAt: Number;
-    id: Number;
+    createdAt?: Number;
+    updatedAt?: Number;
+    id?: Number;
 };
 
 type PostLike = {

@@ -1,25 +1,40 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
 interface AuthState {
     isLoggedIn: Boolean;
     logging?: Boolean;
-    currentUser?: User;
+    currentUser: User;
     accessToken: string | null;
+    errorMessage: string;
 }
+
+const initialUser = {
+    id: '',
+    avatar: '',
+    name: '',
+    gender: '',
+    email: '',
+    phone: '',
+    address: '',
+    role: ''
+};
 
 const initialState: AuthState = {
     isLoggedIn: false,
     logging: false,
-    currentUser: undefined,
-    accessToken: ''
+    currentUser: initialUser,
+    accessToken: '',
+    errorMessage: ''
 };
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        login(state, _action: PayloadAction<String>) {
+        login(state, _action: PayloadAction<string>) {
             state.logging = true;
+            state.errorMessage = '';
         },
         loginSuccess(state, _action: PayloadAction<{ data: User; access_token: string }>) {
             state.logging = false;
@@ -27,21 +42,26 @@ const authSlice = createSlice({
             state.currentUser = _action.payload.data;
             state.accessToken = _action.payload.access_token;
         },
-        loginFailed(state, _action: PayloadAction<String>) {
+        loginFailed(state, _action: PayloadAction<string>) {
             state.logging = false;
+            state.errorMessage = _action.payload;
         },
         logout(state) {
             state.isLoggedIn = false;
-            state.currentUser = undefined;
+            state.currentUser = initialUser;
             state.accessToken = '';
         }
     }
 });
 
 // Actions
-const authActions = authSlice.actions;
+export const authActions = authSlice.actions;
+
+// Selectors
+export const selectAccessToken = (state: RootState) => state.auth.accessToken;
+export const selectCurrentUser = (state: RootState) => state.auth.currentUser;
 
 // Reducer
 const authReducer = authSlice.reducer;
 
-export { authActions, authReducer };
+export default authReducer;

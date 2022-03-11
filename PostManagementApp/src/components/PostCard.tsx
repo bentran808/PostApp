@@ -1,12 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Slider from 'react-native-hook-image-slider';
 import { Button, Colors, Menu, TextInput } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../constants/colors';
-import { AppContext } from '../navigation/AppContext';
+import { useAppSelector } from '../hooks';
+import { selectCurrentUser } from '../redux/slices';
+import { DefaultAvatar } from '../theme/Images';
 import { windowHeight, windowWidth } from '../utils/Dimensions';
 import { formatPrice } from '../utils/helpers';
 
@@ -55,9 +57,9 @@ const PostCard = ({
     const [visibleDetails, setVisibleDetails] = useState(false);
     const [visibleComment, setVisibleComment] = useState(false);
     const [editComment, setEditComment] = useState('');
-    const { user } = useContext(AppContext);
-    const userId = user.data.id;
-    const isAdmin = user.data.role === 'admin';
+    const currentUser = useAppSelector((state) => selectCurrentUser(state));
+    const userId = currentUser?.id;
+    const isAdmin = currentUser?.role === 'admin';
     const isAuthor = userId === item.author.id || isAdmin;
     const likedPost = likesOfItem.find((like) => like.author.id === userId);
     const numberOfLikes = likesOfItem.length;
@@ -129,7 +131,7 @@ const PostCard = ({
                     <View style={styles.divider} />
                     <View style={styles.userInfo}>
                         <Image
-                            defaultSource={require('../assets/default-avatar.jpg')}
+                            defaultSource={DefaultAvatar}
                             source={{
                                 uri: item.author.avatar
                             }}
@@ -220,7 +222,7 @@ const PostCard = ({
                     <View style={styles.interactionWrapper}>
                         <TouchableOpacity
                             onPress={() =>
-                                likedPost ? onUnlikePost(likedPost.id) : onLikePost(item.id)
+                                likedPost ? onUnlikePost(likedPost.id) : onLikePost(item.id || 0)
                             }
                             style={[
                                 styles.interaction,
@@ -262,7 +264,7 @@ const PostCard = ({
                                     >
                                         <View style={styles.commentInfo}>
                                             <Image
-                                                defaultSource={require('../assets/default-avatar.jpg')}
+                                                defaultSource={DefaultAvatar}
                                                 source={{
                                                     uri: props.item.author.avatar
                                                 }}
@@ -389,7 +391,7 @@ const PostCard = ({
                             color={colors.royalBlue}
                             uppercase={false}
                             disabled={content === ''}
-                            onPress={() => onAddNewComment(item.id)}
+                            onPress={() => onAddNewComment(item.id || 0)}
                         >
                             Send
                         </Button>

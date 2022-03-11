@@ -1,13 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import axios from 'axios';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Colors, Text } from 'react-native-paper';
 import { axiosInstance } from '../../api';
 import PostCard from '../../components/PostCard';
-import { AppContext } from '../../navigation/AppContext';
-import { sortDesc } from '../../utils/helpers';
+import { useAppSelector } from '../../hooks';
+import { selectAccessToken, selectCurrentUser, selectPosts } from '../../redux/slices';
 
 type MyPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -20,63 +18,27 @@ interface MyPostProps {
     };
 }
 
-const MyPostScreen = ({ navigation, route }: MyPostProps) => {
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(false);
-    const { user } = useContext(AppContext);
+const MyPostScreen = ({ navigation }: MyPostProps) => {
+    const posts = useAppSelector((state) => selectPosts(state));
+    const accessToken = useAppSelector((state) => selectAccessToken(state));
+    const currentUser = useAppSelector((state) => selectCurrentUser(state));
     const config = {
         headers: {
-            Authorization: `Bearer ${user.access_token}`
+            Authorization: `Bearer ${accessToken}`
         }
     };
 
-    useEffect(() => {
-        const source = axios.CancelToken.source();
-        const getAllPosts = async () => {
-            try {
-                const response = await getPosts();
-                if (response.status === 200) {
-                    setPosts(sortDesc(getMyPosts(response.data)));
-                    return;
-                } else {
-                    throw new Error('Failed to fetch users');
-                }
-            } catch (error) {
-                if (axios.isCancel(error)) {
-                    console.log('Data fetching cancelled');
-                } else {
-                    console.log(error);
-                }
-            }
-        };
-        getAllPosts();
-        return () => source.cancel('Data fetching cancelled');
-    }, [user, user.access_token]);
-
-    useEffect(() => {
-        const data = route.params && route.params.data;
-
-        if (data) {
-            if (data.createdAt === data.updatedAt) {
-                setPosts(sortDesc(posts.concat(data)));
-            } else {
-                setPosts(sortDesc(posts.map((post) => (data.id === post.id ? data : post))));
-            }
-        }
-    }, [route.params]);
-
-    const getPosts = async () => await axiosInstance.get('api/posts', config);
     const getMyPosts = (arr: Post[]) =>
-        user.data.role === 'admin'
+        currentUser?.role === 'admin'
             ? arr.filter((post) => post.pending)
-            : arr.filter((post) => post.author.id === user.data.id);
+            : arr.filter((post) => post.author.id === currentUser?.id);
 
     const onDelete = async (postId: Number) => {
         try {
             const response = await axiosInstance.delete(`api/posts/${postId}`, config);
             if (response.status === 200) {
-                const newPosts = posts?.filter((item) => item.id !== postId);
-                setPosts(newPosts);
+                // const newPosts = posts?.filter((item) => item.id !== postId);
+                // setPosts(newPosts);
                 return;
             } else {
                 throw new Error('Failed to delete a post');
@@ -85,21 +47,6 @@ const MyPostScreen = ({ navigation, route }: MyPostProps) => {
             console.log(error);
         }
     };
-
-    const onRefresh = useCallback(async () => {
-        setLoading(true);
-        try {
-            const response = await getPosts();
-            if (response.status === 200) {
-                setPosts(sortDesc(getMyPosts(response.data)));
-            } else {
-                throw new Error('Failed to refresh posts');
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        setLoading(false);
-    }, []);
 
     const approvePost = async (postId: Number) => {
         try {
@@ -110,16 +57,16 @@ const MyPostScreen = ({ navigation, route }: MyPostProps) => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${user.access_token}`
+                        Authorization: `Bearer ${accessToken}`
                     }
                 }
             );
             if (response.status === 200) {
-                setPosts(
-                    getMyPosts(
-                        posts.map((post) => (response.data.id === post.id ? response.data : post))
-                    )
-                );
+                // setPosts(
+                //     getMyPosts(
+                //         posts.map((post) => (response.data.id === post.id ? response.data : post))
+                //     )
+                // );
                 return;
             } else {
                 throw new Error('Failed to approved a pending post');
@@ -133,8 +80,8 @@ const MyPostScreen = ({ navigation, route }: MyPostProps) => {
         try {
             const response = await axiosInstance.delete(`api/posts/${postId}`, config);
             if (response.status === 200) {
-                const newPosts = posts?.filter((item) => item.id !== postId);
-                setPosts(newPosts);
+                // const newPosts = posts?.filter((item) => item.id !== postId);
+                // setPosts(newPosts);
                 return;
             } else {
                 throw new Error('Failed to reject a pending post');
@@ -147,28 +94,24 @@ const MyPostScreen = ({ navigation, route }: MyPostProps) => {
     return (
         <View style={styles.container}>
             <FlatList
-                data={posts}
-                refreshing={loading}
-                onRefresh={onRefresh}
+                data={getMyPosts(posts)}
                 renderItem={({ item }: { item: Post }) => (
                     <PostCard
                         item={item}
-                        onPress={() =>
+                        onShowImage={() =>
                             navigation.navigate('ShowImage', {
-                                url: {
-                                    uri: item.author.avatar
-                                }
+                                photos: item.photos
                             })
                         }
-                        onDelete={() => onDelete(item.id)}
+                        onDelete={() => onDelete(item.id || 0)}
                         onEdit={() =>
                             navigation.navigate('AddPost', {
-                                editedId: item.id
+                                editedId: item.id || 0
                             })
                         }
                         isMyPost={true}
-                        approvePost={() => approvePost(item.id)}
-                        rejectPost={() => rejectPost(item.id)}
+                        approvePost={() => approvePost(item.id || 0)}
+                        rejectPost={() => rejectPost(item.id || 0)}
                     />
                 )}
                 ListEmptyComponent={() => <Text>There are no posts to approve</Text>}

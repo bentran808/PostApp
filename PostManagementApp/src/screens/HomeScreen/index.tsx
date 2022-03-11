@@ -6,12 +6,10 @@ import { styles } from '../../styles/HomeScreenStyles';
 
 type HomeScreenProps = {
     posts: Post[];
-    loading: boolean;
     likes: PostLike[];
     comments: PostComment[];
     content: string;
     editContent: string;
-    onRefresh: () => void;
     onShowImage: (photos: Photo[]) => void;
     onEdit: (postId: Number) => void;
     onDelete: (postId: Number) => void;
@@ -26,12 +24,10 @@ type HomeScreenProps = {
 
 const HomeScreen = ({
     posts,
-    loading,
     likes,
     comments,
     content,
     editContent,
-    onRefresh,
     onShowImage,
     onEdit,
     onDelete,
@@ -47,14 +43,12 @@ const HomeScreen = ({
         <View style={styles.container}>
             <FlatList
                 data={posts}
-                refreshing={loading}
-                onRefresh={onRefresh}
                 renderItem={({ item }: { item: Post }) => (
                     <PostCard
                         item={item}
                         onShowImage={onShowImage}
-                        onDelete={() => onDelete(item.id)}
-                        onEdit={() => onEdit(item.id)}
+                        onDelete={() => onDelete(item.id || 0)}
+                        onEdit={() => onEdit(item.id || 0)}
                         likesOfItem={likes.filter((like) => Number(like.postId) === item.id)}
                         commentsOfItem={comments.filter(
                             (comment) => Number(comment.postId) === item.id

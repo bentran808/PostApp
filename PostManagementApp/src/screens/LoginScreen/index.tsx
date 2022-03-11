@@ -14,6 +14,8 @@ type LoginScreenProps = {
     password: string;
     hidden: boolean;
     error: ErrorState;
+    hasError: boolean;
+    onSetError: (error: ErrorState) => void;
     onChangeEmail: (value: string) => void;
     onChangePassword: (value: string) => void;
     onHiddenPassword: () => void;
@@ -25,12 +27,14 @@ const LoginScreen = ({
     password,
     hidden,
     error,
+    hasError,
+    onSetError,
     onChangeEmail,
     onChangePassword,
     onHiddenPassword,
     onLogin
 }: LoginScreenProps) => {
-    const disableButton = !email || !password;
+    const disableButton = !email || !password || hasError;
 
     return (
         <>
@@ -45,7 +49,6 @@ const LoginScreen = ({
                     keyboardType="email-address"
                     autoCorrect={false}
                     autoCapitalize="none"
-                    style={styles.marginBottom}
                     error={!!error.email}
                 />
                 <HelperText type="error" visible={!!error.email}>
@@ -64,10 +67,10 @@ const LoginScreen = ({
                     }
                     value={password}
                     onChangeText={(userPassword) => onChangePassword(userPassword)}
-                    style={styles.marginBottom}
+                    error={!!error.password}
                 />
-                <HelperText type="error" visible={false}>
-                    Test
+                <HelperText type="error" visible={!!error.password}>
+                    {error.password}
                 </HelperText>
                 <View style={styles.alignCenter}>
                     <Button
@@ -84,7 +87,7 @@ const LoginScreen = ({
                     </Button>
                 </View>
                 <Portal>
-                    <Dialog visible={false}>
+                    <Dialog visible={!!error.errorMessage}>
                         <Dialog.Title>Something is wrong.</Dialog.Title>
                         <Dialog.Content>
                             <Paragraph>Please re-enter your email and password.</Paragraph>
@@ -93,7 +96,7 @@ const LoginScreen = ({
                             <Button
                                 color={colors.royalBlue}
                                 uppercase={false}
-                                // onPress={() => setError('')}
+                                onPress={() => onSetError({ ...error, errorMessage: '' })}
                             >
                                 Try Again
                             </Button>
