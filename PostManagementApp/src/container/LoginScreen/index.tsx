@@ -18,7 +18,7 @@ export interface ErrorState {
 
 const loginSchema = object().shape({
     email: string().email(),
-    password: string().min(6)
+    password: string().min(5)
 });
 
 const LoginScreenContainer = ({ navigation }: LoginProps) => {

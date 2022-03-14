@@ -4,7 +4,6 @@ import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from 'react
 import { Button, Chip, Colors, HelperText, TextInput } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../constants/colors';
-import { errorMessages } from '../../constants/messages';
 import {
     ErrorInputState,
     initialErrorInput,
@@ -15,24 +14,21 @@ import { styles } from '../../styles/AddPostScreenStyles';
 
 type AddPostScreenProps = {
     post: PostState;
-    postId: Number;
+    buttonText: string;
     errorInput: ErrorInputState;
     onChoosePhoto: () => void;
     onSetPost: (key: string, value: any) => void;
     onSetErrorInput: (errorInput: ErrorInputState) => void;
-    onAddNewPost: () => void;
-    onEditPost: () => void;
+    onSubmit: () => void;
 };
 
 const AddPostScreen = ({
     post = initialPost,
-    postId,
+    buttonText,
     errorInput = initialErrorInput,
     onChoosePhoto,
     onSetPost,
-    onSetErrorInput,
-    onAddNewPost,
-    onEditPost
+    onSubmit
 }: AddPostScreenProps) => {
     return (
         <ScrollView style={styles.body}>
@@ -73,10 +69,10 @@ const AddPostScreen = ({
                     onChangeText={(itemValue) => onSetPost('company', itemValue)}
                     label="Product Company"
                     mode="outlined"
-                    error={errorInput.company}
+                    error={!!errorInput.company}
                 />
-                <HelperText type="error" visible={errorInput.company}>
-                    {errorMessages.requiredInput}
+                <HelperText type="error" visible={!!errorInput.company}>
+                    {errorInput.company}
                 </HelperText>
                 <TextInput
                     value={post.year}
@@ -84,30 +80,20 @@ const AddPostScreen = ({
                     label="Year of registration"
                     keyboardType="number-pad"
                     mode="outlined"
-                    error={errorInput.year || errorInput.invalidYear}
-                    onBlur={() => {
-                        const hasError = Number(post.year) > new Date().getFullYear();
-                        onSetErrorInput({
-                            ...errorInput,
-                            year: !post.year,
-                            invalidYear: hasError
-                        });
-                    }}
+                    error={!!errorInput.year}
                 />
-                <HelperText type="error" visible={errorInput.year || errorInput.invalidYear}>
-                    {errorInput.year && errorMessages.requiredInput}
-                    {errorInput.invalidYear && 'You must enter year less than current year!'}
+                <HelperText type="error" visible={!!errorInput.year}>
+                    {errorInput.year}
                 </HelperText>
                 <TextInput
                     value={post.type}
                     onChangeText={(itemValue) => onSetPost('type', itemValue)}
                     label="Type of product"
                     mode="outlined"
-                    error={errorInput.type}
-                    onBlur={() => onSetErrorInput({ ...errorInput, type: !post.type })}
+                    error={!!errorInput.type}
                 />
-                <HelperText type="error" visible={errorInput.type}>
-                    {errorMessages.requiredInput}
+                <HelperText type="error" visible={!!errorInput.type}>
+                    {errorInput.type}
                 </HelperText>
                 <Text>Status</Text>
                 <View style={styles.statusWrapper}>
@@ -145,26 +131,10 @@ const AddPostScreen = ({
                     label="Price"
                     keyboardType="number-pad"
                     mode="outlined"
-                    error={errorInput.price || errorInput.minOfPrice || errorInput.maxOfPrice}
-                    onBlur={() =>
-                        onSetErrorInput({
-                            ...errorInput,
-                            price: !post.price,
-                            minOfPrice: Number(post.price) < 1000,
-                            maxOfPrice: Number(post.price) > 100000000
-                        })
-                    }
+                    error={!!errorInput.price}
                 />
-                <HelperText
-                    type="error"
-                    visible={errorInput.price || errorInput.minOfPrice || errorInput.maxOfPrice}
-                >
-                    {errorInput.price && errorMessages.requiredInput}
-                    {!errorInput.price &&
-                        errorInput.minOfPrice &&
-                        'You must enter the minimum price 1.000 VND!'}
-                    {errorInput.maxOfPrice &&
-                        'You can only enter the maximum price 100.000.000 VND!'}
+                <HelperText type="error" visible={!!errorInput.price}>
+                    {errorInput.price}
                 </HelperText>
                 <TextInput
                     value={post.address}
@@ -180,11 +150,10 @@ const AddPostScreen = ({
                     onChangeText={(itemValue) => onSetPost('title', itemValue)}
                     label="Title"
                     mode="outlined"
-                    error={errorInput.title}
-                    onBlur={() => onSetErrorInput({ ...errorInput, title: !post.title })}
+                    error={!!errorInput.title}
                 />
-                <HelperText type="error" visible={errorInput.title}>
-                    {errorMessages.requiredInput}
+                <HelperText type="error" visible={!!errorInput.title}>
+                    {errorInput.title}
                 </HelperText>
                 <TextInput
                     value={post.description}
@@ -193,16 +162,10 @@ const AddPostScreen = ({
                     multiline
                     numberOfLines={4}
                     mode="outlined"
-                    error={errorInput.description}
-                    onBlur={() =>
-                        onSetErrorInput({
-                            ...errorInput,
-                            description: !post.description
-                        })
-                    }
+                    error={!!errorInput.description}
                 />
-                <HelperText type="error" visible={errorInput.description}>
-                    {errorMessages.requiredInput}
+                <HelperText type="error" visible={!!errorInput.description}>
+                    {errorInput.description}
                 </HelperText>
             </View>
             <View style={{ marginBottom: 40 }}>
@@ -210,11 +173,9 @@ const AddPostScreen = ({
                     mode="contained"
                     color={colors.royalBlue}
                     disabled={Object.values(errorInput).includes(true)}
-                    onPress={() => {
-                        postId ? onEditPost() : onAddNewPost();
-                    }}
+                    onPress={onSubmit}
                 >
-                    {postId ? 'Save' : 'Post'}
+                    {buttonText}
                 </Button>
             </View>
         </ScrollView>

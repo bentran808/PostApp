@@ -6,7 +6,7 @@ type RootStackParamList = {
     Login: undefined;
     AddPost:
         | {
-              editedId: Number;
+              editedPost: Post;
           }
         | undefined;
     ShowImage: {
@@ -37,34 +37,34 @@ type Post = {
     title: string;
     description: string;
     photos: Array;
-    pending: Boolean;
-    createdAt?: Number;
-    updatedAt?: Number;
-    id?: Number;
+    pending?: boolean;
+    createdAt?: number;
+    updatedAt?: number;
+    id?: number;
 };
 
 type PostLike = {
     author: User;
-    id: Number;
-    postId: Number;
-    createdAt: Number;
-    updatedAt: Number;
+    id: number;
+    postId: number;
+    createdAt: number;
+    updatedAt: number;
 };
 
 type PostComment = {
     author: User;
-    id: Number;
-    postId: Number;
+    id: number;
+    postId: number;
     content: string;
-    createdAt: Number;
-    updatedAt: Number;
+    createdAt: number;
+    updatedAt: number;
 };
 
 type Photo = {
-    height: Number;
+    height: number;
     uri: string;
-    width: Number;
+    width: number;
     fileName: string;
     type: string;
-    fileSize: Number;
+    fileSize: number;
 };

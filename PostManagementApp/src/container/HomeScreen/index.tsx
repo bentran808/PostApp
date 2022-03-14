@@ -4,8 +4,8 @@ import { ToastAndroid } from 'react-native';
 import { axiosInstance } from '../../api';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
+    authActions,
     postActions,
-    selectAccessToken,
     selectComments,
     selectCurrentUser,
     selectLikes,
@@ -29,21 +29,22 @@ const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
     const [content, setContent] = useState('');
     const [editContent, setEditContent] = useState('');
     const dispatch = useAppDispatch();
-    const accessToken = useAppSelector((state) => selectAccessToken(state));
+    const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
     const currentUser = useAppSelector((state) => selectCurrentUser(state));
     const posts = useAppSelector((state) => selectPosts(state));
     const likes = useAppSelector((state) => selectLikes(state));
     const comments = useAppSelector((state) => selectComments(state));
 
-    const config = {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    };
-
     useEffect(() => {
         dispatch(postActions.fetchData());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            dispatch(authActions.logout());
+            navigation.navigate('Login');
+        }
+    }, [dispatch, isLoggedIn, navigation]);
 
     const handleShowImage = (photos: Photo[]) => {
         navigation.navigate('ShowImage', {
@@ -51,41 +52,22 @@ const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
         });
     };
 
-    const handleEdit = (postId: Number) => {
+    const handleEdit = (post: Post) => {
         navigation.navigate('AddPost', {
-            editedId: postId
+            editedPost: post
         });
     };
 
-    const handleDelete = async (postId: Number) => {
-        try {
-            const response = await axiosInstance.delete(`api/posts/${postId}`, config);
-            if (response.status === 200) {
-                // const newPosts = posts?.filter((item) => item.id !== postId);
-                // setPosts(newPosts);
-                return;
-            } else {
-                throw new Error('Failed to delete a post');
-            }
-        } catch (error) {
-            ToastAndroid.showWithGravity(
-                'Failed to delete a post',
-                ToastAndroid.LONG,
-                ToastAndroid.TOP
-            );
-        }
+    const handleDelete = async (postId: number) => {
+        dispatch(postActions.deletePost(postId));
     };
 
     const handleLikePost = async (postId: Number) => {
         try {
-            const response = await axiosInstance.post(
-                `api/posts/${postId}/likes`,
-                {
-                    author: currentUser,
-                    postId
-                },
-                config
-            );
+            const response = await axiosInstance.post(`api/posts/${postId}/likes`, {
+                author: currentUser,
+                postId
+            });
             if (response.status === 201) {
                 // setLikes(likes.concat(response.data));
             } else {
@@ -102,7 +84,7 @@ const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
 
     const handleUnlikePost = async (likeId: Number) => {
         try {
-            const response = await axiosInstance.delete(`api/likes/${likeId}`, config);
+            const response = await axiosInstance.delete(`api/likes/${likeId}`);
             if (response.status === 200) {
                 // setLikes(likes.filter((like) => like.id !== likeId));
             } else {
@@ -119,15 +101,11 @@ const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
 
     const handleAddNewComment = async (postId: Number) => {
         try {
-            const response = await axiosInstance.post(
-                `api/posts/${postId}/comments`,
-                {
-                    author: currentUser,
-                    postId,
-                    content
-                },
-                config
-            );
+            const response = await axiosInstance.post(`api/posts/${postId}/comments`, {
+                author: currentUser,
+                postId,
+                content
+            });
             if (response.status === 201) {
                 setContent('');
                 // setComments(comments.concat(response.data));
@@ -145,7 +123,7 @@ const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
 
     const handleDeleteComment = async (commentId: Number) => {
         try {
-            const response = await axiosInstance.delete(`api/comments/${commentId}`, config);
+            const response = await axiosInstance.delete(`api/comments/${commentId}`);
             if (response.status === 200) {
                 // setComments(comments.filter((comment) => comment.id !== commentId));
             } else {
@@ -162,13 +140,9 @@ const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
 
     const handleEditComment = async (commentId: Number) => {
         try {
-            const response = await axiosInstance.patch(
-                `api/comments/${commentId}`,
-                {
-                    content: editContent
-                },
-                config
-            );
+            const response = await axiosInstance.patch(`api/comments/${commentId}`, {
+                content: editContent
+            });
 
             if (response.status === 200) {
                 setEditContent('');

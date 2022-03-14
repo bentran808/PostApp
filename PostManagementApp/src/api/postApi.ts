@@ -18,5 +18,11 @@ export const postApi = {
     },
     addPostRequest(data: Post) {
         return axiosInstance.post('api/posts', data);
+    },
+    editPostRequest(postId: number, data: Post | { pending: boolean }) {
+        return axiosInstance.patch(`api/posts/${postId}`, data);
+    },
+    deletePostRequest(postId: number) {
+        return axiosInstance.delete(`api/posts/${postId}`);
     }
 };

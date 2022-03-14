@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import moment from 'moment';
 import React, { useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Slider from 'react-native-hook-image-slider';
@@ -22,15 +23,15 @@ type PostCardProps = {
     onShowImage: (photos: Photo[]) => void;
     onEdit: () => void;
     onDelete: () => void;
-    onLikePost?: (postId: Number) => void;
-    onUnlikePost?: (likeId: Number) => void;
+    onLikePost?: (postId: number) => void;
+    onUnlikePost?: (likeId: number) => void;
     onSetContent?: (value: string) => void;
     onSetEditContent?: (value: string) => void;
-    onAddNewComment?: (postId: Number) => void;
-    onDeleteComment?: (commentId: Number) => void;
-    onEditComment?: (commentId: Number) => Promise<boolean>;
-    approvePost?: () => Promise<void>;
-    rejectPost?: () => Promise<void>;
+    onAddNewComment?: (postId: number) => void;
+    onDeleteComment?: (commentId: number) => void;
+    onEditComment?: (commentId: number) => Promise<boolean>;
+    approvePost?: () => void;
+    rejectPost?: () => void;
 };
 
 const PostCard = ({
@@ -50,8 +51,8 @@ const PostCard = ({
     onAddNewComment = () => {},
     onDeleteComment = () => {},
     onEditComment = async () => false,
-    approvePost = async () => {},
-    rejectPost = async () => {}
+    approvePost = () => {},
+    rejectPost = () => {}
 }: PostCardProps) => {
     const [visible, setVisible] = useState('');
     const [visibleDetails, setVisibleDetails] = useState(false);
@@ -84,16 +85,20 @@ const PostCard = ({
     return (
         <View style={styles.card} key={`Post-${item.id}`}>
             <TouchableOpacity onPress={() => onShowImage(item.photos)}>
-                <Slider
-                    images={item.photos.map((photo: { uri: string }) => photo.uri)}
-                    imageHeight={200}
-                />
+                <View style={{ width: windowWidth * 0.9 }}>
+                    <Slider
+                        images={item.photos.map((photo: { uri: string }) => photo.uri)}
+                        imageHeight={200}
+                    />
+                </View>
             </TouchableOpacity>
             <View style={styles.infoSection}>
                 <View>
                     <Text style={styles.postTitle}>{item.title}</Text>
                     <Text style={styles.postPrice}>{formatPrice(Number(item.price))}</Text>
-                    <Text style={styles.postTime}>2 hours ago</Text>
+                    <Text style={styles.postTime}>
+                        {moment(new Date(item.updatedAt || 0)).fromNow()}
+                    </Text>
                     <View style={styles.postLocation}>
                         <Ionicons name="md-location-outline" size={20} color={Colors.black} />
                         <Text style={styles.postAddress}>{item.address}</Text>
@@ -273,7 +278,11 @@ const PostCard = ({
                                             <Text style={styles.commentUserName}>
                                                 {props.item.author.name}
                                             </Text>
-                                            <Text style={styles.postTime}>2 hours ago</Text>
+                                            <Text style={styles.postTime}>
+                                                {moment(
+                                                    new Date(props.item.updatedAt || 0)
+                                                ).fromNow()}
+                                            </Text>
                                         </View>
                                         {isAuthorComment && (
                                             <Menu

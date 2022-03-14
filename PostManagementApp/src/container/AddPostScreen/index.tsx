@@ -1,17 +1,16 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { axiosInstance } from '../../api';
+import { number, object, string } from 'yup';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { postActions, selectAccessToken, selectCurrentUser } from '../../redux/slices';
+import { postActions, selectCurrentUser } from '../../redux/slices';
 import AddPostScreen from '../../screens/AddPostScreen';
 
 type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface AddPostProps {
     navigation: AddPostNavigationProp;
-    route: { params: { editedId: Number } };
+    route: { params: { editedPost: Post } };
 }
 
 export interface PostState {
@@ -21,91 +20,74 @@ export interface PostState {
     type: string;
     status: boolean;
     price: string;
-    address: string;
+    address?: string;
     title: string;
     description: string;
 }
 
 export interface ErrorInputState {
-    company: boolean;
-    year: boolean;
-    invalidYear: boolean;
-    type: boolean;
-    price: boolean;
-    minOfPrice: boolean;
-    maxOfPrice: boolean;
-    title: boolean;
-    description: boolean;
+    company: string;
+    year: string;
+    type: string;
+    price: string;
+    title: string;
+    description: string;
 }
 
 export const initialPost = {
     photos: [],
     company: '',
-    year: '',
+    year: '0',
     type: '',
     status: true,
-    price: '',
+    price: '0',
     address: '',
     title: '',
     description: ''
 };
 
 export const initialErrorInput = {
-    company: false,
-    year: false,
-    invalidYear: false,
-    type: false,
-    price: false,
-    minOfPrice: false,
-    maxOfPrice: false,
-    title: false,
-    description: false
+    company: '',
+    year: '',
+    type: '',
+    price: '',
+    title: '',
+    description: ''
 };
+
+const postSchema = object().shape({
+    company: string().required(),
+    year: number().required().positive().integer(),
+    type: string().required(),
+    price: number().required().positive().integer(),
+    title: string().required(),
+    description: string().required()
+});
 
 const AddPostScreenContainer = ({ navigation, route }: AddPostProps) => {
     const [post, setPost] = useState<PostState>(initialPost);
     const [errorInput, setErrorInput] = useState<ErrorInputState>(initialErrorInput);
     const dispatch = useAppDispatch();
-    const accessToken = useAppSelector((state) => selectAccessToken(state));
     const currentUser = useAppSelector((state) => selectCurrentUser(state));
-    const postId = route.params && route.params.editedId;
+    const editedPost = route.params && route.params.editedPost;
 
     useEffect(() => {
-        if (postId) {
-            const source = axios.CancelToken.source();
-            const getEditedPost = async () => {
-                try {
-                    const response = await axiosInstance.get(`api/posts/${postId}`, {
-                        cancelToken: source.token,
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
-                    });
-                    setPost({
-                        ...post,
-                        photos: response.data.photos,
-                        company: response.data.company,
-                        year: response.data.year,
-                        type: response.data.type,
-                        status: response.data.status,
-                        price: response.data.price,
-                        address: response.data.address,
-                        title: response.data.title,
-                        description: response.data.description
-                    });
-                } catch (error) {
-                    if (axios.isCancel(error)) {
-                        console.log('Data fetching cancelled');
-                    } else {
-                        console.log(error);
-                    }
-                }
-            };
-            getEditedPost();
-            return () => source.cancel('Data fetching cancelled');
+        if (editedPost) {
+            setPost({
+                ...post,
+                photos: editedPost.photos,
+                company: editedPost.company,
+                year: editedPost.year.toString(),
+                type: editedPost.type,
+                status: editedPost.status,
+                price: editedPost.price.toString(),
+                address: editedPost.address,
+                title: editedPost.title,
+                description: editedPost.description
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [accessToken, postId]);
+    }, []);
 
     const handleChoosePhoto = () => {
         launchImageLibrary(
@@ -126,75 +108,104 @@ const AddPostScreenContainer = ({ navigation, route }: AddPostProps) => {
 
     const handleChangePost = (key: string, value: any) => {
         setPost({ ...post, [key]: value });
+        const isValid = validationInput(key, value);
+
+        if (isValid) {
+            setErrorInput({ ...errorInput, [key]: '' });
+        }
     };
 
-    const handleAddNewPost = async () => {
-        dispatch(
-            postActions.addPost({
-                author: currentUser,
-                company: post.company,
-                year: Number(post.year),
-                type: post.type,
-                status: post.status,
-                price: Number(post.price),
-                address: post.address || currentUser.address,
-                title: post.title,
-                description: post.description,
-                photos: post.photos,
-                pending: true
-            })
-        );
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'HomeScreen' }]
+    const validationInput = (key: string, value: string | number) => {
+        const inputSchema = postSchema.pick([key]);
+        const isValid = inputSchema.isValidSync({ [key]: value });
+        inputSchema.validate({ [key]: value }).catch((err: { errors: string[] }) => {
+            setErrorInput((prevState) => ({ ...prevState, [key]: err.errors[0] }));
         });
-        navigation.navigate('MyPost');
+
+        return isValid;
     };
 
-    const handleEditPost = async () => {
-        try {
-            const response = await axiosInstance.patch(
-                `api/posts/${postId}`,
-                {
+    const handleAddNewPost = () => {
+        const isValid = postSchema.isValidSync(post);
+        if (isValid) {
+            dispatch(
+                postActions.addPost({
+                    author: currentUser,
                     company: post.company,
-                    year: post.year,
+                    year: Number(post.year),
                     type: post.type,
                     status: post.status,
-                    price: post.price,
-                    address: post.address || currentUser?.address,
+                    price: Number(post.price),
+                    address: post.address || currentUser.address,
                     title: post.title,
                     description: post.description,
-                    photos: post.photos
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                }
+                    photos: post.photos,
+                    pending: true
+                })
             );
-            if (response.status === 200) {
-                navigation.navigate('HomeScreen', {
-                    data: response.data
-                });
-                return;
-            } else {
-                throw new Error('Failed to update a post');
-            }
-        } catch (error) {
-            console.log(error);
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'HomeScreen' }]
+            });
+            navigation.navigate('MyPost');
+        } else {
+            validationInput('company', post.company);
+            validationInput('year', post.year);
+            validationInput('type', post.type);
+            validationInput('price', post.price);
+            validationInput('title', post.title);
+            validationInput('description', post.description);
+        }
+    };
+
+    const handleEditPost = () => {
+        const isValid = postSchema.isValidSync(post);
+        if (isValid) {
+            dispatch(
+                postActions.editPost({
+                    postId: editedPost.id || 0,
+                    editedPost: {
+                        author: currentUser,
+                        company: post.company,
+                        year: Number(post.year),
+                        type: post.type,
+                        status: post.status,
+                        price: Number(post.price),
+                        address: post.address || currentUser.address,
+                        title: post.title,
+                        description: post.description,
+                        photos: post.photos
+                    }
+                })
+            );
+            navigation.goBack();
+        } else {
+            validationInput('company', post.company);
+            validationInput('year', post.year);
+            validationInput('type', post.type);
+            validationInput('price', post.price);
+            validationInput('title', post.title);
+            validationInput('description', post.description);
+        }
+    };
+
+    const handleSubmit = () => {
+        if (editedPost) {
+            handleEditPost();
+        } else {
+            handleAddNewPost();
         }
     };
 
     return (
         <AddPostScreen
             post={post}
-            postId={postId}
+            buttonText={editedPost ? 'Save' : 'Post'}
             errorInput={errorInput}
             onChoosePhoto={handleChoosePhoto}
             onSetPost={handleChangePost}
             onSetErrorInput={setErrorInput}
-            onAddNewPost={handleAddNewPost}
-            onEditPost={handleEditPost}
+            onSubmit={handleSubmit}
         />
     );
 };

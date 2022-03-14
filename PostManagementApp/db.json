@@ -2,98 +2,36 @@
   "posts": [
     {
       "author": {
-        "id": "621c41883112f1c216433dcf",
+        "id": "621c4188dece66a40dad2951",
         "avatar": "https://picsum.photos/200",
-        "name": "Mcintyre Morrison",
+        "name": "Admin",
         "gender": "male",
-        "email": "test1@email.com",
-        "phone": "+84 (838) 539391",
-        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-        "role": "user"
+        "email": "admin@admin.com",
+        "phone": "+84 (919) 507231",
+        "address": "199 Bergen Street, Bowie, Oregon, 7933",
+        "role": "admin"
       },
-      "company": "Honda",
-      "year": "2021",
-      "type": "Air Blade",
+      "company": "test",
+      "year": 2022,
+      "type": "test",
       "status": true,
-      "price": "35000000",
-      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-      "title": "Ban xe",
-      "description": "Xe can ban",
+      "price": 20000,
+      "address": "199 Bergen Street, Bowie, Oregon, 7933",
+      "title": "asd",
+      "description": "qwe",
       "photos": [
         {
           "height": 480,
-          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_b592a259-5e83-4735-8856-7fa568b64d6f.jpg",
+          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_01101efa-d47a-4aca-924c-1fe3ab964657.jpg",
           "width": 480,
-          "fileName": "rn_image_picker_lib_temp_b592a259-5e83-4735-8856-7fa568b64d6f.jpg",
+          "fileName": "rn_image_picker_lib_temp_01101efa-d47a-4aca-924c-1fe3ab964657.jpg",
           "type": "image/jpeg",
           "fileSize": 6839
-        },
-        {
-          "height": 480,
-          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_eeb558f5-f8b0-4aa7-a347-c53c755d1008.jpg",
-          "width": 480,
-          "fileName": "rn_image_picker_lib_temp_eeb558f5-f8b0-4aa7-a347-c53c755d1008.jpg",
-          "type": "image/jpeg",
-          "fileSize": 6758
         }
       ],
       "pending": false,
-      "createdAt": 1646704144185,
-      "updatedAt": 1646704627747,
-      "id": 1
-    },
-    {
-      "author": {
-        "id": "621c41883112f1c216433dcf",
-        "avatar": "https://picsum.photos/200",
-        "name": "Mcintyre Morrison",
-        "gender": "male",
-        "email": "test1@email.com",
-        "phone": "+84 (838) 539391",
-        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-        "role": "user"
-      },
-      "company": "test",
-      "year": 2021,
-      "type": "test",
-      "status": true,
-      "price": 2222,
-      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-      "title": "test",
-      "description": "test",
-      "photos": [
-        {
-          "height": 480,
-          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_938f9c3b-0cb0-4a1a-8b3d-726c8f9c726d.jpg",
-          "width": 480,
-          "fileName": "rn_image_picker_lib_temp_938f9c3b-0cb0-4a1a-8b3d-726c8f9c726d.jpg",
-          "type": "image/jpeg",
-          "fileSize": 6815
-        }
-      ],
-      "pending": true,
-      "createdAt": 1646994727979,
-      "updatedAt": 1646994727979,
-      "id": 2
-    }
-  ],
-  "likes": [],
-  "comments": [
-    {
-      "author": {
-        "id": "621c41883112f1c216433dcf",
-        "avatar": "https://picsum.photos/200",
-        "name": "Mcintyre Morrison",
-        "gender": "male",
-        "email": "test1@email.com",
-        "phone": "+84 (838) 539391",
-        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-        "role": "user"
-      },
-      "postId": "1",
-      "content": "a",
-      "createdAt": 1646707000191,
-      "updatedAt": 1646707338615,
+      "createdAt": 1647250733214,
+      "updatedAt": 1647250733214,
       "id": 1
     },
     {
@@ -107,11 +45,30 @@
         "address": "199 Bergen Street, Bowie, Oregon, 7933",
         "role": "admin"
       },
-      "postId": "1",
-      "content": "a",
-      "createdAt": 1646903851517,
-      "updatedAt": 1646903851517,
+      "company": "qwe",
+      "year": 2012,
+      "type": "asd",
+      "status": true,
+      "price": 2000,
+      "address": "199 Bergen Street, Bowie, Oregon, 7933",
+      "title": "qwe",
+      "description": "asd",
+      "photos": [
+        {
+          "height": 480,
+          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_fb30b7b1-646a-4883-af83-15b056d50e16.jpg",
+          "width": 480,
+          "fileName": "rn_image_picker_lib_temp_fb30b7b1-646a-4883-af83-15b056d50e16.jpg",
+          "type": "image/jpeg",
+          "fileSize": 6758
+        }
+      ],
+      "pending": false,
+      "createdAt": 1647251559463,
+      "updatedAt": 1647251749468,
       "id": 2
     }
-  ]
+  ],
+  "likes": [],
+  "comments": []
 }

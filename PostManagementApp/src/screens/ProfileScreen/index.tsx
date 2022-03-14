@@ -1,10 +1,10 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Title } from 'react-native-paper';
 import { colors } from '../../constants/colors';
-import { useAppDispatch } from '../../hooks';
-import { authActions } from '../../redux/slices';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { authActions, selectCurrentUser } from '../../redux/slices';
 
 type LoginNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -14,9 +14,11 @@ interface LoginProps {
 
 const ProfileScreen = ({ navigation }: LoginProps) => {
     const dispatch = useAppDispatch();
+    const currentUser = useAppSelector((state) => selectCurrentUser(state));
 
     return (
         <View style={styles.body}>
+            <Title>{currentUser.name}</Title>
             <Button
                 mode="contained"
                 color={colors.royalBlue}

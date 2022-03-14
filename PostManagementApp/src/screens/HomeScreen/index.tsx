@@ -11,15 +11,15 @@ type HomeScreenProps = {
     content: string;
     editContent: string;
     onShowImage: (photos: Photo[]) => void;
-    onEdit: (postId: Number) => void;
-    onDelete: (postId: Number) => void;
-    onLikePost: (postId: Number) => void;
-    onUnlikePost: (likeId: Number) => void;
+    onEdit: (post: Post) => void;
+    onDelete: (postId: number) => void;
+    onLikePost: (postId: number) => void;
+    onUnlikePost: (likeId: number) => void;
     onSetContent: (value: string) => void;
     onSetEditContent: (value: string) => void;
-    onAddNewComment: (postId: Number) => void;
-    onDeleteComment: (commentId: Number) => void;
-    onEditComment: (commentId: Number) => Promise<boolean>;
+    onAddNewComment: (postId: number) => void;
+    onDeleteComment: (commentId: number) => void;
+    onEditComment: (commentId: number) => Promise<boolean>;
 };
 
 const HomeScreen = ({
@@ -48,7 +48,7 @@ const HomeScreen = ({
                         item={item}
                         onShowImage={onShowImage}
                         onDelete={() => onDelete(item.id || 0)}
-                        onEdit={() => onEdit(item.id || 0)}
+                        onEdit={() => onEdit(item)}
                         likesOfItem={likes.filter((like) => Number(like.postId) === item.id)}
                         commentsOfItem={comments.filter(
                             (comment) => Number(comment.postId) === item.id
