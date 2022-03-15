@@ -24,5 +24,29 @@ export const postApi = {
     },
     deletePostRequest(postId: number) {
         return axiosInstance.delete(`api/posts/${postId}`);
+    },
+    likePostRequest(postId: number, currentUser: User) {
+        return axiosInstance.post(`api/posts/${postId}/likes`, {
+            author: currentUser,
+            postId
+        });
+    },
+    unlikePostRequest(likeId: number) {
+        return axiosInstance.delete(`api/likes/${likeId}`);
+    },
+    addCommentRequest(postId: number, currentUser: User, content: string) {
+        return axiosInstance.post(`api/posts/${postId}/comments`, {
+            author: currentUser,
+            postId,
+            content
+        });
+    },
+    editCommentRequest(commentId: number, newContent: string) {
+        return axiosInstance.patch(`api/comments/${commentId}`, {
+            content: newContent
+        });
+    },
+    deleteCommentRequest(commentId: number) {
+        return axiosInstance.delete(`api/comments/${commentId}`);
     }
 };

@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { all, call, fork, put, take } from 'redux-saga/effects';
+import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { postApi } from '../../api/postApi';
-import { getAccessToken, sortDesc } from '../../utils/helpers';
+import { sortDesc } from '../../utils/helpers';
 import { postActions } from './../slices/postSlices';
 
 function* handleFetchData() {
@@ -37,9 +37,9 @@ function* handleFetchData() {
     }
 }
 
-function* handleAddPost(payload: Post) {
+function* handleAddPost(action: PayloadAction<Post>) {
     try {
-        const response: { data: Post } = yield call(postApi.addPostRequest, payload);
+        const response: { data: Post } = yield call(postApi.addPostRequest, action.payload);
         if (response) {
             const newPost = response.data;
             const postId = newPost.id;
@@ -55,9 +55,11 @@ function* handleAddPost(payload: Post) {
     }
 }
 
-function* handleEditPost(postId: number, payload: Post) {
+function* handleEditPost(action: PayloadAction<{ postId: number; editedPost: Post }>) {
+    const { postId, editedPost } = action.payload;
+
     try {
-        const response: { data: Post } = yield call(postApi.editPostRequest, postId, payload);
+        const response: { data: Post } = yield call(postApi.editPostRequest, postId, editedPost);
 
         if (response) {
             yield put(postActions.editPostSuccess({ postId, editedPost: response.data }));
@@ -69,11 +71,11 @@ function* handleEditPost(postId: number, payload: Post) {
     }
 }
 
-function* handleDeletePost(postId: number) {
+function* handleDeletePost(action: PayloadAction<number>) {
     try {
-        const response: { status: number } = yield call(postApi.deletePostRequest, postId);
+        const response: { status: number } = yield call(postApi.deletePostRequest, action.payload);
         if (response.status === 200) {
-            yield put(postActions.deletePostSuccess(postId));
+            yield put(postActions.deletePostSuccess(action.payload));
         }
     } catch (error) {
         if (error) {
@@ -82,7 +84,9 @@ function* handleDeletePost(postId: number) {
     }
 }
 
-function* handleApprovePendingPost(postId: number, pending: boolean) {
+function* handleApprovePendingPost(action: PayloadAction<{ postId: number; pending: boolean }>) {
+    const { postId, pending } = action.payload;
+
     try {
         const response: { data: Post } = yield call(postApi.editPostRequest, postId, { pending });
 
@@ -96,34 +100,115 @@ function* handleApprovePendingPost(postId: number, pending: boolean) {
     }
 }
 
-function* watchPostManagementFlow() {
-    const isLoggedIn: string = yield call(getAccessToken);
-
-    if (isLoggedIn) {
-        yield take(postActions.fetchData.type);
-        yield call(handleFetchData);
-
-        const addAction: PayloadAction<Post> = yield take(postActions.addPost.type);
-        yield call(handleAddPost, addAction.payload);
-
-        const editAction: PayloadAction<{ postId: number; editedPost: Post }> = yield take(
-            postActions.editPost.type
-        );
-        yield call(handleEditPost, editAction.payload.postId, editAction.payload.editedPost);
-
-        const deleteAction: PayloadAction<number> = yield take(postActions.deletePost.type);
-        yield call(handleDeletePost, deleteAction.payload);
-
-        const approveAction: PayloadAction<{ postId: number; pending: boolean }> = yield take(
-            postActions.approvePendingPost.type
+function* handleLikePost(action: PayloadAction<{ postId: number; currentUser: User }>) {
+    try {
+        const response: { data: PostLike } = yield call(
+            postApi.likePostRequest,
+            action.payload.postId,
+            action.payload.currentUser
         );
 
-        yield call(
-            handleApprovePendingPost,
-            approveAction.payload.postId,
-            approveAction.payload.pending
-        );
+        if (response) {
+            yield put(postActions.likePostSuccess(response.data));
+        }
+    } catch (error) {
+        yield put(postActions.likePostFailed('Like a post failed'));
     }
+}
+
+function* handleUnlikePost(action: PayloadAction<number>) {
+    try {
+        const response: { status: number } = yield call(postApi.unlikePostRequest, action.payload);
+
+        if (response.status === 200) {
+            yield put(postActions.unlikePostSuccess(action.payload));
+        }
+    } catch (error) {
+        yield put(postActions.unlikePostFailed('Unlike a post failed'));
+    }
+}
+
+function* handleAddComment(
+    action: PayloadAction<{
+        postId: number;
+        currentUser: User;
+        content: string;
+    }>
+) {
+    const { postId, currentUser, content } = action.payload;
+    try {
+        const response: { data: PostComment } = yield call(
+            postApi.addCommentRequest,
+            postId,
+            currentUser,
+            content
+        );
+
+        if (response) {
+            yield put(postActions.addCommentSuccess(response.data));
+        }
+    } catch (error) {
+        if (error) {
+            yield put(postActions.addCommentFailed('Add a new comment failed'));
+        }
+    }
+}
+
+function* handleEditComment(action: PayloadAction<{ commentId: number; newContent: string }>) {
+    const { commentId, newContent } = action.payload;
+    try {
+        const response: { data: PostComment } = yield call(
+            postApi.editCommentRequest,
+            commentId,
+            newContent
+        );
+
+        if (response) {
+            yield put(postActions.editCommentSuccess(response.data));
+        }
+    } catch (error) {
+        if (error) {
+            yield put(postActions.editCommentFailed('Update a comment failed'));
+        }
+    }
+}
+
+function* handleDeleteComment(action: PayloadAction<number>) {
+    try {
+        const response: { status: number } = yield call(
+            postApi.deleteCommentRequest,
+            action.payload
+        );
+        if (response.status === 200) {
+            yield put(postActions.deleteCommentSuccess(action.payload));
+        }
+    } catch (error) {
+        if (error) {
+            yield put(postActions.deleteCommentFailed('Delete a comment failed'));
+        }
+    }
+}
+
+function* watchPostManagementFlow() {
+    yield takeLatest(postActions.fetchData.type, handleFetchData);
+
+    yield takeLatest(postActions.addPost.type, handleAddPost);
+
+    yield takeLatest(postActions.editPost.type, handleEditPost);
+
+    yield takeLatest(postActions.deletePost.type, handleDeletePost);
+
+    yield takeLatest(postActions.approvePendingPost.type, handleApprovePendingPost);
+
+    yield takeLatest(postActions.likePost.type, handleLikePost);
+
+    yield takeLatest(postActions.unlikePost.type, handleUnlikePost);
+
+    yield takeLatest(postActions.addComment.type, handleAddComment);
+
+    yield takeLatest(postActions.editComment.type, handleEditComment);
+
+    yield takeLatest(postActions.deleteComment.type, handleDeleteComment);
 }
 
 export default function* postSaga() {

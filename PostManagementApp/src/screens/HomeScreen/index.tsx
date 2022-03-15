@@ -19,7 +19,7 @@ type HomeScreenProps = {
     onSetEditContent: (value: string) => void;
     onAddNewComment: (postId: number) => void;
     onDeleteComment: (commentId: number) => void;
-    onEditComment: (commentId: number) => Promise<boolean>;
+    onEditComment: (commentId: number) => void;
 };
 
 const HomeScreen = ({

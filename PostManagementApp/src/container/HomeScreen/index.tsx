@@ -1,7 +1,5 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
-import { ToastAndroid } from 'react-native';
-import { axiosInstance } from '../../api';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
     authActions,
@@ -62,107 +60,26 @@ const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
         dispatch(postActions.deletePost(postId));
     };
 
-    const handleLikePost = async (postId: Number) => {
-        try {
-            const response = await axiosInstance.post(`api/posts/${postId}/likes`, {
-                author: currentUser,
-                postId
-            });
-            if (response.status === 201) {
-                // setLikes(likes.concat(response.data));
-            } else {
-                throw new Error('Failed to like post');
-            }
-        } catch (error) {
-            ToastAndroid.showWithGravity(
-                'Failed to like post',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM
-            );
-        }
+    const handleLikePost = async (postId: number) => {
+        dispatch(postActions.likePost({ postId, currentUser }));
     };
 
-    const handleUnlikePost = async (likeId: Number) => {
-        try {
-            const response = await axiosInstance.delete(`api/likes/${likeId}`);
-            if (response.status === 200) {
-                // setLikes(likes.filter((like) => like.id !== likeId));
-            } else {
-                throw new Error('Failed to unlike post');
-            }
-        } catch (error) {
-            ToastAndroid.showWithGravity(
-                'Failed to unlike post',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM
-            );
-        }
+    const handleUnlikePost = async (likeId: number) => {
+        dispatch(postActions.unlikePost(likeId));
     };
 
-    const handleAddNewComment = async (postId: Number) => {
-        try {
-            const response = await axiosInstance.post(`api/posts/${postId}/comments`, {
-                author: currentUser,
-                postId,
-                content
-            });
-            if (response.status === 201) {
-                setContent('');
-                // setComments(comments.concat(response.data));
-            } else {
-                throw new Error('Failed to comment on post');
-            }
-        } catch (error) {
-            ToastAndroid.showWithGravity(
-                'Failed to comment on post',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM
-            );
-        }
+    const handleAddNewComment = async (postId: number) => {
+        dispatch(postActions.addComment({ postId, currentUser, content }));
+        setContent('');
     };
 
-    const handleDeleteComment = async (commentId: Number) => {
-        try {
-            const response = await axiosInstance.delete(`api/comments/${commentId}`);
-            if (response.status === 200) {
-                // setComments(comments.filter((comment) => comment.id !== commentId));
-            } else {
-                throw new Error('Failed to delete comment of post');
-            }
-        } catch (error) {
-            ToastAndroid.showWithGravity(
-                'Failed to delete comment of post',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM
-            );
-        }
+    const handleDeleteComment = async (commentId: number) => {
+        dispatch(postActions.deleteComment(commentId));
     };
 
-    const handleEditComment = async (commentId: Number) => {
-        try {
-            const response = await axiosInstance.patch(`api/comments/${commentId}`, {
-                content: editContent
-            });
-
-            if (response.status === 200) {
-                setEditContent('');
-                // setComments(
-                //     comments.map((comment) =>
-                //         response.data.id === comment.id ? response.data : comment
-                //     )
-                // );
-                return true;
-            } else {
-                throw new Error('Failed to update comment of post');
-            }
-        } catch (error) {
-            ToastAndroid.showWithGravity(
-                'Failed to update comment of post',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM
-            );
-            return false;
-        }
+    const handleEditComment = async (commentId: number) => {
+        dispatch(postActions.editComment({ commentId, newContent: editContent }));
+        setEditContent('');
     };
 
     return (

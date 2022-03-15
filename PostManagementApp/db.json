@@ -15,9 +15,9 @@
       "year": 2022,
       "type": "test",
       "status": true,
-      "price": 20000,
+      "price": 20000555,
       "address": "199 Bergen Street, Bowie, Oregon, 7933",
-      "title": "asd",
+      "title": "asd updated",
       "description": "qwe",
       "photos": [
         {
@@ -31,9 +31,45 @@
       ],
       "pending": false,
       "createdAt": 1647250733214,
-      "updatedAt": 1647250733214,
+      "updatedAt": 1647337788048,
       "id": 1
     },
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "company": "test",
+      "year": 2021,
+      "type": "test",
+      "status": true,
+      "price": 2222,
+      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+      "title": "test",
+      "description": "test",
+      "photos": [
+        {
+          "height": 480,
+          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_d2d3dee0-733c-4c29-b212-a9ffd35fb68c.jpg",
+          "width": 480,
+          "fileName": "rn_image_picker_lib_temp_d2d3dee0-733c-4c29-b212-a9ffd35fb68c.jpg",
+          "type": "image/jpeg",
+          "fileSize": 6689
+        }
+      ],
+      "pending": false,
+      "createdAt": 1647334579418,
+      "updatedAt": 1647337800528,
+      "id": 3
+    }
+  ],
+  "likes": [
     {
       "author": {
         "id": "621c4188dece66a40dad2951",
@@ -45,30 +81,11 @@
         "address": "199 Bergen Street, Bowie, Oregon, 7933",
         "role": "admin"
       },
-      "company": "qwe",
-      "year": 2012,
-      "type": "asd",
-      "status": true,
-      "price": 2000,
-      "address": "199 Bergen Street, Bowie, Oregon, 7933",
-      "title": "qwe",
-      "description": "asd",
-      "photos": [
-        {
-          "height": 480,
-          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_fb30b7b1-646a-4883-af83-15b056d50e16.jpg",
-          "width": 480,
-          "fileName": "rn_image_picker_lib_temp_fb30b7b1-646a-4883-af83-15b056d50e16.jpg",
-          "type": "image/jpeg",
-          "fileSize": 6758
-        }
-      ],
-      "pending": false,
-      "createdAt": 1647251559463,
-      "updatedAt": 1647251749468,
-      "id": 2
+      "postId": "1",
+      "createdAt": 1647337995474,
+      "updatedAt": 1647337995474,
+      "id": 1
     }
   ],
-  "likes": [],
   "comments": []
 }

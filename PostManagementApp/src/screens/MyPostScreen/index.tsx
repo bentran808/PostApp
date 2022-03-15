@@ -27,15 +27,15 @@ const MyPostScreen = ({ navigation }: MyPostProps) => {
             ? arr.filter((post) => post.pending)
             : arr.filter((post) => post.author.id === currentUser?.id);
 
-    const onDelete = (postId: number) => {
+    const handleDelete = (postId: number) => {
         dispatch(postActions.deletePost(postId));
     };
 
-    const approvePost = (postId: number) => {
+    const handleApprovePost = (postId: number) => {
         dispatch(postActions.approvePendingPost({ postId, pending: false }));
     };
 
-    const rejectPost = (postId: number) => {
+    const handleRejectPost = (postId: number) => {
         dispatch(postActions.deletePost(postId));
     };
 
@@ -51,15 +51,15 @@ const MyPostScreen = ({ navigation }: MyPostProps) => {
                                 photos: item.photos
                             })
                         }
-                        onDelete={() => onDelete(item.id || 0)}
+                        onDelete={() => handleDelete(item.id || 0)}
                         onEdit={() =>
                             navigation.navigate('AddPost', {
                                 editedPost: item
                             })
                         }
                         isMyPost={true}
-                        approvePost={() => approvePost(item.id || 0)}
-                        rejectPost={() => rejectPost(item.id || 0)}
+                        onApprovePost={() => handleApprovePost(item.id || 0)}
+                        onRejectPost={() => handleRejectPost(item.id || 0)}
                     />
                 )}
                 ListEmptyComponent={() => <Text>There are no posts to approve</Text>}
