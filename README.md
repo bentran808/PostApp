@@ -1,6 +1,6 @@
 # React Native practice one
 ## Overview
-* This document provides the plan for implementing an application about posts management with features that login/register users, show list of posts, create a post,  like/comment on a post, (Admin) approve/reject a post.
+* This document provides the plan for implementing an application about posts management with features that login users, show list of posts, create a post, like/comment on a post, (Admin) approve/reject a post.
 
 ## Timeline
 * 6 working days (February 25th 2022 - March 4th 2022)
@@ -15,7 +15,10 @@
 
 ## Technologies
 * React v17.0.2
+* React Native v0.67.3
 * Typescript v4.5.5
+* Redux-Saga v1.1.3
+* Redux Toolkit v1.8.0
 
 ## Editor
 * [Visual Studio Code](https://code.visualstudio.com/)
@@ -40,4 +43,8 @@
   ```
   Run your simulator (e.g. Android Studio, Genymotion)
 
-  npx react-native run-android
+  yarn android or npm run android
+  ```
+  * Run server:
+  ```
+  yarn server or npm run server

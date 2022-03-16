@@ -19,18 +19,14 @@ type PostCardProps = {
     isMyPost?: Boolean;
     likesOfItem?: PostLike[];
     commentsOfItem?: PostComment[];
-    content?: string;
-    editContent?: string;
     onShowImage: (photos: Photo[]) => void;
     onEdit: () => void;
     onDelete: () => void;
     onLikePost?: (postId: number) => void;
     onUnlikePost?: (likeId: number) => void;
-    onSetContent?: (value: string) => void;
-    onSetEditContent?: (value: string) => void;
-    onAddNewComment?: (postId: number) => void;
+    onAddNewComment?: (postId: number, content: string) => void;
     onDeleteComment?: (commentId: number) => void;
-    onEditComment?: (commentId: number) => void;
+    onEditComment?: (commentId: number, editContent: string) => void;
     onApprovePost?: () => void;
     onRejectPost?: () => void;
 };
@@ -40,15 +36,11 @@ const PostCard = ({
     isMyPost = false,
     likesOfItem = [],
     commentsOfItem = [],
-    content = '',
-    editContent = '',
     onShowImage,
     onEdit,
     onDelete,
     onLikePost = () => {},
     onUnlikePost = () => {},
-    onSetContent = () => {},
-    onSetEditContent = () => {},
     onAddNewComment = () => {},
     onDeleteComment = () => {},
     onEditComment = () => {},
@@ -59,6 +51,8 @@ const PostCard = ({
     const [visibleDetails, setVisibleDetails] = useState(false);
     const [visibleComment, setVisibleComment] = useState(false);
     const [editComment, setEditComment] = useState('');
+    const [content, setContent] = useState('');
+    const [editContent, setEditContent] = useState('');
     const currentUser = useAppSelector((state) => selectCurrentUser(state));
     const userId = currentUser?.id;
     const isAdmin = currentUser?.role === 'admin';
@@ -231,7 +225,9 @@ const PostCard = ({
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.interaction}
-                            onPress={() => setVisibleComment(true)}
+                            onPress={() => {
+                                setVisibleComment(true);
+                            }}
                         >
                             <Ionicons name="md-chatbubble-outline" size={25} />
                             <Text style={styles.interactionText}>{commentText}</Text>
@@ -249,7 +245,7 @@ const PostCard = ({
                         editContent={editContent}
                         setVisible={setVisible}
                         setEditComment={setEditComment}
-                        onSetEditContent={onSetEditContent}
+                        onSetEditContent={setEditContent}
                         onDeleteComment={onDeleteComment}
                         onEditComment={onEditComment}
                     />
@@ -260,14 +256,26 @@ const PostCard = ({
                             value={content}
                             activeOutlineColor={colors.royalBlue}
                             style={styles.commentInput}
-                            onChangeText={(itemValue) => onSetContent(itemValue)}
+                            onChangeText={(itemValue) => setContent(itemValue)}
                             placeholder="Write a comment"
+                            right={
+                                content ? (
+                                    <TextInput.Icon
+                                        name="close-circle-outline"
+                                        size={18}
+                                        onPress={() => setContent('')}
+                                    />
+                                ) : undefined
+                            }
                         />
                         <Button
                             color={colors.royalBlue}
                             uppercase={false}
                             disabled={content === ''}
-                            onPress={() => onAddNewComment(item.id || 0)}
+                            onPress={() => {
+                                onAddNewComment(item.id || 0, content);
+                                setContent('');
+                            }}
                         >
                             Send
                         </Button>

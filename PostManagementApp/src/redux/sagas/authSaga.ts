@@ -1,14 +1,14 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, fork, put, take } from 'redux-saga/effects';
+import { call, fork, put, takeLatest } from 'redux-saga/effects';
 import { authApi } from '../../api';
 import { removeAccessToken, setAccessToken } from '../../utils/helpers';
 import { authActions } from '../slices';
 
-function* handleLogin(payload: string) {
+function* handleLogin(action: PayloadAction<string>) {
     try {
         const response: { data: { access_token: string; data: User } } = yield call(
             authApi.loginRequest,
-            payload
+            action.payload
         );
 
         if (response) {
@@ -27,13 +27,9 @@ function* handleLogout() {
 }
 
 function* watchLoginFlow() {
-    while (true) {
-        const action: PayloadAction<string> = yield take(authActions.login.type);
-        yield fork(handleLogin, action.payload);
+    yield takeLatest(authActions.login.type, handleLogin);
 
-        yield take(authActions.logout.type);
-        yield call(handleLogout);
-    }
+    yield takeLatest(authActions.logout.type, handleLogout);
 }
 
 export default function* authSaga() {

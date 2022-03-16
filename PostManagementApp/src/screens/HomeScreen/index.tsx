@@ -8,33 +8,25 @@ type HomeScreenProps = {
     posts: Post[];
     likes: PostLike[];
     comments: PostComment[];
-    content: string;
-    editContent: string;
     onShowImage: (photos: Photo[]) => void;
     onEdit: (post: Post) => void;
     onDelete: (postId: number) => void;
     onLikePost: (postId: number) => void;
     onUnlikePost: (likeId: number) => void;
-    onSetContent: (value: string) => void;
-    onSetEditContent: (value: string) => void;
-    onAddNewComment: (postId: number) => void;
+    onAddNewComment: (postId: number, value: string) => void;
     onDeleteComment: (commentId: number) => void;
-    onEditComment: (commentId: number) => void;
+    onEditComment: (commentId: number, value: string) => void;
 };
 
 const HomeScreen = ({
     posts,
     likes,
     comments,
-    content,
-    editContent,
     onShowImage,
     onEdit,
     onDelete,
     onLikePost,
     onUnlikePost,
-    onSetContent,
-    onSetEditContent,
     onAddNewComment,
     onDeleteComment,
     onEditComment
@@ -55,12 +47,8 @@ const HomeScreen = ({
                         )}
                         onLikePost={onLikePost}
                         onUnlikePost={onUnlikePost}
-                        content={content}
-                        onSetContent={onSetContent}
                         onAddNewComment={onAddNewComment}
                         onDeleteComment={onDeleteComment}
-                        editContent={editContent}
-                        onSetEditContent={onSetEditContent}
                         onEditComment={onEditComment}
                     />
                 )}

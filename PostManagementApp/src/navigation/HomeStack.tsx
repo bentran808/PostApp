@@ -64,7 +64,7 @@ const HomeStack = ({ navigation }: HomeStackProps) => (
             name={Screens.SHOW_IMAGE_SCREEN}
             component={ShowImageScreen}
             options={{
-                headerShown: false
+                headerTitle: ''
             }}
         />
     </Stack.Navigator>

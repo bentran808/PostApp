@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
     authActions,
@@ -24,8 +24,6 @@ interface HomeScreenContainerProps {
 }
 
 const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
-    const [content, setContent] = useState('');
-    const [editContent, setEditContent] = useState('');
     const dispatch = useAppDispatch();
     const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
     const currentUser = useAppSelector((state) => selectCurrentUser(state));
@@ -68,18 +66,16 @@ const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
         dispatch(postActions.unlikePost(likeId));
     };
 
-    const handleAddNewComment = async (postId: number) => {
-        dispatch(postActions.addComment({ postId, currentUser, content }));
-        setContent('');
+    const handleAddNewComment = async (postId: number, value: string) => {
+        dispatch(postActions.addComment({ postId, currentUser, content: value }));
     };
 
     const handleDeleteComment = async (commentId: number) => {
         dispatch(postActions.deleteComment(commentId));
     };
 
-    const handleEditComment = async (commentId: number) => {
+    const handleEditComment = async (commentId: number, editContent: string) => {
         dispatch(postActions.editComment({ commentId, newContent: editContent }));
-        setEditContent('');
     };
 
     return (
@@ -87,17 +83,13 @@ const HomeScreenContainer = ({ navigation }: HomeScreenContainerProps) => {
             posts={getApprovedPosts(posts)}
             likes={likes}
             comments={comments}
-            content={content}
-            editContent={editContent}
             onShowImage={handleShowImage}
             onEdit={handleEdit}
             onDelete={handleDelete}
             onLikePost={handleLikePost}
             onUnlikePost={handleUnlikePost}
-            onSetContent={setContent}
             onAddNewComment={handleAddNewComment}
             onDeleteComment={handleDeleteComment}
-            onSetEditContent={setEditContent}
             onEditComment={handleEditComment}
         />
     );

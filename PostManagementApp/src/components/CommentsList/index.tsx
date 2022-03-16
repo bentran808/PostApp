@@ -2,12 +2,12 @@ import moment from 'moment';
 import React from 'react';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Colors, Menu, TextInput } from 'react-native-paper';
-import { DefaultAvatar } from '../../theme/Images';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors } from '../../constants/colors';
-import { windowHeight, windowWidth } from '../../utils/Dimensions';
 import { useAppSelector } from '../../hooks';
 import { selectCurrentUser } from '../../redux/slices';
+import { DefaultAvatar } from '../../theme/Images';
+import { windowHeight, windowWidth } from '../../utils/Dimensions';
 import { styles } from './CommentsListStyles';
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
     setEditComment: (value: string) => void;
     onSetEditContent: (value: string) => void;
     onDeleteComment: (id: number) => void;
-    onEditComment: (id: number) => void;
+    onEditComment: (id: number, value: string) => void;
 };
 
 const CommentsList = ({
@@ -104,6 +104,15 @@ const CommentsList = ({
                                     }}
                                     onChangeText={(itemValue) => onSetEditContent(itemValue)}
                                     placeholder="Write a comment"
+                                    right={
+                                        editContent ? (
+                                            <TextInput.Icon
+                                                name="close-circle-outline"
+                                                size={18}
+                                                onPress={() => onSetEditContent('')}
+                                            />
+                                        ) : undefined
+                                    }
                                 />
                                 <Button
                                     color={colors.royalBlue}
@@ -111,7 +120,7 @@ const CommentsList = ({
                                     uppercase={false}
                                     disabled={editContent === ''}
                                     onPress={() => {
-                                        onEditComment(item.id);
+                                        onEditComment(item.id, editContent);
                                         setEditComment('');
                                     }}
                                 >
