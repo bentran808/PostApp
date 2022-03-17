@@ -6,11 +6,14 @@ import postReducer from '../slices/postSlices';
 
 const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
-    reducer: {
-        auth: authReducer,
-        post: postReducer
-    },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware)
+  reducer: {
+    auth: authReducer,
+    post: postReducer
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    }).concat(sagaMiddleware)
 });
 
 sagaMiddleware.run(rootSaga);
