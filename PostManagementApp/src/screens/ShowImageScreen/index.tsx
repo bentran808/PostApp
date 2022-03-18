@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Slider from 'react-native-hook-image-slider';
+import { Colors } from 'react-native-paper';
 
 const ShowImageScreen = ({ route }: { route: { params: { photos: Photo[] } } }) => {
   const photos = route.params.photos;
@@ -15,7 +16,7 @@ const ShowImageScreen = ({ route }: { route: { params: { photos: Photo[] } } }) 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    backgroundColor: 'black',
+    backgroundColor: Colors.black,
     height: '100%'
   }
 });

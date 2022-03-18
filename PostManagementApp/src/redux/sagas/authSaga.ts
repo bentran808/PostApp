@@ -19,10 +19,8 @@ function* handleLogin(
       yield put(authActions.loginSuccess(response.data));
     }
   } catch (error) {
-    if (error) {
-      yield call(action.payload.callback, null, error);
-      yield put(authActions.loginFailed('Login Failed'));
-    }
+    yield call(action.payload.callback, null, error);
+    yield put(authActions.loginFailed('Login Failed'));
   }
 }
 

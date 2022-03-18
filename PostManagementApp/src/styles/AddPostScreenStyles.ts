@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     marginVertical: 10
   },
   statusInactive: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.lightGrey,
     color: Colors.black,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -55,8 +55,8 @@ export const styles = StyleSheet.create({
     marginRight: 10
   },
   statusActive: {
-    backgroundColor: '#faedc8',
-    color: '#fcba03',
+    backgroundColor: colors.oasis,
+    color: colors.selectiveYellow,
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 10,

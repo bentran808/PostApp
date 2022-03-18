@@ -5,13 +5,13 @@ import AppStack from './navigation/AppStack';
 import { store } from './redux/store';
 
 const App = () => {
-    return (
-        <Provider store={store}>
-            <PaperProvider>
-                <AppStack />
-            </PaperProvider>
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <PaperProvider>
+        <AppStack />
+      </PaperProvider>
+    </Provider>
+  );
 };
 
 export default App;

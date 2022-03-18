@@ -130,6 +130,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
               width: windowWidth / 2
             }}
             onPress={handleLogin}
+            testID="loginBottom"
           >
             Login
           </Button>
