@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Colors, Text } from 'react-native-paper';
 import PostCard from '../../components/PostCard';
@@ -19,6 +19,7 @@ interface MyPostProps {
 }
 
 const MyPostScreen = ({ navigation }: MyPostProps) => {
+  const [loading, setLoading] = useState(false);
   const posts = useAppSelector((state) => selectPosts(state));
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => selectCurrentUser(state));
@@ -40,9 +41,16 @@ const MyPostScreen = ({ navigation }: MyPostProps) => {
     dispatch(postActions.deletePost(postId));
   };
 
+  const handleRefresh = () => {
+    setLoading(true);
+    dispatch(postActions.fetchData(() => setLoading(false)));
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
+        refreshing={loading}
+        onRefresh={handleRefresh}
         data={getMyPosts(posts)}
         renderItem={({ item }: { item: Post }) => (
           <PostCard

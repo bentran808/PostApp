@@ -13,13 +13,10 @@ const formatPrice = (price: Number) => {
 
 const getApprovedPosts = (arr: Post[]) => arr.filter((item) => !item.pending);
 
-const setAccessToken = async (access_token: string) => {
+const setAccessToken = async (access_token: string) =>
   await AsyncStorage.setItem('access_token', access_token);
-};
 
-const getAccessToken = async () => {
-  await AsyncStorage.getItem('access_token');
-};
+const getAccessToken = async () => await AsyncStorage.getItem('access_token');
 
 const removeAccessToken = async () => await AsyncStorage.removeItem('access_token');
 

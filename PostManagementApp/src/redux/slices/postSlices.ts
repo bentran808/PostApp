@@ -23,7 +23,7 @@ const postSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    fetchData(state) {
+    fetchData(state, _action: PayloadAction<() => void>) {
       state.loading = true;
       state.errorMessage = '';
     },

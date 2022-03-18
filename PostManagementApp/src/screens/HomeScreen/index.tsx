@@ -1,12 +1,11 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import PostCard from '../../components/PostCard';
 import { Screens } from '../../constants/screens';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
-  authActions,
   postActions,
   selectComments,
   selectCurrentUser,
@@ -27,23 +26,16 @@ interface HomeScreenContainerProps {
 }
 
 const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
   const currentUser = useAppSelector((state) => selectCurrentUser(state));
   const posts = useAppSelector((state) => selectPosts(state));
   const likes = useAppSelector((state) => selectLikes(state));
   const comments = useAppSelector((state) => selectComments(state));
 
   useEffect(() => {
-    dispatch(postActions.fetchData());
+    dispatch(postActions.fetchData(() => {}));
   }, [dispatch]);
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      dispatch(authActions.logout());
-      navigation.navigate(Screens.LOGIN.name);
-    }
-  }, [dispatch, isLoggedIn, navigation]);
 
   const handleShowImage = (photos: Photo[]) => {
     navigation.navigate(Screens.SHOW_IMAGE_SCREEN.name, {
@@ -81,9 +73,16 @@ const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
     dispatch(postActions.editComment({ commentId, newContent: editContent }));
   };
 
+  const handleRefresh = () => {
+    setLoading(true);
+    dispatch(postActions.fetchData(() => setLoading(false)));
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
+        refreshing={loading}
+        onRefresh={handleRefresh}
         data={posts}
         renderItem={({ item }: { item: Post }) => (
           <PostCard

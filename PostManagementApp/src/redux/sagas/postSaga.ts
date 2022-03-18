@@ -4,13 +4,14 @@ import { postApi } from '../../api/postApi';
 import { sortDesc } from '../../utils/helpers';
 import { postActions } from './../slices/postSlices';
 
-function* handleFetchData() {
+function* handleFetchData(_action: PayloadAction<() => void>) {
   try {
     const response: [{ data: Post[] }, { data: PostLike[] }, { data: PostComment[] }] = yield all([
       postApi.fetchPostsRequest(),
       postApi.fetchLikesRequest(),
       postApi.fetchCommentsRequest()
     ]);
+    _action.payload();
     if (response) {
       const postsData = response[0].data;
       const postsById = sortDesc(postsData).map((item) => item.id || 0);
