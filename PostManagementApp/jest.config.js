@@ -4,8 +4,8 @@ module.exports = {
   preset: 'react-native',
   moduleDirectories: ['node_modules', 'src'],
   transform: {
-    '^.+\\.ts?$': 'ts-jest',
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.ts?$': 'babel-jest',
+    '^.+\\.tsx?$': 'babel-jest',
     '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js'
   },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)?$',
@@ -13,5 +13,7 @@ module.exports = {
   moduleNameMapper: {
     '^.+\\.(css|less|scss)$': 'identity-obj-proxy'
   },
-  transformIgnorePatterns: ['node_modules/(?!@react-native|react-native)']
+  transformIgnorePatterns: ['node_modules/(?!@react-native|react-native)'],
+  collectCoverage: true,
+  coverageReporters: ['json', 'html']
 };
