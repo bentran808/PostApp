@@ -39,6 +39,7 @@ const CommentsList = ({
 
   return (
     <FlatList
+      testID="commentList"
       data={commentsOfItem}
       renderItem={({ item }) => {
         const isAuthorComment = item.author.id === userId || isAdmin;
@@ -63,7 +64,10 @@ const CommentsList = ({
                   visible={visible === `comment-${item.id}`}
                   onDismiss={() => setVisible('')}
                   anchor={
-                    <TouchableOpacity onPress={() => setVisible(`comment-${item.id}`)}>
+                    <TouchableOpacity
+                      onPress={() => setVisible(`comment-${item.id}`)}
+                      testID="Menu"
+                    >
                       <Ionicons name="ellipsis-vertical" size={16} color={Colors.black} />
                     </TouchableOpacity>
                   }
@@ -104,6 +108,7 @@ const CommentsList = ({
                         name="close-circle-outline"
                         size={18}
                         onPress={() => onSetEditContent('')}
+                        testID="clearEditComment"
                       />
                     ) : undefined
                   }
@@ -117,6 +122,7 @@ const CommentsList = ({
                     onEditComment(item.id, editContent);
                     setEditComment('');
                   }}
+                  testID="buttonSave"
                 >
                   Save
                 </Button>
@@ -128,6 +134,7 @@ const CommentsList = ({
                     setEditComment('');
                     onSetEditContent(item.content);
                   }}
+                  testID="buttonCancel"
                 >
                   Cancel
                 </Button>

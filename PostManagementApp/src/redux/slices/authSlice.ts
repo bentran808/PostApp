@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { initialUser } from '../../__mocks__/data';
 import { RootState } from '../store';
 
 interface AuthState {
@@ -8,17 +9,6 @@ interface AuthState {
   accessToken: string | null;
   errorMessage: string;
 }
-
-const initialUser = {
-  id: '',
-  avatar: '',
-  name: '',
-  gender: '',
-  email: '',
-  phone: '',
-  address: '',
-  role: ''
-};
 
 const initialState: AuthState = {
   isLoggedIn: false,

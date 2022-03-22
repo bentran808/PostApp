@@ -37,6 +37,7 @@ exports[`Post Card Component renders correctly 1`] = `
           "opacity": 1,
         }
       }
+      testID="showImage"
     >
       <View
         style={
@@ -244,7 +245,7 @@ exports[`Post Card Component renders correctly 1`] = `
             }
           }
         >
-          4 days ago
+          5 days ago
         </Text>
         <View
           style={
@@ -285,6 +286,50 @@ exports[`Post Card Component renders correctly 1`] = `
             }
           >
             199 Bergen Street, Bowie, Oregon, 7933
+          </Text>
+        </View>
+      </View>
+      <View
+        collapsable={false}
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+          testID="Menu"
+        >
+          <Text
+            allowFontScaling={false}
+            selectable={false}
+            style={
+              Array [
+                Object {
+                  "color": "#000000",
+                  "fontSize": 20,
+                },
+                undefined,
+                Object {
+                  "fontFamily": "Ionicons",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {},
+              ]
+            }
+          >
+            
           </Text>
         </View>
       </View>
@@ -329,6 +374,7 @@ exports[`Post Card Component renders correctly 1`] = `
             },
           ]
         }
+        testID="showDetails"
       >
         <View
           style={
@@ -464,7 +510,7 @@ exports[`Post Card Component renders correctly 1`] = `
         onStartShouldSetResponder={[Function]}
         style={
           Object {
-            "backgroundColor": "transparent",
+            "backgroundColor": "#2e64e515",
             "borderRadius": 5,
             "flexDirection": "row",
             "justifyContent": "center",
@@ -473,6 +519,7 @@ exports[`Post Card Component renders correctly 1`] = `
             "paddingVertical": 2,
           }
         }
+        testID="likeButton"
       >
         <Text
           allowFontScaling={false}
@@ -480,7 +527,7 @@ exports[`Post Card Component renders correctly 1`] = `
           style={
             Array [
               Object {
-                "color": "#333",
+                "color": "#2e64e5",
                 "fontSize": 25,
               },
               undefined,
@@ -493,7 +540,7 @@ exports[`Post Card Component renders correctly 1`] = `
             ]
           }
         >
-          
+          
         </Text>
         <Text
           style={
@@ -505,12 +552,12 @@ exports[`Post Card Component renders correctly 1`] = `
                 "marginTop": 5,
               },
               Object {
-                "color": "#333",
+                "color": "#2e64e5",
               },
             ]
           }
         >
-          Like
+          1 Like
         </Text>
       </View>
       <View
@@ -534,6 +581,7 @@ exports[`Post Card Component renders correctly 1`] = `
             "paddingVertical": 2,
           }
         }
+        testID="commentButton"
       >
         <Text
           allowFontScaling={false}
@@ -566,7 +614,7 @@ exports[`Post Card Component renders correctly 1`] = `
             }
           }
         >
-          Comment
+          2 Comments
         </Text>
       </View>
     </View>

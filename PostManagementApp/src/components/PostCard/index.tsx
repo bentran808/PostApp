@@ -80,7 +80,7 @@ const PostCard = ({
 
   return (
     <View style={styles.card} key={`Post-${item.id}`}>
-      <TouchableOpacity onPress={() => onShowImage(item.photos)}>
+      <TouchableOpacity testID="showImage" onPress={() => onShowImage(item.photos)}>
         <View style={{ width: windowWidth * 0.9 }}>
           <Slider
             images={item.photos.map((photo: { uri: string }) => photo.uri)}
@@ -103,7 +103,7 @@ const PostCard = ({
             visible={visible === `post-${item.id}`}
             onDismiss={() => setVisible('')}
             anchor={
-              <TouchableOpacity onPress={() => setVisible(`post-${item.id}`)}>
+              <TouchableOpacity onPress={() => setVisible(`post-${item.id}`)} testID="Menu">
                 <Ionicons name="ellipsis-vertical" size={20} color={Colors.black} />
               </TouchableOpacity>
             }
@@ -114,6 +114,7 @@ const PostCard = ({
                 onEdit();
               }}
               title="Edit"
+              testID="MenuEdit"
             />
             <Menu.Item
               onPress={() => {
@@ -121,12 +122,13 @@ const PostCard = ({
                 onDelete();
               }}
               title="Delete"
+              testID="Menu.Delete"
             />
           </Menu>
         )}
       </View>
       {visibleDetails && (
-        <>
+        <View testID="contentDetails">
           <View style={styles.divider} />
           <View style={styles.userInfo}>
             <Image
@@ -157,9 +159,10 @@ const PostCard = ({
             <Ionicons name="md-card-outline" size={20} color={Colors.black} />
             <Text style={styles.postAddress}>Status: {item.status ? 'Used' : 'New'}</Text>
           </View>
-        </>
+        </View>
       )}
       <Button
+        testID="showDetails"
         color={colors.nightRider}
         icon={visibleDetails ? 'chevron-up' : 'chevron-down'}
         labelStyle={styles.text_sm}
@@ -211,6 +214,7 @@ const PostCard = ({
                   backgroundColor: likeBackground
                 }
               ]}
+              testID="likeButton"
             >
               <Ionicons name={likeIcon} size={25} color={likeIconColor} />
               <Text style={[styles.interactionText, { color: likeIconColor }]}>{likeText}</Text>
@@ -220,6 +224,7 @@ const PostCard = ({
               onPress={() => {
                 setVisibleComment(true);
               }}
+              testID="commentButton"
             >
               <Ionicons name="md-chatbubble-outline" size={25} />
               <Text style={styles.interactionText}>{commentText}</Text>
@@ -242,7 +247,7 @@ const PostCard = ({
             onEditComment={onEditComment}
           />
           <View style={styles.divider} />
-          <View style={styles.commentWrapper}>
+          <View style={styles.commentWrapper} testID="commentWrapper">
             <TextInput
               mode="outlined"
               value={content}
@@ -259,6 +264,7 @@ const PostCard = ({
                   />
                 ) : undefined
               }
+              testID="inputComment"
             />
             <Button
               color={colors.royalBlue}
@@ -268,6 +274,7 @@ const PostCard = ({
                 onAddNewComment(item.id || 0, content);
                 setContent('');
               }}
+              testID="buttonAddComment"
             >
               Send
             </Button>
