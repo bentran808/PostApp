@@ -4,7 +4,7 @@ import { postApi } from '../../api/postApi';
 import { sortDesc } from '../../utils/helpers';
 import { postActions } from './../slices/postSlices';
 
-function* handleFetchData(_action: PayloadAction<() => void>) {
+export function* handleFetchData(_action: PayloadAction<() => void>) {
   try {
     const response: [{ data: Post[] }, { data: PostLike[] }, { data: PostComment[] }] = yield all([
       postApi.fetchPostsRequest(),
@@ -35,7 +35,7 @@ function* handleFetchData(_action: PayloadAction<() => void>) {
   }
 }
 
-function* handleAddPost(
+export function* handleAddPost(
   action: PayloadAction<{ params: Post; callback: (data: Post | null, error: any) => void }>
 ) {
   try {
@@ -55,7 +55,7 @@ function* handleAddPost(
   }
 }
 
-function* handleEditPost(
+export function* handleEditPost(
   action: PayloadAction<{
     postId: number;
     editedPost: Post;
@@ -77,7 +77,7 @@ function* handleEditPost(
   }
 }
 
-function* handleDeletePost(action: PayloadAction<number>) {
+export function* handleDeletePost(action: PayloadAction<number>) {
   try {
     const response: { status: number } = yield call(postApi.deletePostRequest, action.payload);
     if (response.status === 200) {
@@ -88,7 +88,9 @@ function* handleDeletePost(action: PayloadAction<number>) {
   }
 }
 
-function* handleApprovePendingPost(action: PayloadAction<{ postId: number; pending: boolean }>) {
+export function* handleApprovePendingPost(
+  action: PayloadAction<{ postId: number; pending: boolean }>
+) {
   const { postId, pending } = action.payload;
 
   try {
@@ -102,7 +104,7 @@ function* handleApprovePendingPost(action: PayloadAction<{ postId: number; pendi
   }
 }
 
-function* handleLikePost(action: PayloadAction<{ postId: number; currentUser: User }>) {
+export function* handleLikePost(action: PayloadAction<{ postId: number; currentUser: User }>) {
   try {
     const response: { data: PostLike } = yield call(
       postApi.likePostRequest,
@@ -118,7 +120,7 @@ function* handleLikePost(action: PayloadAction<{ postId: number; currentUser: Us
   }
 }
 
-function* handleUnlikePost(action: PayloadAction<number>) {
+export function* handleUnlikePost(action: PayloadAction<number>) {
   try {
     const response: { status: number } = yield call(postApi.unlikePostRequest, action.payload);
 
@@ -130,7 +132,7 @@ function* handleUnlikePost(action: PayloadAction<number>) {
   }
 }
 
-function* handleAddComment(
+export function* handleAddComment(
   action: PayloadAction<{
     postId: number;
     currentUser: User;
@@ -154,7 +156,9 @@ function* handleAddComment(
   }
 }
 
-function* handleEditComment(action: PayloadAction<{ commentId: number; newContent: string }>) {
+export function* handleEditComment(
+  action: PayloadAction<{ commentId: number; newContent: string }>
+) {
   const { commentId, newContent } = action.payload;
   try {
     const response: { data: PostComment } = yield call(
@@ -171,7 +175,7 @@ function* handleEditComment(action: PayloadAction<{ commentId: number; newConten
   }
 }
 
-function* handleDeleteComment(action: PayloadAction<number>) {
+export function* handleDeleteComment(action: PayloadAction<number>) {
   try {
     const response: { status: number } = yield call(postApi.deleteCommentRequest, action.payload);
     if (response.status === 200) {

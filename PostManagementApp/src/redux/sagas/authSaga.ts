@@ -4,7 +4,7 @@ import { authApi } from '../../api';
 import { removeAccessToken, setAccessToken } from '../../utils/helpers';
 import { authActions } from '../slices';
 
-function* handleLogin(
+export function* handleLogin(
   action: PayloadAction<{ params: string; callback: (data: User | null, error: any) => void }>
 ) {
   try {

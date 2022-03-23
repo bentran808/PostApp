@@ -84,4 +84,63 @@ const mockCommentsList = [
   }
 ];
 
-export { initialUser, mockUser, mockPost, mockLikes, mockCommentsList };
+const mockNewPost = {
+  author: mockUser,
+  company: 'qwe',
+  year: 2021,
+  type: 'qwe',
+  status: true,
+  price: 10000,
+  address: 'qwe',
+  title: 'qwe',
+  description: 'qwe',
+  photos: [],
+  pending: true
+};
+
+const mockEditedPost = {
+  '2': mockPost,
+  '3': {
+    id: 3,
+    ...mockNewPost
+  }
+};
+
+const mockApprovedPost = {
+  '2': mockPost,
+  '3': {
+    id: 3,
+    ...mockNewPost,
+    pending: false
+  }
+};
+
+const mockLike = {
+  author: mockUser,
+  postId: 2,
+  createdAt: 1647509052801,
+  updatedAt: 1647509052801,
+  id: 2
+};
+
+const mockNewComment = {
+  author: mockUser,
+  postId: 2,
+  content: 'abc',
+  createdAt: 1647509052801,
+  updatedAt: 1647509052801,
+  id: 3
+};
+
+export {
+  initialUser,
+  mockUser,
+  mockPost,
+  mockLikes,
+  mockCommentsList,
+  mockNewPost,
+  mockEditedPost,
+  mockApprovedPost,
+  mockLike,
+  mockNewComment
+};

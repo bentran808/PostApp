@@ -1,43 +1,17 @@
-import { store } from '../../store';
 import {
   initialUser,
+  mockApprovedPost,
   mockCommentsList,
+  mockEditedPost,
+  mockLike,
   mockLikes,
+  mockNewComment,
+  mockNewPost,
   mockPost,
   mockUser
 } from '../../../__mocks__/data';
+import { store } from '../../store';
 import { postActions, selectComments, selectLikes, selectPosts } from '../postSlices';
-
-const mockNewPost = {
-  author: mockUser,
-  company: 'qwe',
-  year: 2021,
-  type: 'qwe',
-  status: true,
-  price: 10000,
-  address: 'qwe',
-  title: 'qwe',
-  description: 'qwe',
-  photos: [],
-  pending: true
-};
-
-const mockEditedPost = {
-  '2': mockPost,
-  '3': {
-    id: 3,
-    ...mockNewPost
-  }
-};
-
-const mockApprovedPost = {
-  '2': mockPost,
-  '3': {
-    id: 3,
-    ...mockNewPost,
-    pending: false
-  }
-};
 
 const state = {
   auth: {
@@ -180,6 +154,113 @@ describe('Test Post Slice', () => {
     store.dispatch(postActions.approvePendingPostFailed('Approved failed'));
     let errorMessage = store.getState().post.errorMessage;
     expect(errorMessage).toBe('Approved failed');
+  });
+
+  test('should call function likePost', () => {
+    store.dispatch(
+      postActions.likePost({
+        postId: 2,
+        currentUser: mockUser
+      })
+    );
+    let loading = store.getState().post.loading;
+    expect(loading).toBeTruthy();
+  });
+
+  test('should call function likePostSuccess', () => {
+    store.dispatch(postActions.likePostSuccess(mockLike));
+    let likes = store.getState().post.likes;
+    expect(likes).toEqual([...mockLikes, mockLike]);
+  });
+
+  test('should call function likePostFailed', () => {
+    store.dispatch(postActions.likePostFailed('Like failed'));
+    let errorMessage = store.getState().post.errorMessage;
+    expect(errorMessage).toBe('Like failed');
+  });
+
+  test('should call function unlikePost', () => {
+    store.dispatch(postActions.unlikePost(2));
+    let loading = store.getState().post.loading;
+    expect(loading).toBeTruthy();
+  });
+
+  test('should call function unlikePostSuccess', () => {
+    store.dispatch(postActions.unlikePostSuccess(2));
+    let likes = store.getState().post.likes;
+    expect(likes).toEqual(mockLikes);
+  });
+
+  test('should call function unlikePostFailed', () => {
+    store.dispatch(postActions.unlikePostFailed('Unlike failed'));
+    let errorMessage = store.getState().post.errorMessage;
+    expect(errorMessage).toBe('Unlike failed');
+  });
+
+  test('should call function addComment', () => {
+    store.dispatch(
+      postActions.addComment({
+        postId: 2,
+        currentUser: mockUser,
+        content: 'test'
+      })
+    );
+    let loading = store.getState().post.loading;
+    expect(loading).toBeTruthy();
+  });
+
+  test('should call function addCommentSuccess', () => {
+    store.dispatch(postActions.addCommentSuccess(mockNewComment));
+    let comments = store.getState().post.comments;
+    expect(comments).toEqual([...mockCommentsList, mockNewComment]);
+  });
+
+  test('should call function addCommentFailed', () => {
+    store.dispatch(postActions.addCommentFailed('Add comment failed'));
+    let errorMessage = store.getState().post.errorMessage;
+    expect(errorMessage).toBe('Add comment failed');
+  });
+
+  test('should call function editComment', () => {
+    store.dispatch(
+      postActions.editComment({
+        commentId: 3,
+        newContent: 'asd'
+      })
+    );
+    let loading = store.getState().post.loading;
+    expect(loading).toBeTruthy();
+  });
+
+  test('should call function editCommentSuccess', () => {
+    const editedComment = { ...mockNewComment, content: 'asd' };
+    store.dispatch(postActions.editCommentSuccess(editedComment));
+    let comments = store.getState().post.comments;
+    expect(comments).toEqual([...mockCommentsList, editedComment]);
+  });
+
+  test('should call function editCommentFailed', () => {
+    store.dispatch(postActions.editCommentFailed('Edit comment failed'));
+    let errorMessage = store.getState().post.errorMessage;
+    expect(errorMessage).toBe('Edit comment failed');
+  });
+
+  test('should call function deleteComment', () => {
+    store.dispatch(postActions.deleteComment(3));
+    let loading = store.getState().post.loading;
+    expect(loading).toBeTruthy();
+  });
+
+  test('should call function deleteCommentSuccess', () => {
+    store.dispatch(postActions.deleteCommentSuccess(3));
+    let comments = store.getState().post.comments;
+    expect(comments).toEqual(mockCommentsList);
+  });
+
+  test('should call function deleteCommentFailed', () => {
+    store.dispatch(postActions.deleteCommentFailed('Delete comment failed'));
+    let errorMessage = store.getState().post.errorMessage;
+    expect(errorMessage).toBe('Delete comment failed');
   });
 
   test('should call function selectPosts', () => {
