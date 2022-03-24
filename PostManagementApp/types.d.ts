@@ -1,8 +1,6 @@
 type RootStackParamList = {
   Home: undefined;
-  HomeScreen: {
-    data: Post;
-  };
+  HomeScreen: undefined;
   Login: undefined;
   AddPostScreen:
     | {

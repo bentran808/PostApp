@@ -1,0 +1,176 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Show Image Screen should render correctly 1`] = `
+<View
+  collapsable={false}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#000000",
+        "height": "100%",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "height": 300,
+          "overflow": "hidden",
+          "position": "relative",
+          "width": "100%",
+        }
+      }
+    >
+      <RCTScrollView
+        bounces={false}
+        data={
+          Array [
+            "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg",
+          ]
+        }
+        decelerationRate="fast"
+        getItem={[Function]}
+        getItemCount={[Function]}
+        getItemLayout={[Function]}
+        horizontal={true}
+        keyExtractor={[Function]}
+        onContentSizeChange={[Function]}
+        onLayout={[Function]}
+        onMomentumScrollBegin={[Function]}
+        onMomentumScrollEnd={[Function]}
+        onScroll={[Function]}
+        onScrollBeginDrag={[Function]}
+        onScrollEndDrag={[Function]}
+        onViewableItemsChanged={[Function]}
+        pagingEnabled={true}
+        removeClippedSubviews={false}
+        renderItem={[Function]}
+        scrollEventThrottle={50}
+        showsHorizontalScrollIndicator={false}
+        stickyHeaderIndices={Array []}
+        style={
+          Object {
+            "height": "100%",
+            "width": 750,
+          }
+        }
+        viewabilityConfig={
+          Object {
+            "viewAreaCoveragePercentThreshold": 60,
+            "waitForInteraction": false,
+          }
+        }
+        viewabilityConfigCallbackPairs={
+          Array [
+            Object {
+              "onViewableItemsChanged": [Function],
+              "viewabilityConfig": Object {
+                "viewAreaCoveragePercentThreshold": 60,
+                "waitForInteraction": false,
+              },
+            },
+          ]
+        }
+      >
+        <View>
+          <View
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                },
+                null,
+              ]
+            }
+          >
+            <View
+              style={
+                Object {
+                  "backgroundColor": "#FFF",
+                  "height": "auto",
+                  "width": 750,
+                }
+              }
+            >
+              <Image
+                onLoad={[Function]}
+                resizeMode="cover"
+                source={
+                  Object {
+                    "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg",
+                  }
+                }
+                style={
+                  Object {
+                    "height": "100%",
+                    "overflow": "hidden",
+                    "resizeMode": "cover",
+                    "width": 750,
+                  }
+                }
+              />
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "backgroundColor": "#D3D3D3",
+                    "height": "100%",
+                    "justifyContent": "center",
+                    "position": "absolute",
+                    "width": 750,
+                  }
+                }
+              >
+                <ActivityIndicator
+                  color="#000"
+                  size="large"
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "bottom": 25,
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "position": "absolute",
+            "width": "100%",
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFF",
+                "borderColor": "#FFF",
+                "borderRadius": 50,
+                "borderWidth": 2,
+                "height": 20,
+                "marginRight": 7,
+                "width": 20,
+              },
+              Object {
+                "backgroundColor": "#000",
+              },
+            ]
+          }
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;

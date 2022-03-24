@@ -22,7 +22,7 @@ describe('Comments List Component', () => {
 
   test('renders correctly', () => {
     const { getAllByTestId, toJSON } = render(<CommentsList {...props} />);
-    const menu = getAllByTestId('Menu');
+    const menu = getAllByTestId('MenuOfComment');
     fireEvent.press(menu[0]);
     expect(toJSON()).toMatchSnapshot();
   });

@@ -66,7 +66,7 @@ const CommentsList = ({
                   anchor={
                     <TouchableOpacity
                       onPress={() => setVisible(`comment-${item.id}`)}
-                      testID="Menu"
+                      testID="MenuOfComment"
                     >
                       <Ionicons name="ellipsis-vertical" size={16} color={Colors.black} />
                     </TouchableOpacity>
@@ -79,6 +79,7 @@ const CommentsList = ({
                       onSetEditContent(item.content);
                     }}
                     title="Edit"
+                    testID="EditOfComment"
                   />
                   <Menu.Item
                     onPress={() => {
@@ -86,6 +87,7 @@ const CommentsList = ({
                       onDeleteComment(item.id);
                     }}
                     title="Delete"
+                    testID="DeleteOfComment"
                   />
                 </Menu>
               )}

@@ -1,0 +1,782 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Home Screen should render correctly 1`] = `
+<View
+  collapsable={false}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#ffffff",
+        "flex": 1,
+        "padding": 20,
+      }
+    }
+  >
+    <RCTScrollView
+      ListEmptyComponent={[Function]}
+      data={
+        Array [
+          Object {
+            "address": "199 Bergen Street, Bowie, Oregon, 7933",
+            "author": Object {
+              "address": "199 Bergen Street, Bowie, Oregon, 7933",
+              "avatar": "https://picsum.photos/200",
+              "email": "admin@admin.com",
+              "gender": "male",
+              "id": "621c4188dece66a40dad2951",
+              "name": "Admin",
+              "phone": "+84 (919) 507231",
+              "role": "admin",
+            },
+            "company": "bb",
+            "createdAt": 1647507076963,
+            "description": "bb",
+            "id": 2,
+            "pending": false,
+            "photos": Array [
+              Object {
+                "fileName": "rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg",
+                "fileSize": 6689,
+                "height": 480,
+                "type": "image/jpeg",
+                "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg",
+                "width": 480,
+              },
+            ],
+            "price": 23333111,
+            "status": true,
+            "title": "bb update",
+            "type": "b",
+            "updatedAt": 1647511146749,
+            "year": 2222,
+          },
+        ]
+      }
+      getItem={[Function]}
+      getItemCount={[Function]}
+      keyExtractor={[Function]}
+      onContentSizeChange={[Function]}
+      onLayout={[Function]}
+      onMomentumScrollBegin={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onRefresh={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      refreshControl={
+        <RefreshControlMock
+          onRefresh={[Function]}
+          refreshing={false}
+        />
+      }
+      refreshing={false}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={Array []}
+      testID="postsList"
+      viewabilityConfigCallbackPairs={Array []}
+    >
+      <RCTRefreshControl />
+      <View>
+        <View
+          onLayout={[Function]}
+          style={null}
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": "#f8f8f8",
+                "borderRadius": 10,
+                "marginBottom": 20,
+                "paddingBottom": 10,
+                "width": 675,
+              }
+            }
+          >
+            <View
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "opacity": 1,
+                }
+              }
+              testID="showImage"
+            >
+              <View
+                style={
+                  Object {
+                    "width": 675,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "height": 200,
+                      "overflow": "hidden",
+                      "position": "relative",
+                      "width": "100%",
+                    }
+                  }
+                >
+                  <RCTScrollView
+                    bounces={false}
+                    data={
+                      Array [
+                        "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg",
+                      ]
+                    }
+                    decelerationRate="fast"
+                    getItem={[Function]}
+                    getItemCount={[Function]}
+                    getItemLayout={[Function]}
+                    horizontal={true}
+                    keyExtractor={[Function]}
+                    onContentSizeChange={[Function]}
+                    onLayout={[Function]}
+                    onMomentumScrollBegin={[Function]}
+                    onMomentumScrollEnd={[Function]}
+                    onScroll={[Function]}
+                    onScrollBeginDrag={[Function]}
+                    onScrollEndDrag={[Function]}
+                    onViewableItemsChanged={[Function]}
+                    pagingEnabled={true}
+                    removeClippedSubviews={false}
+                    renderItem={[Function]}
+                    scrollEventThrottle={50}
+                    showsHorizontalScrollIndicator={false}
+                    stickyHeaderIndices={Array []}
+                    style={
+                      Object {
+                        "height": "100%",
+                        "width": 750,
+                      }
+                    }
+                    viewabilityConfig={
+                      Object {
+                        "viewAreaCoveragePercentThreshold": 60,
+                        "waitForInteraction": false,
+                      }
+                    }
+                    viewabilityConfigCallbackPairs={
+                      Array [
+                        Object {
+                          "onViewableItemsChanged": [Function],
+                          "viewabilityConfig": Object {
+                            "viewAreaCoveragePercentThreshold": 60,
+                            "waitForInteraction": false,
+                          },
+                        },
+                      ]
+                    }
+                  >
+                    <View>
+                      <View
+                        style={
+                          Array [
+                            Object {
+                              "flexDirection": "row",
+                            },
+                            null,
+                          ]
+                        }
+                      >
+                        <View
+                          style={
+                            Object {
+                              "backgroundColor": "#FFF",
+                              "height": "auto",
+                              "width": 750,
+                            }
+                          }
+                        >
+                          <Image
+                            onLoad={[Function]}
+                            resizeMode="cover"
+                            source={
+                              Object {
+                                "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg",
+                              }
+                            }
+                            style={
+                              Object {
+                                "height": "100%",
+                                "overflow": "hidden",
+                                "resizeMode": "cover",
+                                "width": 750,
+                              }
+                            }
+                          />
+                          <View
+                            style={
+                              Object {
+                                "alignItems": "center",
+                                "backgroundColor": "#D3D3D3",
+                                "height": "100%",
+                                "justifyContent": "center",
+                                "position": "absolute",
+                                "width": 750,
+                              }
+                            }
+                          >
+                            <ActivityIndicator
+                              color="#000"
+                              size="large"
+                            />
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </RCTScrollView>
+                  <View
+                    style={
+                      Object {
+                        "alignItems": "center",
+                        "bottom": 25,
+                        "display": "flex",
+                        "flexDirection": "row",
+                        "justifyContent": "center",
+                        "position": "absolute",
+                        "width": "100%",
+                      }
+                    }
+                  >
+                    <View
+                      style={
+                        Array [
+                          Object {
+                            "backgroundColor": "#FFF",
+                            "borderColor": "#FFF",
+                            "borderRadius": 50,
+                            "borderWidth": 2,
+                            "height": 20,
+                            "marginRight": 7,
+                            "width": 20,
+                          },
+                          Object {
+                            "backgroundColor": "#000",
+                          },
+                        ]
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "paddingTop": 10,
+                }
+              }
+            >
+              <View>
+                <Text
+                  style={
+                    Object {
+                      "color": "#000000",
+                      "fontSize": 14,
+                      "fontWeight": "bold",
+                      "marginBottom": 5,
+                      "paddingLeft": 15,
+                    }
+                  }
+                >
+                  bb update
+                </Text>
+                <Text
+                  style={
+                    Object {
+                      "color": "#b80d0d",
+                      "fontSize": 14,
+                      "fontWeight": "bold",
+                      "paddingLeft": 15,
+                    }
+                  }
+                >
+                  23.333.111 VND
+                </Text>
+                <Text
+                  style={
+                    Object {
+                      "color": "#666",
+                      "fontSize": 12,
+                      "marginVertical": 5,
+                      "paddingHorizontal": 15,
+                    }
+                  }
+                >
+                  7 days ago
+                </Text>
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "row",
+                      "paddingLeft": 15,
+                    }
+                  }
+                >
+                  <Text
+                    allowFontScaling={false}
+                    selectable={false}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#000000",
+                          "fontSize": 20,
+                        },
+                        undefined,
+                        Object {
+                          "fontFamily": "Ionicons",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {},
+                      ]
+                    }
+                  >
+                    
+                  </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#000000",
+                        "fontSize": 14,
+                        "marginLeft": 5,
+                      }
+                    }
+                  >
+                    199 Bergen Street, Bowie, Oregon, 7933
+                  </Text>
+                </View>
+              </View>
+              <View
+                collapsable={false}
+              >
+                <View
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "opacity": 1,
+                    }
+                  }
+                  testID="Menu"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    selectable={false}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#000000",
+                          "fontSize": 20,
+                        },
+                        undefined,
+                        Object {
+                          "fontFamily": "Ionicons",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {},
+                      ]
+                    }
+                  >
+                    
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              collapsable={false}
+              style={
+                Object {
+                  "backgroundColor": "transparent",
+                  "borderColor": "transparent",
+                  "borderRadius": 4,
+                  "borderStyle": "solid",
+                  "borderWidth": 0,
+                  "elevation": 0,
+                  "minWidth": 64,
+                }
+              }
+            >
+              <View
+                accessibilityRole="button"
+                accessibilityState={
+                  Object {
+                    "disabled": false,
+                  }
+                }
+                accessible={true}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Array [
+                    Object {
+                      "overflow": "hidden",
+                    },
+                    Object {
+                      "borderRadius": 4,
+                    },
+                  ]
+                }
+                testID="showDetails"
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                        "justifyContent": "center",
+                      },
+                      undefined,
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      Object {
+                        "marginLeft": 12,
+                        "marginRight": -4,
+                      }
+                    }
+                  >
+                    <Text
+                      accessibilityElementsHidden={true}
+                      allowFontScaling={false}
+                      importantForAccessibility="no-hide-descendants"
+                      pointerEvents="none"
+                      selectable={false}
+                      style={
+                        Array [
+                          Object {
+                            "color": "#333",
+                            "fontSize": 12,
+                          },
+                          Array [
+                            Object {
+                              "lineHeight": 12,
+                              "transform": Array [
+                                Object {
+                                  "scaleX": 1,
+                                },
+                              ],
+                            },
+                            Object {
+                              "backgroundColor": "transparent",
+                            },
+                          ],
+                          Object {
+                            "fontFamily": "Material Design Icons",
+                            "fontStyle": "normal",
+                            "fontWeight": "normal",
+                          },
+                          Object {},
+                        ]
+                      }
+                    >
+                      󰅀
+                    </Text>
+                  </View>
+                  <Text
+                    numberOfLines={1}
+                    selectable={false}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#000000",
+                          "fontFamily": "System",
+                          "fontWeight": "400",
+                        },
+                        Object {
+                          "textAlign": "left",
+                        },
+                        Array [
+                          Object {
+                            "letterSpacing": 1,
+                            "marginHorizontal": 16,
+                            "marginVertical": 9,
+                            "textAlign": "center",
+                          },
+                          undefined,
+                          false,
+                          Object {
+                            "color": "#333",
+                            "fontFamily": "System",
+                            "fontWeight": "500",
+                          },
+                          Object {
+                            "fontFamily": "System",
+                            "fontWeight": "500",
+                          },
+                          Object {
+                            "fontSize": 12,
+                          },
+                        ],
+                      ]
+                    }
+                  >
+                    Show more
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignSelf": "center",
+                  "borderBottomColor": "#ddd",
+                  "borderBottomWidth": 1,
+                  "marginTop": 15,
+                  "width": "92%",
+                }
+              }
+            />
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-around",
+                  "paddingHorizontal": 15,
+                  "paddingTop": 15,
+                }
+              }
+            >
+              <View
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "borderRadius": 5,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "opacity": 1,
+                    "paddingHorizontal": 5,
+                    "paddingVertical": 2,
+                  }
+                }
+                testID="likeButton"
+              >
+                <Text
+                  allowFontScaling={false}
+                  selectable={false}
+                  style={
+                    Array [
+                      Object {
+                        "color": "#333",
+                        "fontSize": 25,
+                      },
+                      undefined,
+                      Object {
+                        "fontFamily": "Ionicons",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      Object {},
+                    ]
+                  }
+                >
+                  
+                </Text>
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "fontSize": 12,
+                        "fontWeight": "bold",
+                        "marginLeft": 5,
+                        "marginTop": 5,
+                      },
+                      Object {
+                        "color": "#333",
+                      },
+                    ]
+                  }
+                >
+                  Like
+                </Text>
+              </View>
+              <View
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={
+                  Object {
+                    "borderRadius": 5,
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                    "opacity": 1,
+                    "paddingHorizontal": 5,
+                    "paddingVertical": 2,
+                  }
+                }
+                testID="commentButton"
+              >
+                <Text
+                  allowFontScaling={false}
+                  selectable={false}
+                  style={
+                    Array [
+                      Object {
+                        "color": undefined,
+                        "fontSize": 25,
+                      },
+                      undefined,
+                      Object {
+                        "fontFamily": "Ionicons",
+                        "fontStyle": "normal",
+                        "fontWeight": "normal",
+                      },
+                      Object {},
+                    ]
+                  }
+                >
+                  
+                </Text>
+                <Text
+                  style={
+                    Object {
+                      "fontSize": 12,
+                      "fontWeight": "bold",
+                      "marginLeft": 5,
+                      "marginTop": 5,
+                    }
+                  }
+                >
+                  2 Comments
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;
+
+exports[`Test Home Screen should render correctly with empty list 1`] = `
+<View
+  collapsable={false}
+  pointerEvents="box-none"
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#ffffff",
+        "flex": 1,
+        "padding": 20,
+      }
+    }
+  >
+    <RCTScrollView
+      ListEmptyComponent={[Function]}
+      getItem={[Function]}
+      getItemCount={[Function]}
+      keyExtractor={[Function]}
+      onContentSizeChange={[Function]}
+      onLayout={[Function]}
+      onMomentumScrollBegin={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onRefresh={[Function]}
+      onScroll={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      refreshControl={
+        <RefreshControlMock
+          onRefresh={[Function]}
+          refreshing={false}
+        />
+      }
+      refreshing={false}
+      removeClippedSubviews={false}
+      renderItem={[Function]}
+      scrollEventThrottle={50}
+      showsVerticalScrollIndicator={false}
+      stickyHeaderIndices={Array []}
+      testID="postsList"
+      viewabilityConfigCallbackPairs={Array []}
+    >
+      <RCTRefreshControl />
+      <View>
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#000000",
+                "fontFamily": "System",
+                "fontWeight": "400",
+              },
+              Object {
+                "textAlign": "left",
+              },
+              undefined,
+            ]
+          }
+        >
+          There are no posts to display. You can create new posts.
+        </Text>
+      </View>
+    </RCTScrollView>
+  </View>
+</View>
+`;

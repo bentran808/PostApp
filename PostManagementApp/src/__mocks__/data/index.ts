@@ -132,6 +132,17 @@ const mockNewComment = {
   id: 3
 };
 
+const mockPhotos = [
+  {
+    fileName: 'rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
+    fileSize: 6689,
+    height: 480,
+    type: 'image/jpeg',
+    uri: 'file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
+    width: 480
+  }
+];
+
 export {
   initialUser,
   mockUser,
@@ -142,5 +153,6 @@ export {
   mockEditedPost,
   mockApprovedPost,
   mockLike,
-  mockNewComment
+  mockNewComment,
+  mockPhotos
 };

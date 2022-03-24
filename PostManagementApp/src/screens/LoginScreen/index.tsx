@@ -56,7 +56,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
     }
   }, [email, password]);
 
-  const handleChangeEmail = async (userEmail: string) => {
+  const handleChangeEmail = (userEmail: string) => {
     setEmail(userEmail);
   };
 
@@ -101,8 +101,9 @@ const LoginScreen = ({ navigation }: LoginProps) => {
           autoCorrect={false}
           autoCapitalize="none"
           error={!!error.email}
+          testID="emailInput"
         />
-        <HelperText type="error" visible={!!error.email}>
+        <HelperText type="error" visible={!!error.email} testID="emailError">
           {error.email}
         </HelperText>
         <TextInput
@@ -111,13 +112,18 @@ const LoginScreen = ({ navigation }: LoginProps) => {
           label="Password"
           secureTextEntry={hidden}
           right={
-            <TextInput.Icon name={hidden ? 'eye' : 'eye-off'} onPress={handleHiddenPassword} />
+            <TextInput.Icon
+              name={hidden ? 'eye' : 'eye-off'}
+              onPress={handleHiddenPassword}
+              testID="icon"
+            />
           }
           value={password}
           onChangeText={handleChangePassword}
           error={!!error.password}
+          testID="passwordInput"
         />
-        <HelperText type="error" visible={!!error.password}>
+        <HelperText type="error" visible={!!error.password} testID="passwordError">
           {error.password}
         </HelperText>
         <View style={styles.alignCenter}>
@@ -130,7 +136,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
               width: windowWidth / 2
             }}
             onPress={handleLogin}
-            testID="loginBottom"
+            testID="loginButton"
           >
             Login
           </Button>

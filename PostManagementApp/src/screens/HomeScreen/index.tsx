@@ -18,11 +18,6 @@ type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface HomeScreenContainerProps {
   navigation: HomeNavigationProp;
-  route: {
-    params: {
-      data: Post;
-    };
-  };
 }
 
 const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
@@ -49,27 +44,27 @@ const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
     });
   };
 
-  const handleDelete = async (postId: number) => {
+  const handleDelete = (postId: number) => {
     dispatch(postActions.deletePost(postId));
   };
 
-  const handleLikePost = async (postId: number) => {
+  const handleLikePost = (postId: number) => {
     dispatch(postActions.likePost({ postId, currentUser }));
   };
 
-  const handleUnlikePost = async (likeId: number) => {
+  const handleUnlikePost = (likeId: number) => {
     dispatch(postActions.unlikePost(likeId));
   };
 
-  const handleAddNewComment = async (postId: number, value: string) => {
+  const handleAddNewComment = (postId: number, value: string) => {
     dispatch(postActions.addComment({ postId, currentUser, content: value }));
   };
 
-  const handleDeleteComment = async (commentId: number) => {
+  const handleDeleteComment = (commentId: number) => {
     dispatch(postActions.deleteComment(commentId));
   };
 
-  const handleEditComment = async (commentId: number, editContent: string) => {
+  const handleEditComment = (commentId: number, editContent: string) => {
     dispatch(postActions.editComment({ commentId, newContent: editContent }));
   };
 
@@ -81,6 +76,7 @@ const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
   return (
     <View style={styles.container}>
       <FlatList
+        testID="postsList"
         refreshing={loading}
         onRefresh={handleRefresh}
         data={posts}
