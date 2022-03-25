@@ -1,12 +1,12 @@
 import React from 'react';
 import * as customHooks from '../../../hooks';
 import { fireEvent, render } from '../../../utils/test-utils';
-import { mockCommentsList, mockUser } from '../../../__mocks__/data';
+import { mockCommentsList, mockAdmin } from '../../../__mocks__/data';
 import CommentsList from '../index';
 
 describe('Comments List Component', () => {
   const spy = jest.spyOn(customHooks, 'useAppSelector');
-  spy.mockReturnValue(mockUser);
+  spy.mockReturnValue(mockAdmin);
 
   const props = {
     commentsOfItem: mockCommentsList,

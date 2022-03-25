@@ -1,12 +1,18 @@
 import React from 'react';
 import * as customHooks from '../../../hooks';
 import { fireEvent, render, RenderAPI } from '../../../utils/test-utils';
-import { mockCommentsList, mockLikes, mockPost, mockUser } from '../../../__mocks__/data';
+import {
+  mockCommentsList,
+  mockLikes,
+  mockPhotos,
+  mockPost,
+  mockAdmin
+} from '../../../__mocks__/data';
 import PostCard from '../index';
 
 describe('Post Card Component', () => {
   const spy = jest.spyOn(customHooks, 'useAppSelector');
-  spy.mockReturnValue(mockUser);
+  spy.mockReturnValue(mockAdmin);
 
   let props: JSX.IntrinsicAttributes & {
     item: Post;
@@ -51,16 +57,7 @@ describe('Post Card Component', () => {
     const { getByTestId } = render(<PostCard {...props} />);
     const button = getByTestId('showImage');
     fireEvent.press(button);
-    expect(props.onShowImage).toBeCalledWith([
-      {
-        fileName: 'rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
-        fileSize: 6689,
-        height: 480,
-        type: 'image/jpeg',
-        uri: 'file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
-        width: 480
-      }
-    ]);
+    expect(props.onShowImage).toBeCalledWith(mockPhotos);
   });
 
   test('should details post', () => {

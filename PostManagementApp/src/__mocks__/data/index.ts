@@ -9,7 +9,7 @@ const initialUser = {
   role: ''
 };
 
-const mockUser = {
+const mockAdmin = {
   id: '621c4188dece66a40dad2951',
   avatar: 'https://picsum.photos/200',
   name: 'Admin',
@@ -20,8 +20,19 @@ const mockUser = {
   role: 'admin'
 };
 
+const mockUser = {
+  id: '621c41883112f1c216433dcf',
+  avatar: 'https://picsum.photos/200',
+  name: 'Mcintyre Morrison',
+  gender: 'male',
+  email: 'test1@email.com',
+  phone: '+84 (838) 539391',
+  address: '313 Menahan Street, Aurora, North Dakota, 9139',
+  role: 'user'
+};
+
 const mockPost = {
-  author: mockUser,
+  author: mockAdmin,
   company: 'bb',
   year: 2222,
   type: 'b',
@@ -31,6 +42,14 @@ const mockPost = {
   title: 'bb update',
   description: 'bb',
   photos: [
+    {
+      height: 480,
+      uri: 'file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
+      width: 480,
+      fileName: 'rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
+      type: 'image/jpeg',
+      fileSize: 6689
+    },
     {
       height: 480,
       uri: 'file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
@@ -48,7 +67,7 @@ const mockPost = {
 
 const mockLikes = [
   {
-    author: mockUser,
+    author: mockAdmin,
     postId: 2,
     createdAt: 1647509052801,
     updatedAt: 1647509052801,
@@ -58,7 +77,7 @@ const mockLikes = [
 
 const mockCommentsList = [
   {
-    author: mockUser,
+    author: mockAdmin,
     postId: 2,
     content: 'test',
     createdAt: 1647509052801,
@@ -85,7 +104,7 @@ const mockCommentsList = [
 ];
 
 const mockNewPost = {
-  author: mockUser,
+  author: mockAdmin,
   company: 'qwe',
   year: 2021,
   type: 'qwe',
@@ -116,7 +135,7 @@ const mockApprovedPost = {
 };
 
 const mockLike = {
-  author: mockUser,
+  author: mockAdmin,
   postId: 2,
   createdAt: 1647509052801,
   updatedAt: 1647509052801,
@@ -124,7 +143,7 @@ const mockLike = {
 };
 
 const mockNewComment = {
-  author: mockUser,
+  author: mockAdmin,
   postId: 2,
   content: 'abc',
   createdAt: 1647509052801,
@@ -140,11 +159,20 @@ const mockPhotos = [
     type: 'image/jpeg',
     uri: 'file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
     width: 480
+  },
+  {
+    fileName: 'rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
+    fileSize: 6689,
+    height: 480,
+    type: 'image/jpeg',
+    uri: 'file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg',
+    width: 480
   }
 ];
 
 export {
   initialUser,
+  mockAdmin,
   mockUser,
   mockPost,
   mockLikes,

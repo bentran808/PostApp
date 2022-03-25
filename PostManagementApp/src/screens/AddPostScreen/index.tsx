@@ -16,7 +16,7 @@ type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface AddPostProps {
   navigation: AddPostNavigationProp;
-  route: { params: { isMyPost?: boolean; editedPost: Post } };
+  route: { params: { isMyPost?: boolean; editedPost?: Post } };
 }
 
 export interface PostState {
@@ -153,7 +153,7 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
   const handleEditPost = (newPost: Post) => {
     dispatch(
       postActions.editPost({
-        postId: editedPost.id || 0,
+        postId: editedPost?.id || 0,
         editedPost: newPost,
         callback: (data, error) => {
           if (data) {
@@ -216,13 +216,18 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
     <ScrollView style={styles.body}>
       <View style={styles.photoSection}>
         <View style={styles.photoWrapper}>
-          <TouchableOpacity onPress={handleChoosePhoto} style={styles.photoButton}>
+          <TouchableOpacity
+            onPress={handleChoosePhoto}
+            style={styles.photoButton}
+            testID="choosePhoto"
+          >
             <Ionicons name="camera" size={30} color={colors.nightRider} />
             <Text>Choose Photo</Text>
           </TouchableOpacity>
         </View>
         {(post.photos || []).length ? (
           <FlatList
+            testID="photosList"
             data={post.photos}
             horizontal
             extraData={post.photos}
@@ -238,6 +243,7 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
                     post.photos.splice(index, 1);
                     handleChangePost('photos', post.photos);
                   }}
+                  testID="closeButton"
                 />
               </>
             )}
@@ -252,8 +258,9 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
           label="Product Company"
           mode="outlined"
           error={!!errorInput.company}
+          testID="companyInput"
         />
-        <HelperText type="error" visible={!!errorInput.company}>
+        <HelperText type="error" visible={!!errorInput.company} testID="companyError">
           {errorInput.company}
         </HelperText>
         <TextInput
@@ -263,8 +270,9 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
           keyboardType="number-pad"
           mode="outlined"
           error={!!errorInput.year}
+          testID="yearInput"
         />
-        <HelperText type="error" visible={!!errorInput.year}>
+        <HelperText type="error" visible={!!errorInput.year} testID="yearError">
           {errorInput.year}
         </HelperText>
         <TextInput
@@ -273,8 +281,9 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
           label="Type of product"
           mode="outlined"
           error={!!errorInput.type}
+          testID="typeInput"
         />
-        <HelperText type="error" visible={!!errorInput.type}>
+        <HelperText type="error" visible={!!errorInput.type} testID="typeError">
           {errorInput.type}
         </HelperText>
         <Text>Status</Text>
@@ -290,6 +299,7 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
               marginRight: 10
             }}
             onPress={() => handleChangePost('status', true)}
+            testID="usedChip"
           >
             Used
           </Chip>
@@ -303,6 +313,7 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
               backgroundColor: !post.status ? colors.oasis : colors.lightGrey
             }}
             onPress={() => handleChangePost('status', false)}
+            testID="newChip"
           >
             New
           </Chip>
@@ -314,8 +325,9 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
           keyboardType="number-pad"
           mode="outlined"
           error={!!errorInput.price}
+          testID="priceInput"
         />
-        <HelperText type="error" visible={!!errorInput.price}>
+        <HelperText type="error" visible={!!errorInput.price} testID="priceError">
           {errorInput.price}
         </HelperText>
         <TextInput
@@ -323,6 +335,7 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
           onChangeText={(itemValue) => handleChangePost('address', itemValue)}
           label="Address"
           mode="outlined"
+          testID="addressInput"
         />
       </View>
       <Text style={styles.titleSection}>Title and Description</Text>
@@ -333,8 +346,9 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
           label="Title"
           mode="outlined"
           error={!!errorInput.title}
+          testID="titleInput"
         />
-        <HelperText type="error" visible={!!errorInput.title}>
+        <HelperText type="error" visible={!!errorInput.title} testID="titleError">
           {errorInput.title}
         </HelperText>
         <TextInput
@@ -345,8 +359,9 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
           numberOfLines={4}
           mode="outlined"
           error={!!errorInput.description}
+          testID="descriptionInput"
         />
-        <HelperText type="error" visible={!!errorInput.description}>
+        <HelperText type="error" visible={!!errorInput.description} testID="descriptionError">
           {errorInput.description}
         </HelperText>
       </View>
@@ -356,6 +371,7 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
           color={colors.royalBlue}
           disabled={Object.values(errorInput).includes(true)}
           onPress={handleSubmit}
+          testID="submitButton"
         >
           {buttonText}
         </Button>

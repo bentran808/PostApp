@@ -13,7 +13,7 @@ import {
   handleLikePost,
   handleUnlikePost
 } from '../postSaga';
-import { mockLike, mockNewComment, mockNewPost, mockPost, mockUser } from '../../../__mocks__/data';
+import { mockLike, mockNewComment, mockNewPost, mockPost, mockAdmin } from '../../../__mocks__/data';
 
 describe('Test Post Saga', () => {
   test('should handle fetch data success', () => {
@@ -171,17 +171,17 @@ describe('Test Post Saga', () => {
   });
 
   test('should handle like post success', () => {
-    const generator = handleLikePost(postActions.likePost({ postId: 2, currentUser: mockUser }));
+    const generator = handleLikePost(postActions.likePost({ postId: 2, currentUser: mockAdmin }));
     const response = {
       data: mockLike
     };
-    expect(generator.next().value).toEqual(call(postApi.likePostRequest, 2, mockUser));
+    expect(generator.next().value).toEqual(call(postApi.likePostRequest, 2, mockAdmin));
     expect(generator.next(response).value).toEqual(put(postActions.likePostSuccess(response.data)));
   });
 
   test('should handle like post failed', () => {
-    const generator = handleLikePost(postActions.likePost({ postId: 2, currentUser: mockUser }));
-    expect(generator.next().value).toEqual(call(postApi.likePostRequest, 2, mockUser));
+    const generator = handleLikePost(postActions.likePost({ postId: 2, currentUser: mockAdmin }));
+    expect(generator.next().value).toEqual(call(postApi.likePostRequest, 2, mockAdmin));
     expect(generator.throw('error').value).toEqual(
       put(postActions.likePostFailed('Like a post failed'))
     );
@@ -207,7 +207,7 @@ describe('Test Post Saga', () => {
   test('should handle add comment success', () => {
     const payload = {
       postId: 2,
-      currentUser: mockUser,
+      currentUser: mockAdmin,
       content: 'test'
     };
     const generator = handleAddComment(postActions.addComment(payload));
@@ -225,7 +225,7 @@ describe('Test Post Saga', () => {
   test('should handle add comment failed', () => {
     const payload = {
       postId: 2,
-      currentUser: mockUser,
+      currentUser: mockAdmin,
       content: 'test'
     };
     const generator = handleAddComment(postActions.addComment(payload));

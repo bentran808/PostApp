@@ -8,7 +8,7 @@ import {
   mockNewComment,
   mockNewPost,
   mockPost,
-  mockUser
+  mockAdmin
 } from '../../../__mocks__/data';
 import { store } from '../../store';
 import { postActions, selectComments, selectLikes, selectPosts } from '../postSlices';
@@ -160,7 +160,7 @@ describe('Test Post Slice', () => {
     store.dispatch(
       postActions.likePost({
         postId: 2,
-        currentUser: mockUser
+        currentUser: mockAdmin
       })
     );
     let loading = store.getState().post.loading;
@@ -201,7 +201,7 @@ describe('Test Post Slice', () => {
     store.dispatch(
       postActions.addComment({
         postId: 2,
-        currentUser: mockUser,
+        currentUser: mockAdmin,
         content: 'test'
       })
     );

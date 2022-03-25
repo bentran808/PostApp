@@ -1,4 +1,4 @@
-import { mockUser } from '../../../__mocks__/data';
+import { mockAdmin } from '../../../__mocks__/data';
 import { store } from '../../store';
 import { authActions, selectCurrentUser } from '../authSlice';
 
@@ -17,7 +17,7 @@ describe('Test Auth Slice', () => {
   test('should call function login success', () => {
     store.dispatch(
       authActions.loginSuccess({
-        data: mockUser,
+        data: mockAdmin,
         access_token: 'token'
       })
     );
@@ -42,7 +42,7 @@ describe('Test Auth Slice', () => {
       auth: {
         isLoggedIn: false,
         logging: false,
-        currentUser: mockUser,
+        currentUser: mockAdmin,
         accessToken: '',
         errorMessage: ''
       },
@@ -55,6 +55,6 @@ describe('Test Auth Slice', () => {
         errorMessage: ''
       }
     };
-    expect(selectCurrentUser(state)).toEqual(mockUser);
+    expect(selectCurrentUser(state)).toEqual(mockAdmin);
   });
 });

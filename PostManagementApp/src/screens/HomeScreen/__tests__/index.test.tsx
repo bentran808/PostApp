@@ -9,7 +9,7 @@ import {
   mockLikes,
   mockPhotos,
   mockPost,
-  mockUser
+  mockAdmin
 } from '../../../__mocks__/data';
 
 jest.mock('../../../hooks');
@@ -21,7 +21,7 @@ describe('Test Home Screen', () => {
   let navigation: any;
   let mockStore: RootState = {
     auth: {
-      currentUser: mockUser,
+      currentUser: mockAdmin,
       isLoggedIn: false,
       logging: false,
       accessToken: '',

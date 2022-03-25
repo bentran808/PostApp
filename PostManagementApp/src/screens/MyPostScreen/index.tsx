@@ -49,6 +49,7 @@ const MyPostScreen = ({ navigation }: MyPostProps) => {
   return (
     <View style={styles.container}>
       <FlatList
+        testID="postsList"
         refreshing={loading}
         onRefresh={handleRefresh}
         data={getMyPosts(posts)}

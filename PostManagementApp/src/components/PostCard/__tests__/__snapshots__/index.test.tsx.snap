@@ -61,6 +61,7 @@ exports[`Post Card Component renders correctly 1`] = `
             data={
               Array [
                 "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg",
+                "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg",
               ]
             }
             decelerationRate="fast"
@@ -163,6 +164,61 @@ exports[`Post Card Component renders correctly 1`] = `
                   </View>
                 </View>
               </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "flexDirection": "row",
+                    },
+                    null,
+                  ]
+                }
+              >
+                <View
+                  style={
+                    Object {
+                      "backgroundColor": "#FFF",
+                      "height": "auto",
+                      "width": 750,
+                    }
+                  }
+                >
+                  <Image
+                    onLoad={[Function]}
+                    resizeMode="cover"
+                    source={
+                      Object {
+                        "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_283c7c3b-b014-4ef4-b95a-c092bcefe2aa.jpg",
+                      }
+                    }
+                    style={
+                      Object {
+                        "height": "100%",
+                        "overflow": "hidden",
+                        "resizeMode": "cover",
+                        "width": 750,
+                      }
+                    }
+                  />
+                  <View
+                    style={
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#D3D3D3",
+                        "height": "100%",
+                        "justifyContent": "center",
+                        "position": "absolute",
+                        "width": 750,
+                      }
+                    }
+                  >
+                    <ActivityIndicator
+                      color="#000"
+                      size="large"
+                    />
+                  </View>
+                </View>
+              </View>
             </View>
           </RCTScrollView>
           <View
@@ -193,6 +249,22 @@ exports[`Post Card Component renders correctly 1`] = `
                   Object {
                     "backgroundColor": "#000",
                   },
+                ]
+              }
+            />
+            <View
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#FFF",
+                    "borderColor": "#FFF",
+                    "borderRadius": 50,
+                    "borderWidth": 2,
+                    "height": 20,
+                    "marginRight": 7,
+                    "width": 20,
+                  },
+                  false,
                 ]
               }
             />
@@ -245,7 +317,7 @@ exports[`Post Card Component renders correctly 1`] = `
             }
           }
         >
-          7 days ago
+          8 days ago
         </Text>
         <View
           style={
