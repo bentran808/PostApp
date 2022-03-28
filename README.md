@@ -16,7 +16,7 @@
 ## Technologies
 * React v17.0.2
 * React Native v0.67.3
-* Typescript v4.5.5
+* Typescript v4.6.2
 * Redux-Saga v1.1.3
 * Redux Toolkit v1.8.0
 

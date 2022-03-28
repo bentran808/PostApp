@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const sortDesc = (arr: Post[]) => {
+const sortDesc = (arr: Post[] = []) => {
   return arr.sort((a, b) => ((a.id || 0) < (b.id || 0) ? 1 : -1));
 };
 
@@ -11,7 +11,7 @@ const formatPrice = (price: Number) => {
   });
 };
 
-const getApprovedPosts = (arr: Post[]) => arr.filter((item) => !item.pending);
+const getApprovedPosts = (arr: Post[] = []) => arr.filter((item) => !item.pending);
 
 const setAccessToken = async (access_token: string) =>
   await AsyncStorage.setItem('access_token', access_token);

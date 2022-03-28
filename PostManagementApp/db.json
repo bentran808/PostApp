@@ -101,6 +101,40 @@
       "createdAt": 1648366448003,
       "updatedAt": 1648366630789,
       "id": 6
+    },
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "company": "Apple",
+      "year": 2021,
+      "type": "Iphone 12 pro",
+      "status": false,
+      "price": 20000000,
+      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+      "title": "New 100%",
+      "description": "Day du cap sac",
+      "photos": [
+        {
+          "height": 480,
+          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_936c03c4-e43e-4973-bbb8-c53851ae0447.jpg",
+          "width": 480,
+          "fileName": "rn_image_picker_lib_temp_936c03c4-e43e-4973-bbb8-c53851ae0447.jpg",
+          "type": "image/jpeg",
+          "fileSize": 6689
+        }
+      ],
+      "pending": true,
+      "createdAt": 1648432149193,
+      "updatedAt": 1648432199441,
+      "id": 7
     }
   ],
   "likes": [

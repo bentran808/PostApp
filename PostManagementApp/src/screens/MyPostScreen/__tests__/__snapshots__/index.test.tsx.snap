@@ -407,12 +407,13 @@ exports[`Test My Post Screen should render correctly 1`] = `
                     }
                   }
                 >
-                  8 days ago
+                  11 days ago
                 </Text>
                 <View
                   style={
                     Object {
                       "flexDirection": "row",
+                      "maxWidth": 600,
                       "paddingLeft": 15,
                     }
                   }
@@ -1370,12 +1371,13 @@ exports[`Test My Post Screen should render correctly my posts 1`] = `
                     }
                   }
                 >
-                  8 days ago
+                  11 days ago
                 </Text>
                 <View
                   style={
                     Object {
                       "flexDirection": "row",
+                      "maxWidth": 600,
                       "paddingLeft": 15,
                     }
                   }

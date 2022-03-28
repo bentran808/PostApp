@@ -407,12 +407,13 @@ exports[`Test Home Screen should render correctly 1`] = `
                     }
                   }
                 >
-                  8 days ago
+                  11 days ago
                 </Text>
                 <View
                   style={
                     Object {
                       "flexDirection": "row",
+                      "maxWidth": 600,
                       "paddingLeft": 15,
                     }
                   }
@@ -810,6 +811,7 @@ exports[`Test Home Screen should render correctly with empty list 1`] = `
   >
     <RCTScrollView
       ListEmptyComponent={[Function]}
+      data={Array []}
       getItem={[Function]}
       getItemCount={[Function]}
       keyExtractor={[Function]}
