@@ -79,40 +79,6 @@
         "address": "313 Menahan Street, Aurora, North Dakota, 9139",
         "role": "user"
       },
-      "company": "asd",
-      "year": 123,
-      "type": "asdasd",
-      "status": true,
-      "price": 12331,
-      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-      "title": "das (updated)",
-      "description": "das",
-      "photos": [
-        {
-          "height": 480,
-          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_5fb36770-c4c3-419b-be5d-9b11973274c0.jpg",
-          "width": 480,
-          "fileName": "rn_image_picker_lib_temp_5fb36770-c4c3-419b-be5d-9b11973274c0.jpg",
-          "type": "image/jpeg",
-          "fileSize": 6689
-        }
-      ],
-      "pending": false,
-      "createdAt": 1648366448003,
-      "updatedAt": 1648366630789,
-      "id": 6
-    },
-    {
-      "author": {
-        "id": "621c41883112f1c216433dcf",
-        "avatar": "https://picsum.photos/200",
-        "name": "Mcintyre Morrison",
-        "gender": "male",
-        "email": "test1@email.com",
-        "phone": "+84 (838) 539391",
-        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-        "role": "user"
-      },
       "company": "Apple",
       "year": 2021,
       "type": "Iphone 12 pro",
@@ -135,6 +101,40 @@
       "createdAt": 1648432149193,
       "updatedAt": 1648432199441,
       "id": 7
+    },
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "company": "Honda",
+      "year": 2021,
+      "type": "Xe may",
+      "status": true,
+      "price": 4999999,
+      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+      "title": "Can ban",
+      "description": "Xe da di 1000km",
+      "photos": [
+        {
+          "height": 480,
+          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_2db4007e-9fdc-4efc-b860-f431b6f0869c.jpg",
+          "width": 480,
+          "fileName": "rn_image_picker_lib_temp_2db4007e-9fdc-4efc-b860-f431b6f0869c.jpg",
+          "type": "image/jpeg",
+          "fileSize": 6689
+        }
+      ],
+      "pending": false,
+      "createdAt": 1648452895021,
+      "updatedAt": 1648452957676,
+      "id": 8
     }
   ],
   "likes": [
@@ -169,6 +169,22 @@
       "createdAt": 1648365485627,
       "updatedAt": 1648365485627,
       "id": 2
+    },
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "postId": "8",
+      "createdAt": 1648452963135,
+      "updatedAt": 1648452963135,
+      "id": 3
     }
   ],
   "comments": [

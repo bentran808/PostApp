@@ -12,6 +12,10 @@ type RootStackParamList = {
     photos: Photo[];
   };
   MyPostScreen: undefined;
+  EditPostScreen: {
+    isMyPost: boolean;
+    editedPost: Post;
+  };
 };
 
 type User = {

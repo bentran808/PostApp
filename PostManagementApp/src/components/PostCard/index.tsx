@@ -20,15 +20,15 @@ type PostCardProps = {
   likesOfItem?: PostLike[];
   commentsOfItem?: PostComment[];
   onShowImage: (photos: Photo[]) => void;
-  onEdit: () => void;
-  onDelete: () => void;
+  onEdit: (item: Post) => void;
+  onDelete: (postId: number) => void;
   onLikePost?: (postId: number) => void;
   onUnlikePost?: (likeId: number) => void;
   onAddNewComment?: (postId: number, content: string) => void;
   onDeleteComment?: (commentId: number) => void;
   onEditComment?: (commentId: number, editContent: string) => void;
-  onApprovePost?: () => void;
-  onRejectPost?: () => void;
+  onApprovePost?: (postId: number) => void;
+  onRejectPost?: (postId: number) => void;
 };
 
 const PostCard = ({
@@ -111,7 +111,7 @@ const PostCard = ({
             <Menu.Item
               onPress={() => {
                 setVisible('');
-                onEdit();
+                onEdit(item);
               }}
               title="Edit"
               testID="MenuEdit"
@@ -119,7 +119,7 @@ const PostCard = ({
             <Menu.Item
               onPress={() => {
                 setVisible('');
-                onDelete();
+                onDelete(item.id || 0);
               }}
               title="Delete"
               testID="Menu.Delete"
@@ -180,7 +180,7 @@ const PostCard = ({
                 mode="contained"
                 icon="check"
                 color={colors.royalBlue}
-                onPress={onApprovePost}
+                onPress={() => onApprovePost(item.id || 0)}
               >
                 Approve
               </Button>
@@ -188,7 +188,7 @@ const PostCard = ({
                 mode="contained"
                 icon="close"
                 color={colors.freeSpeechRed}
-                onPress={onRejectPost}
+                onPress={() => onRejectPost(item.id || 0)}
               >
                 Reject
               </Button>
@@ -285,4 +285,4 @@ const PostCard = ({
   );
 };
 
-export default PostCard;
+export default React.memo(PostCard);

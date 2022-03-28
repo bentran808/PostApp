@@ -151,4 +151,4 @@ const CommentsList = ({
   );
 };
 
-export default CommentsList;
+export default React.memo(CommentsList);

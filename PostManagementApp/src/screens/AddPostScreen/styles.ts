@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Colors } from 'react-native-paper';
-import { colors } from '../theme/Colors';
+import { colors } from '../../theme/Colors';
 
 export const styles = StyleSheet.create({
   body: {

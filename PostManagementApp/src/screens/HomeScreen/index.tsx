@@ -12,7 +12,7 @@ import {
   selectLikes,
   selectPosts
 } from '../../redux/slices';
-import { styles } from '../../styles/HomeScreenStyles';
+import { styles } from './styles';
 import { getApprovedPosts } from '../../utils/helpers';
 
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -34,13 +34,13 @@ const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
   }, [dispatch]);
 
   const handleShowImage = (photos: Photo[]) => {
-    navigation.navigate(Screens.SHOW_IMAGE_SCREEN.name, {
+    navigation.navigate(Screens.SHOW_IMAGE_SCREEN.name as 'ShowImageScreen', {
       photos
     });
   };
 
   const handleEdit = (post: Post) => {
-    navigation.navigate(Screens.ADD_POST_SCREEN.name, {
+    navigation.navigate(Screens.ADD_POST_SCREEN.name as 'AddPostScreen', {
       editedPost: post
     });
   };
@@ -74,6 +74,26 @@ const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
     dispatch(postActions.fetchData(() => setLoading(false)));
   };
 
+  const renderItem = ({ item }: { item: Post }) => (
+    <PostCard
+      item={item}
+      onShowImage={handleShowImage}
+      onDelete={handleDelete}
+      onEdit={handleEdit}
+      likesOfItem={likes.filter((like) => Number(like.postId) === item.id)}
+      commentsOfItem={comments.filter((comment) => Number(comment.postId) === item.id)}
+      onLikePost={handleLikePost}
+      onUnlikePost={handleUnlikePost}
+      onAddNewComment={handleAddNewComment}
+      onDeleteComment={handleDeleteComment}
+      onEditComment={handleEditComment}
+    />
+  );
+
+  const renderEmptyList = () => (
+    <Text>There are no posts to display. You can create new posts.</Text>
+  );
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -81,28 +101,14 @@ const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
         refreshing={loading}
         onRefresh={handleRefresh}
         data={getApprovedPosts(posts)}
-        renderItem={({ item }: { item: Post }) => (
-          <PostCard
-            item={item}
-            onShowImage={handleShowImage}
-            onDelete={() => handleDelete(item.id || 0)}
-            onEdit={() => handleEdit(item)}
-            likesOfItem={likes.filter((like) => Number(like.postId) === item.id)}
-            commentsOfItem={comments.filter((comment) => Number(comment.postId) === item.id)}
-            onLikePost={handleLikePost}
-            onUnlikePost={handleUnlikePost}
-            onAddNewComment={handleAddNewComment}
-            onDeleteComment={handleDeleteComment}
-            onEditComment={handleEditComment}
-          />
-        )}
-        ListEmptyComponent={() => (
-          <Text>There are no posts to display. You can create new posts.</Text>
-        )}
+        initialNumToRender={5}
+        keyExtractor={(item) => (item.id || 0).toString()}
+        renderItem={renderItem}
+        ListEmptyComponent={renderEmptyList}
         showsVerticalScrollIndicator={false}
       />
     </View>
   );
 };
 
-export default HomeScreen;
+export default React.memo(HomeScreen);

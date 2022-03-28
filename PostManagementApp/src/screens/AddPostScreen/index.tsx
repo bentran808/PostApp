@@ -9,7 +9,7 @@ import { number, object, string } from 'yup';
 import { Screens } from '../../constants/screens';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postActions, selectCurrentUser } from '../../redux/slices';
-import { styles } from '../../styles/AddPostScreenStyles';
+import { styles } from './styles';
 import { colors } from '../../theme/Colors';
 
 type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;

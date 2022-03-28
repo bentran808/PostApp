@@ -7,7 +7,7 @@ import { object, string } from 'yup';
 import { Screens } from '../../constants/screens';
 import { useAppDispatch } from '../../hooks';
 import { authActions } from '../../redux/slices';
-import { styles } from '../../styles/LoginScreenStyles';
+import { styles } from './styles';
 import { colors } from '../../theme/Colors';
 
 // Utilities
@@ -72,7 +72,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
         params: `email=${email}&password=${password}`,
         callback: (data, err) => {
           if (data) {
-            navigation.navigate(Screens.HOME.name);
+            navigation.navigate(Screens.HOME.name as 'Home');
             setEmail('');
             setPassword('');
             setHidden(true);

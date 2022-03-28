@@ -26,7 +26,7 @@ const ProfileScreen = ({ navigation }: LoginProps) => {
         uppercase={false}
         onPress={() => {
           dispatch(authActions.logout());
-          navigation.navigate(Screens.LOGIN.name);
+          navigation.navigate(Screens.LOGIN.name as 'Login');
         }}
       >
         Logout

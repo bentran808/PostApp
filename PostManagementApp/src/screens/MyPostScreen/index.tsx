@@ -46,6 +46,33 @@ const MyPostScreen = ({ navigation }: MyPostProps) => {
     dispatch(postActions.fetchData(() => setLoading(false)));
   };
 
+  const handleShowImage = (photos: Photo[]) => {
+    navigation.navigate(Screens.SHOW_IMAGE_SCREEN.name as 'ShowImageScreen', {
+      photos
+    });
+  };
+
+  const handleEdit = (item: Post) => {
+    navigation.navigate(Screens.EDIT_POST_SCREEN.name as 'EditPostScreen', {
+      isMyPost: true,
+      editedPost: item
+    });
+  };
+
+  const renderItem = ({ item }: { item: Post }) => (
+    <PostCard
+      item={item}
+      onShowImage={handleShowImage}
+      onDelete={handleDelete}
+      onEdit={handleEdit}
+      isMyPost={true}
+      onApprovePost={handleApprovePost}
+      onRejectPost={handleRejectPost}
+    />
+  );
+
+  const renderEmptyList = () => <Text>There are no posts to approve</Text>;
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -53,27 +80,10 @@ const MyPostScreen = ({ navigation }: MyPostProps) => {
         refreshing={loading}
         onRefresh={handleRefresh}
         data={getMyPosts(posts)}
-        renderItem={({ item }: { item: Post }) => (
-          <PostCard
-            item={item}
-            onShowImage={() =>
-              navigation.navigate(Screens.SHOW_IMAGE_SCREEN.name, {
-                photos: item.photos
-              })
-            }
-            onDelete={() => handleDelete(item.id || 0)}
-            onEdit={() =>
-              navigation.navigate(Screens.EDIT_POST_SCREEN.name, {
-                isMyPost: true,
-                editedPost: item
-              })
-            }
-            isMyPost={true}
-            onApprovePost={() => handleApprovePost(item.id || 0)}
-            onRejectPost={() => handleRejectPost(item.id || 0)}
-          />
-        )}
-        ListEmptyComponent={() => <Text>There are no posts to approve</Text>}
+        initialNumToRender={5}
+        keyExtractor={(item) => (item.id || 0).toString()}
+        renderItem={renderItem}
+        ListEmptyComponent={renderEmptyList}
         showsVerticalScrollIndicator={false}
       />
     </View>

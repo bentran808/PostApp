@@ -39,7 +39,7 @@ const HomeStack = ({ navigation }: HomeStackProps) => (
               size={22}
               backgroundColor={Colors.white}
               color={colors.royalBlue}
-              onPress={() => navigation.navigate(Screens.ADD_POST_SCREEN.name)}
+              onPress={() => navigation.navigate(Screens.ADD_POST_SCREEN.name as 'AddPostScreen')}
             />
           </View>
         )
