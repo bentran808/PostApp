@@ -1,5 +1,5 @@
-import { sortDesc, getApprovedPosts, setAccessToken, getAccessToken } from '../helpers';
 import { mockPost } from '../../__mocks__/data';
+import { getAccessToken, getApprovedPosts, setAccessToken, sortDesc } from '../helpers';
 
 describe('Test helpers', () => {
   test('should call function sortDesc', () => {

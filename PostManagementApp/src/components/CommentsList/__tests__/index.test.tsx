@@ -1,7 +1,7 @@
 import React from 'react';
 import * as customHooks from '../../../hooks';
 import { fireEvent, render } from '../../../utils/test-utils';
-import { mockCommentsList, mockAdmin } from '../../../__mocks__/data';
+import { mockAdmin, mockCommentsList } from '../../../__mocks__/data';
 import CommentsList from '../index';
 
 describe('Comments List Component', () => {

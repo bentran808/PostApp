@@ -13,6 +13,7 @@ import {
   selectPosts
 } from '../../redux/slices';
 import { styles } from '../../styles/HomeScreenStyles';
+import { getApprovedPosts } from '../../utils/helpers';
 
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -79,7 +80,7 @@ const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
         testID="postsList"
         refreshing={loading}
         onRefresh={handleRefresh}
-        data={posts}
+        data={getApprovedPosts(posts)}
         renderItem={({ item }: { item: Post }) => (
           <PostCard
             item={item}

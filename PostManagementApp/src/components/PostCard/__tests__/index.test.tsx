@@ -2,11 +2,11 @@ import React from 'react';
 import * as customHooks from '../../../hooks';
 import { fireEvent, render, RenderAPI } from '../../../utils/test-utils';
 import {
+  mockAdmin,
   mockCommentsList,
   mockLikes,
   mockPhotos,
-  mockPost,
-  mockAdmin
+  mockPost
 } from '../../../__mocks__/data';
 import PostCard from '../index';
 

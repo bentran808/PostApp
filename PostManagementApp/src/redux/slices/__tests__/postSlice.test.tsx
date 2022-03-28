@@ -1,5 +1,6 @@
 import {
   initialUser,
+  mockAdmin,
   mockApprovedPost,
   mockCommentsList,
   mockEditedPost,
@@ -7,8 +8,7 @@ import {
   mockLikes,
   mockNewComment,
   mockNewPost,
-  mockPost,
-  mockAdmin
+  mockPost
 } from '../../../__mocks__/data';
 import { store } from '../../store';
 import { postActions, selectComments, selectLikes, selectPosts } from '../postSlices';

@@ -51,7 +51,8 @@ export const styles = StyleSheet.create({
   },
   postLocation: {
     flexDirection: 'row',
-    paddingLeft: 15
+    paddingLeft: 15,
+    maxWidth: windowWidth * 0.8
   },
   postAddress: {
     color: Colors.black,

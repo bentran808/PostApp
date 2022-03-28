@@ -15,9 +15,9 @@
       "year": 2222,
       "type": "b",
       "status": true,
-      "price": 23333111,
+      "price": 321321,
       "address": "199 Bergen Street, Bowie, Oregon, 7933",
-      "title": "bb update",
+      "title": "aa update",
       "description": "bb",
       "photos": [
         {
@@ -31,7 +31,7 @@
       ],
       "pending": false,
       "createdAt": 1647507076963,
-      "updatedAt": 1647511146749,
+      "updatedAt": 1648366586863,
       "id": 2
     },
     {
@@ -67,6 +67,40 @@
       "createdAt": 1647511166212,
       "updatedAt": 1647568432863,
       "id": 3
+    },
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "company": "asd",
+      "year": 123,
+      "type": "asdasd",
+      "status": true,
+      "price": 12331,
+      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+      "title": "das (updated)",
+      "description": "das",
+      "photos": [
+        {
+          "height": 480,
+          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_5fb36770-c4c3-419b-be5d-9b11973274c0.jpg",
+          "width": 480,
+          "fileName": "rn_image_picker_lib_temp_5fb36770-c4c3-419b-be5d-9b11973274c0.jpg",
+          "type": "image/jpeg",
+          "fileSize": 6689
+        }
+      ],
+      "pending": false,
+      "createdAt": 1648366448003,
+      "updatedAt": 1648366630789,
+      "id": 6
     }
   ],
   "likes": [
@@ -85,7 +119,41 @@
       "createdAt": 1647509052801,
       "updatedAt": 1647509052801,
       "id": 1
+    },
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "postId": "3",
+      "createdAt": 1648365485627,
+      "updatedAt": 1648365485627,
+      "id": 2
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "author": {
+        "id": "621c41883112f1c216433dcf",
+        "avatar": "https://picsum.photos/200",
+        "name": "Mcintyre Morrison",
+        "gender": "male",
+        "email": "test1@email.com",
+        "phone": "+84 (838) 539391",
+        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
+        "role": "user"
+      },
+      "postId": "3",
+      "content": "test 123",
+      "createdAt": 1648365490673,
+      "updatedAt": 1648365502557,
+      "id": 1
+    }
+  ]
 }

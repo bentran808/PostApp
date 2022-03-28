@@ -13,7 +13,13 @@ import {
   handleLikePost,
   handleUnlikePost
 } from '../postSaga';
-import { mockLike, mockNewComment, mockNewPost, mockPost, mockAdmin } from '../../../__mocks__/data';
+import {
+  mockLike,
+  mockNewComment,
+  mockNewPost,
+  mockPost,
+  mockAdmin
+} from '../../../__mocks__/data';
 
 describe('Test Post Saga', () => {
   test('should handle fetch data success', () => {

@@ -3,13 +3,13 @@ import HomeScreen from '..';
 import { Screens } from '../../../constants/screens';
 import * as customHooks from '../../../hooks';
 import { RootState } from '../../../redux/store';
-import { fireEvent, render, act } from '../../../utils/test-utils';
+import { act, fireEvent, render } from '../../../utils/test-utils';
 import {
+  mockAdmin,
   mockCommentsList,
   mockLikes,
   mockPhotos,
-  mockPost,
-  mockAdmin
+  mockPost
 } from '../../../__mocks__/data';
 
 jest.mock('../../../hooks');

@@ -139,7 +139,10 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
         params: newPost,
         callback: (data, error) => {
           if (data) {
-            navigation.navigate(Screens.HOME.name, { screen: Screens.MY_POST_STACK.name });
+            navigation.reset({
+              index: 0,
+              routes: [{ name: Screens.MY_POST_STACK.name }]
+            });
           }
 
           if (error) {

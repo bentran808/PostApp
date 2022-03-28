@@ -3,7 +3,7 @@ import * as imagePicker from 'react-native-image-picker';
 import AddPostScreen from '..';
 import * as customHooks from '../../../hooks';
 import { fireEvent, render } from '../../../utils/test-utils';
-import { mockPhotos, mockPost, mockAdmin } from '../../../__mocks__/data';
+import { mockAdmin, mockPhotos, mockPost } from '../../../__mocks__/data';
 
 describe('Test Add Post Screen', () => {
   const dispatch = jest.fn();

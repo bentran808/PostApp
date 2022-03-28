@@ -1,9 +1,9 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { render } from '@testing-library/react-native';
-import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
+import { render } from '@testing-library/react-native';
+import React from 'react';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 import authReducer from 'redux/slices/authSlice';
 import postReducer from 'redux/slices/postSlices';
 
