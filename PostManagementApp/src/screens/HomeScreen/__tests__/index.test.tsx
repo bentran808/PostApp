@@ -1,18 +1,10 @@
 import React from 'react';
 import HomeScreen from '..';
-import { Screens } from '../../../constants/screens';
-import * as customHooks from '../../../hooks';
-import { RootState } from '../../../redux/store';
-import { act, fireEvent, render } from '../../../utils/test-utils';
-import {
-  mockAdmin,
-  mockCommentsList,
-  mockLikes,
-  mockPhotos,
-  mockPost
-} from '../../../__mocks__/data';
-
-jest.mock('../../../hooks');
+import { Screens } from 'constants/screens';
+import * as customHooks from 'hooks';
+import { RootState } from 'redux/store';
+import { act, fireEvent, render } from 'utils/test-utils';
+import { mockAdmin, mockCommentsList, mockLikes, mockPhotos, mockPost } from '__mocks__/data';
 
 describe('Test Home Screen', () => {
   const dispatch = jest.fn();

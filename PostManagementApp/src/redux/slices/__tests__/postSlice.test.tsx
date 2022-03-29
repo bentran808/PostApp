@@ -9,8 +9,8 @@ import {
   mockNewComment,
   mockNewPost,
   mockPost
-} from '../../../__mocks__/data';
-import { store } from '../../store';
+} from '__mocks__/data';
+import { store } from 'redux/store';
 import { postActions, selectComments, selectLikes, selectPosts } from '../postSlices';
 
 const state = {

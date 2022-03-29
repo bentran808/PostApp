@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Screens } from '../constants/screens';
-import ProfileScreen from '../screens/ProfileScreen';
-import { colors } from '../theme/Colors';
+import { Screens } from 'constants/screens';
+import ProfileScreen from 'screens/ProfileScreen';
+import { colors } from 'theme/Colors';
 import HomeStack from './HomeStack';
 import MyPostStack from './MyPostStack';
 

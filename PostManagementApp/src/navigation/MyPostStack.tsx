@@ -1,10 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { Screens } from '../constants/screens';
-import AddPostScreen from '../screens/AddPostScreen';
-import MyPostScreen from '../screens/MyPostScreen';
-import ShowImageScreen from '../screens/ShowImageScreen';
-import { colors } from '../theme/Colors';
+import { Screens } from 'constants/screens';
+import AddPostScreen from 'screens/AddPostScreen';
+import MyPostScreen from 'screens/MyPostScreen';
+import ShowImageScreen from 'screens/ShowImageScreen';
+import { colors } from 'theme/Colors';
 
 const Stack = createNativeStackNavigator();
 const MyPostStack = () => (

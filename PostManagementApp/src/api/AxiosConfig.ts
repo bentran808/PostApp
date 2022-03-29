@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getAccessToken } from '../utils/helpers';
+import { getAccessToken } from 'utils/helpers';
 
 export const axiosInstance = axios.create({
   baseURL: 'http://192.168.56.1:3000/',

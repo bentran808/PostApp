@@ -6,11 +6,11 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { Button, Chip, Colors, HelperText, TextInput } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { number, object, string } from 'yup';
-import { Screens } from '../../constants/screens';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { Screens } from 'constants/screens';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { postActions, selectCurrentUser } from '../../redux/slices';
 import { styles } from './styles';
-import { colors } from '../../theme/Colors';
+import { colors } from 'theme/Colors';
 
 type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 

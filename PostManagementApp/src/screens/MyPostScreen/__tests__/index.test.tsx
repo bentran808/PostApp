@@ -1,10 +1,10 @@
 import React from 'react';
 import MyPostScreen from '..';
-import { Screens } from '../../../constants/screens';
-import * as customHooks from '../../../hooks';
-import type { RootState } from '../../../redux/store';
-import { act, fireEvent, render } from '../../../utils/test-utils';
-import { mockAdmin, mockPhotos, mockPost, mockUser } from '../../../__mocks__/data';
+import { Screens } from 'constants/screens';
+import * as customHooks from 'hooks';
+import type { RootState } from 'redux/store';
+import { act, fireEvent, render } from 'utils/test-utils';
+import { mockAdmin, mockPhotos, mockPost, mockUser } from '__mocks__/data';
 
 describe('Test My Post Screen', () => {
   const mockStore: RootState = {

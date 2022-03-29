@@ -1,4 +1,4 @@
-import { postApi } from '../../../api';
+import { postApi } from 'api';
 import { all, call, put } from 'redux-saga/effects';
 import { postActions } from '../../slices';
 import {
@@ -13,13 +13,7 @@ import {
   handleLikePost,
   handleUnlikePost
 } from '../postSaga';
-import {
-  mockLike,
-  mockNewComment,
-  mockNewPost,
-  mockPost,
-  mockAdmin
-} from '../../../__mocks__/data';
+import { mockLike, mockNewComment, mockNewPost, mockPost, mockAdmin } from '__mocks__/data';
 
 describe('Test Post Saga', () => {
   test('should handle fetch data success', () => {

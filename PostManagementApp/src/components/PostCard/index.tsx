@@ -5,12 +5,12 @@ import Slider from 'react-native-hook-image-slider';
 import { Button, Colors, Menu, TextInput } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from 'hooks';
 import { selectCurrentUser } from '../../redux/slices';
-import { colors } from '../../theme/Colors';
-import { DefaultAvatar } from '../../theme/Images';
-import { windowWidth } from '../../utils/Dimensions';
-import { formatPrice } from '../../utils/helpers';
+import { colors } from 'theme/Colors';
+import { DefaultAvatar } from 'theme/Images';
+import { windowWidth } from 'utils/Dimensions';
+import { formatPrice } from 'utils/helpers';
 import CommentsList from '../CommentsList';
 import { styles } from './PostCardStyles';
 

@@ -1,9 +1,7 @@
 import React from 'react';
 import LoginScreen from '..';
-import * as customHooks from '../../../hooks';
-import { fireEvent, render } from '../../../utils/test-utils';
-
-jest.mock('../../../hooks');
+import * as customHooks from 'hooks';
+import { fireEvent, render } from 'utils/test-utils';
 
 describe('Test Login Screen', () => {
   const dispatch = jest.fn();

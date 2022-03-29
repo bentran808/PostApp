@@ -4,8 +4,8 @@ import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import authReducer from 'redux/slices/authSlice';
-import postReducer from 'redux/slices/postSlices';
+import authReducer from '../redux/slices/authSlice';
+import postReducer from '../redux/slices/postSlices';
 
 const sagaMiddleware = createSagaMiddleware();
 const AllTheProviders = ({ children }) => {

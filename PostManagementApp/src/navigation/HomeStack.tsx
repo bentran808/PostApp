@@ -6,11 +6,11 @@ import React from 'react';
 import { View } from 'react-native';
 import { Colors } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { Screens } from '../constants/screens';
-import AddPostScreen from '../screens/AddPostScreen';
-import HomeScreen from '../screens/HomeScreen';
-import ShowImageScreen from '../screens/ShowImageScreen';
-import { colors } from '../theme/Colors';
+import { Screens } from 'constants/screens';
+import AddPostScreen from 'screens/AddPostScreen';
+import HomeScreen from 'screens/HomeScreen';
+import ShowImageScreen from 'screens/ShowImageScreen';
+import { colors } from 'theme/Colors';
 
 type HomeStackNavigationProp = NativeStackNavigationProp<RootStackParamList, 'AddPostScreen'>;
 

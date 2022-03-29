@@ -1,4 +1,4 @@
-import { mockPost } from '../../__mocks__/data';
+import { mockPost } from '__mocks__/data';
 import { getAccessToken, getApprovedPosts, setAccessToken, sortDesc } from '../helpers';
 
 describe('Test helpers', () => {

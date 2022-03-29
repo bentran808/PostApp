@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { call, fork, put, takeLatest } from 'redux-saga/effects';
-import { authApi } from '../../api';
-import { removeAccessToken, setAccessToken } from '../../utils/helpers';
+import { authApi } from 'api';
+import { removeAccessToken, setAccessToken } from 'utils/helpers';
 import { authActions } from '../slices';
 
 export function* handleLogin(

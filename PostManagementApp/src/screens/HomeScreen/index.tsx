@@ -2,9 +2,9 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import PostCard from '../../components/PostCard';
-import { Screens } from '../../constants/screens';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import PostCard from 'components/PostCard';
+import { Screens } from 'constants/screens';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import {
   postActions,
   selectComments,
@@ -13,7 +13,7 @@ import {
   selectPosts
 } from '../../redux/slices';
 import { styles } from './styles';
-import { getApprovedPosts } from '../../utils/helpers';
+import { getApprovedPosts } from 'utils/helpers';
 
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 

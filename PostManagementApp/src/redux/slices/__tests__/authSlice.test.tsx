@@ -1,5 +1,5 @@
-import { mockAdmin } from '../../../__mocks__/data';
-import { store } from '../../store';
+import { mockAdmin } from '__mocks__/data';
+import { store } from 'redux/store';
 import { authActions, selectCurrentUser } from '../authSlice';
 
 describe('Test Auth Slice', () => {

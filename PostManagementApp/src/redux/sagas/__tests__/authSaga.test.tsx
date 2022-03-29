@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
-import { authApi } from '../../../api';
-import { setAccessToken } from '../../../utils/helpers';
-import { mockAdmin } from '../../../__mocks__/data';
+import { authApi } from 'api';
+import { setAccessToken } from 'utils/helpers';
+import { mockAdmin } from '__mocks__/data';
 import { authActions } from '../../slices';
 import { handleLogin } from '../authSaga';
 

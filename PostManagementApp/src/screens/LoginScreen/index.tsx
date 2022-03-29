@@ -4,14 +4,14 @@ import { Alert, View } from 'react-native';
 import { Button, HelperText, TextInput } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { object, string } from 'yup';
-import { Screens } from '../../constants/screens';
-import { useAppDispatch } from '../../hooks';
+import { Screens } from 'constants/screens';
+import { useAppDispatch } from 'hooks';
 import { authActions } from '../../redux/slices';
 import { styles } from './styles';
-import { colors } from '../../theme/Colors';
+import { colors } from 'theme/Colors';
 
 // Utilities
-import { windowWidth } from '../../utils/Dimensions';
+import { windowWidth } from 'utils/Dimensions';
 
 type LoginNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 interface LoginProps {

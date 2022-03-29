@@ -12,7 +12,7 @@ target 'PostManagementApp' do
     :hermes_enabled => false
   )
 
-  target 'PostManagementAppTests' do
+  target 'AwesomeTSProjectTests' do
     inherit! :complete
     # Pods for testing
   end

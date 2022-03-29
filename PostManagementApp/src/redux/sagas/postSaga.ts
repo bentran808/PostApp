@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
-import { postApi } from '../../api/postApi';
-import { sortDesc } from '../../utils/helpers';
+import { postApi } from 'api/postApi';
+import { sortDesc } from 'utils/helpers';
 import { postActions } from './../slices/postSlices';
 
 export function* handleFetchData(_action: PayloadAction<() => void>) {

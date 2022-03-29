@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Colors } from 'react-native-paper';
-import { colors } from '../../theme/Colors';
-import { windowHeight, windowWidth } from '../../utils/Dimensions';
+import { colors } from 'theme/Colors';
+import { windowHeight, windowWidth } from 'utils/Dimensions';
 
 export const styles = StyleSheet.create({
   card: {

@@ -70,6 +70,7 @@ exports[`Test My Post Screen should render correctly 1`] = `
       }
       getItem={[Function]}
       getItemCount={[Function]}
+      initialNumToRender={5}
       keyExtractor={[Function]}
       onContentSizeChange={[Function]}
       onLayout={[Function]}
@@ -407,7 +408,7 @@ exports[`Test My Post Screen should render correctly 1`] = `
                     }
                   }
                 >
-                  11 days ago
+                  12 days ago
                 </Text>
                 <View
                   style={
@@ -1034,6 +1035,7 @@ exports[`Test My Post Screen should render correctly my posts 1`] = `
       }
       getItem={[Function]}
       getItemCount={[Function]}
+      initialNumToRender={5}
       keyExtractor={[Function]}
       onContentSizeChange={[Function]}
       onLayout={[Function]}
@@ -1371,7 +1373,7 @@ exports[`Test My Post Screen should render correctly my posts 1`] = `
                     }
                   }
                 >
-                  11 days ago
+                  12 days ago
                 </Text>
                 <View
                   style={
@@ -1636,6 +1638,7 @@ exports[`Test My Post Screen should render correctly with empty list 1`] = `
       data={Array []}
       getItem={[Function]}
       getItemCount={[Function]}
+      initialNumToRender={5}
       keyExtractor={[Function]}
       onContentSizeChange={[Function]}
       onLayout={[Function]}

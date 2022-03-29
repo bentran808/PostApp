@@ -1,7 +1,7 @@
 import React from 'react';
 import ProfileScreen from '..';
-import { render } from '../../../utils/test-utils';
-import { mockPhotos } from '../../../__mocks__/data';
+import { render } from 'utils/test-utils';
+import { mockPhotos } from '__mocks__/data';
 
 describe('Test Show Image Screen', () => {
   const route = {

@@ -2,9 +2,9 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Colors, Text } from 'react-native-paper';
-import PostCard from '../../components/PostCard';
-import { Screens } from '../../constants/screens';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import PostCard from 'components/PostCard';
+import { Screens } from 'constants/screens';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { postActions, selectCurrentUser, selectPosts } from '../../redux/slices';
 
 type MyPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;

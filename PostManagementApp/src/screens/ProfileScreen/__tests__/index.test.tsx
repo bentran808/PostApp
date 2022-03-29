@@ -1,8 +1,8 @@
 import React from 'react';
 import ProfileScreen from '..';
-import { Screens } from '../../../constants/screens';
-import * as customHooks from '../../../hooks';
-import { fireEvent, render } from '../../../utils/test-utils';
+import { Screens } from 'constants/screens';
+import * as customHooks from 'hooks';
+import { fireEvent, render } from 'utils/test-utils';
 
 describe('Test Profile Screen', () => {
   const dispatch = jest.fn();
