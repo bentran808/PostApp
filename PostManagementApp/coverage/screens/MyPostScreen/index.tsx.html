@@ -165,7 +165,19 @@
 <a name='L100'></a><a href='#L100'>100</a>
 <a name='L101'></a><a href='#L101'>101</a>
 <a name='L102'></a><a href='#L102'>102</a>
-<a name='L103'></a><a href='#L103'>103</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -197,10 +209,28 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -208,19 +238,13 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -268,7 +292,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Colors, Text } from 'react-native-paper';
 import PostCard from 'components/PostCard';
@@ -298,22 +322,31 @@ const MyPostScreen = ({ navigation }: MyPostProps) =&gt; {
       ? arr.filter((post) =&gt; post.pending)
       : arr.filter((post) =&gt; post.author.id === currentUser?.id);
 &nbsp;
-  const handleDelete = <span class="fstat-no" title="function not covered" >(p</span>ostId: number) =&gt; {
-<span class="cstat-no" title="statement not covered" >    dispatch(postActions.deletePost(postId));</span>
-  };
+  const handleDelete = useCallback(
+<span class="fstat-no" title="function not covered" >    (p</span>ostId: number) =&gt; {
+<span class="cstat-no" title="statement not covered" >      dispatch(postActions.deletePost(postId));</span>
+    },
+    [dispatch]
+  );
 &nbsp;
-  const handleApprovePost = (postId: number) =&gt; {
-    dispatch(postActions.approvePendingPost({ postId, pending: false }));
-  };
+  const handleApprovePost = useCallback(
+    (postId: number) =&gt; {
+      dispatch(postActions.approvePendingPost({ postId, pending: false }));
+    },
+    [dispatch]
+  );
 &nbsp;
-  const handleRejectPost = (postId: number) =&gt; {
-    dispatch(postActions.deletePost(postId));
-  };
+  const handleRejectPost = useCallback(
+    (postId: number) =&gt; {
+      dispatch(postActions.deletePost(postId));
+    },
+    [dispatch]
+  );
 &nbsp;
-  const handleRefresh = () =&gt; {
+  const handleRefresh = useCallback(() =&gt; {
     setLoading(true);
     dispatch(postActions.fetchData(<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setLoading(false))</span>);
-  };
+  }, [dispatch]);
 &nbsp;
   const handleShowImage = (photos: Photo[]) =&gt; {
     navigation.navigate(Screens.SHOW_IMAGE_SCREEN.name as 'ShowImageScreen', {
@@ -321,12 +354,15 @@ const MyPostScreen = ({ navigation }: MyPostProps) =&gt; {
     });
   };
 &nbsp;
-  const handleEdit = <span class="fstat-no" title="function not covered" >(i</span>tem: Post) =&gt; {
-<span class="cstat-no" title="statement not covered" >    navigation.navigate(Screens.EDIT_POST_SCREEN.name as 'EditPostScreen', {</span>
-      isMyPost: true,
-      editedPost: item
-    });
-  };
+  const handleEdit = useCallback(
+<span class="fstat-no" title="function not covered" >    (p</span>ost: Post) =&gt; {
+<span class="cstat-no" title="statement not covered" >      navigation.navigate(Screens.EDIT_POST_SCREEN.name as 'EditPostScreen', {</span>
+        isMyPost: true,
+        editedPost: post
+      });
+    },
+    [navigation]
+  );
 &nbsp;
   const renderItem = ({ item }: { item: Post }) =&gt; (
     &lt;PostCard
@@ -376,7 +412,7 @@ export default MyPostScreen;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at Tue Mar 29 2022 17:44:28 GMT+0700 (Indochina Time)
+                at Wed Mar 30 2022 17:31:46 GMT+0700 (Indochina Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -1,10 +1,11 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
-import { FlatList, View } from 'react-native';
-import { Text } from 'react-native-paper';
 import PostCard from 'components/PostCard';
 import { Screens } from 'constants/screens';
 import { useAppDispatch, useAppSelector } from 'hooks';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, View } from 'react-native';
+import { Text } from 'react-native-paper';
+import { getApprovedPosts } from 'utils/helpers';
 import {
   postActions,
   selectComments,
@@ -13,7 +14,6 @@ import {
   selectPosts
 } from '../../redux/slices';
 import { styles } from './styles';
-import { getApprovedPosts } from 'utils/helpers';
 
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -39,40 +39,61 @@ const HomeScreen = ({ navigation }: HomeScreenContainerProps) => {
     });
   };
 
-  const handleEdit = (post: Post) => {
-    navigation.navigate(Screens.ADD_POST_SCREEN.name as 'AddPostScreen', {
-      editedPost: post
-    });
-  };
+  const handleEdit = useCallback(
+    (post: Post) => {
+      navigation.navigate(Screens.ADD_POST_SCREEN.name as 'AddPostScreen', {
+        editedPost: post
+      });
+    },
+    [navigation]
+  );
 
-  const handleDelete = (postId: number) => {
-    dispatch(postActions.deletePost(postId));
-  };
+  const handleDelete = useCallback(
+    (postId: number) => {
+      dispatch(postActions.deletePost(postId));
+    },
+    [dispatch]
+  );
 
-  const handleLikePost = (postId: number) => {
-    dispatch(postActions.likePost({ postId, currentUser }));
-  };
+  const handleLikePost = useCallback(
+    (postId: number) => {
+      dispatch(postActions.likePost({ postId, currentUser }));
+    },
+    [currentUser, dispatch]
+  );
 
-  const handleUnlikePost = (likeId: number) => {
-    dispatch(postActions.unlikePost(likeId));
-  };
+  const handleUnlikePost = useCallback(
+    (likeId: number) => {
+      dispatch(postActions.unlikePost(likeId));
+    },
+    [dispatch]
+  );
 
-  const handleAddNewComment = (postId: number, value: string) => {
-    dispatch(postActions.addComment({ postId, currentUser, content: value }));
-  };
+  const handleAddNewComment = useCallback(
+    (postId: number, value: string) => {
+      dispatch(postActions.addComment({ postId, currentUser, content: value }));
+    },
+    [currentUser, dispatch]
+  );
 
-  const handleDeleteComment = (commentId: number) => {
-    dispatch(postActions.deleteComment(commentId));
-  };
+  const handleDeleteComment = useCallback(
+    (commentId: number) => {
+      dispatch(postActions.deleteComment(commentId));
+    },
+    [dispatch]
+  );
 
-  const handleEditComment = (commentId: number, editContent: string) => {
-    dispatch(postActions.editComment({ commentId, newContent: editContent }));
-  };
+  const handleEditComment = useCallback(
+    (commentId: number, editContent: string) => {
+      dispatch(postActions.editComment({ commentId, newContent: editContent }));
+    },
+    [dispatch]
+  );
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     setLoading(true);
     dispatch(postActions.fetchData(() => setLoading(false)));
-  };
+  }, [dispatch]);
 
   const renderItem = ({ item }: { item: Post }) => (
     <PostCard

@@ -1,13 +1,13 @@
+import { useAppSelector } from 'hooks';
 import moment from 'moment';
 import React from 'react';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { Button, Colors, Menu, TextInput } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useAppSelector } from 'hooks';
-import { selectCurrentUser } from '../../redux/slices';
 import { colors } from 'theme/Colors';
 import { DefaultAvatar } from 'theme/Images';
 import { windowHeight, windowWidth } from 'utils/Dimensions';
+import { selectCurrentUser } from '../../redux/slices';
 import { styles } from './CommentsListStyles';
 
 type Props = {
@@ -151,4 +151,8 @@ const CommentsList = ({
   );
 };
 
-export default React.memo(CommentsList);
+const areEqual = (prevProps: Props, nextProps: Props) => {
+  return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+};
+
+export default React.memo(CommentsList, areEqual);

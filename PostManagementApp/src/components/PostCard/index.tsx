@@ -1,3 +1,4 @@
+import { useAppSelector } from 'hooks';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
@@ -5,12 +6,11 @@ import Slider from 'react-native-hook-image-slider';
 import { Button, Colors, Menu, TextInput } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useAppSelector } from 'hooks';
-import { selectCurrentUser } from '../../redux/slices';
 import { colors } from 'theme/Colors';
 import { DefaultAvatar } from 'theme/Images';
 import { windowWidth } from 'utils/Dimensions';
 import { formatPrice } from 'utils/helpers';
+import { selectCurrentUser } from '../../redux/slices';
 import CommentsList from '../CommentsList';
 import { styles } from './PostCardStyles';
 
@@ -285,4 +285,8 @@ const PostCard = ({
   );
 };
 
-export default React.memo(PostCard);
+const areEqual = (prevProps: PostCardProps, nextProps: PostCardProps) => {
+  return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+};
+
+export default React.memo(PostCard, areEqual);

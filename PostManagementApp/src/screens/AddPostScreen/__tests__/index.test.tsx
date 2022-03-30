@@ -1,9 +1,9 @@
+import * as customHooks from 'hooks';
 import React from 'react';
 import * as imagePicker from 'react-native-image-picker';
-import AddPostScreen from '..';
-import * as customHooks from 'hooks';
 import { fireEvent, render } from 'utils/test-utils';
 import { mockAdmin, mockPhotos, mockPost } from '__mocks__/data';
+import AddPostScreen from '..';
 
 describe('Test Add Post Screen', () => {
   const dispatch = jest.fn();
@@ -157,7 +157,9 @@ describe('Test Add Post Screen', () => {
     const message = getByTestId('yearError');
     fireEvent.changeText(input, 'asd');
     fireEvent.press(button);
-    expect(message.children).toEqual(['']);
+    expect(message.children).toEqual([
+      'year must be a `number` type, but the final value was: `NaN` (cast from the value `"asd"`).'
+    ]);
   });
 
   test('should call function handleSubmit add new post', () => {

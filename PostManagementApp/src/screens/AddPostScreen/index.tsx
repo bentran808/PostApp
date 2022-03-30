@@ -1,16 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Screens } from 'constants/screens';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Button, Chip, Colors, HelperText, TextInput } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { colors } from 'theme/Colors';
 import { number, object, string } from 'yup';
-import { Screens } from 'constants/screens';
-import { useAppDispatch, useAppSelector } from 'hooks';
 import { postActions, selectCurrentUser } from '../../redux/slices';
 import { styles } from './styles';
-import { colors } from 'theme/Colors';
 
 type AddPostNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -116,21 +116,17 @@ const AddPostScreen = ({ navigation, route }: AddPostProps) => {
 
   const handleChangePost = (key: string, value: any) => {
     setPost({ ...post, [key]: value });
-    const isValid = validationInput(key, value);
-
-    if (isValid) {
-      setErrorInput({ ...errorInput, [key]: '' });
-    }
+    validationInput(key, value);
   };
 
   const validationInput = (key: string, value: string | number) => {
-    const inputSchema = postSchema.pick([key]);
-    const isValid = inputSchema.isValidSync({ [key]: value });
-    inputSchema.validate({ [key]: value }).catch((err: { errors: string[] }) => {
+    try {
+      const inputSchema = postSchema.pick([key]);
+      inputSchema.validateSync({ [key]: value });
+      setErrorInput((prevState) => ({ ...prevState, [key]: '' }));
+    } catch (err: any) {
       setErrorInput((prevState) => ({ ...prevState, [key]: err.errors[0] }));
-    });
-
-    return isValid;
+    }
   };
 
   const handleAddNewPost = (newPost: Post) => {

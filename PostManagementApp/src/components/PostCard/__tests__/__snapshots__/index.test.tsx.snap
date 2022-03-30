@@ -317,7 +317,7 @@ exports[`Post Card Component renders correctly 1`] = `
             }
           }
         >
-          12 days ago
+          13 days ago
         </Text>
         <View
           style={

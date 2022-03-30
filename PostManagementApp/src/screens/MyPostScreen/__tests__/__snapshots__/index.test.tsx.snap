@@ -408,7 +408,7 @@ exports[`Test My Post Screen should render correctly 1`] = `
                     }
                   }
                 >
-                  12 days ago
+                  13 days ago
                 </Text>
                 <View
                   style={
@@ -1373,7 +1373,7 @@ exports[`Test My Post Screen should render correctly my posts 1`] = `
                     }
                   }
                 >
-                  12 days ago
+                  13 days ago
                 </Text>
                 <View
                   style={

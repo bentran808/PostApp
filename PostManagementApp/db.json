@@ -49,9 +49,9 @@
       "year": 1,
       "type": "a",
       "status": true,
-      "price": 1,
+      "price": 1000000,
       "address": "199 Bergen Street, Bowie, Oregon, 7933",
-      "title": "a",
+      "title": "a updated",
       "description": "a",
       "photos": [
         {
@@ -65,7 +65,7 @@
       ],
       "pending": false,
       "createdAt": 1647511166212,
-      "updatedAt": 1647568432863,
+      "updatedAt": 1648630147927,
       "id": 3
     },
     {
@@ -101,40 +101,6 @@
       "createdAt": 1648432149193,
       "updatedAt": 1648432199441,
       "id": 7
-    },
-    {
-      "author": {
-        "id": "621c41883112f1c216433dcf",
-        "avatar": "https://picsum.photos/200",
-        "name": "Mcintyre Morrison",
-        "gender": "male",
-        "email": "test1@email.com",
-        "phone": "+84 (838) 539391",
-        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-        "role": "user"
-      },
-      "company": "Honda",
-      "year": 2021,
-      "type": "Xe may",
-      "status": true,
-      "price": 4999999,
-      "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-      "title": "Can ban",
-      "description": "Xe da di 1000km",
-      "photos": [
-        {
-          "height": 480,
-          "uri": "file:///data/user/0/com.PostManagementApp/cache/rn_image_picker_lib_temp_2db4007e-9fdc-4efc-b860-f431b6f0869c.jpg",
-          "width": 480,
-          "fileName": "rn_image_picker_lib_temp_2db4007e-9fdc-4efc-b860-f431b6f0869c.jpg",
-          "type": "image/jpeg",
-          "fileSize": 6689
-        }
-      ],
-      "pending": false,
-      "createdAt": 1648452895021,
-      "updatedAt": 1648452957676,
-      "id": 8
     }
   ],
   "likes": [
@@ -172,37 +138,53 @@
     },
     {
       "author": {
-        "id": "621c41883112f1c216433dcf",
-        "avatar": "https://picsum.photos/200",
-        "name": "Mcintyre Morrison",
-        "gender": "male",
-        "email": "test1@email.com",
-        "phone": "+84 (838) 539391",
-        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-        "role": "user"
+        "id": "",
+        "avatar": "",
+        "name": "",
+        "gender": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "role": ""
       },
-      "postId": "8",
-      "createdAt": 1648452963135,
-      "updatedAt": 1648452963135,
-      "id": 3
+      "postId": "3",
+      "createdAt": 1648623577380,
+      "updatedAt": 1648623577380,
+      "id": 6
+    },
+    {
+      "author": {
+        "id": "",
+        "avatar": "",
+        "name": "",
+        "gender": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "role": ""
+      },
+      "postId": "3",
+      "createdAt": 1648623579335,
+      "updatedAt": 1648623579335,
+      "id": 7
     }
   ],
   "comments": [
     {
       "author": {
-        "id": "621c41883112f1c216433dcf",
+        "id": "621c4188dece66a40dad2951",
         "avatar": "https://picsum.photos/200",
-        "name": "Mcintyre Morrison",
+        "name": "Admin",
         "gender": "male",
-        "email": "test1@email.com",
-        "phone": "+84 (838) 539391",
-        "address": "313 Menahan Street, Aurora, North Dakota, 9139",
-        "role": "user"
+        "email": "admin@admin.com",
+        "phone": "+84 (919) 507231",
+        "address": "199 Bergen Street, Bowie, Oregon, 7933",
+        "role": "admin"
       },
-      "postId": "3",
-      "content": "test 123",
-      "createdAt": 1648365490673,
-      "updatedAt": 1648365502557,
+      "postId": "2",
+      "content": "a",
+      "createdAt": 1648624406969,
+      "updatedAt": 1648624427257,
       "id": 1
     }
   ]

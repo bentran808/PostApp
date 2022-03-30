@@ -1,17 +1,22 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useMemo, useState } from 'react';
-import { Alert, View } from 'react-native';
-import { Button, HelperText, TextInput } from 'react-native-paper';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { object, string } from 'yup';
 import { Screens } from 'constants/screens';
 import { useAppDispatch } from 'hooks';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  View
+} from 'react-native';
+import { Button, HelperText, TextInput } from 'react-native-paper';
+import SplashScreen from 'react-native-splash-screen';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { colors } from 'theme/Colors';
+import { windowWidth } from 'utils/Dimensions';
+import { object, string } from 'yup';
 import { authActions } from '../../redux/slices';
 import { styles } from './styles';
-import { colors } from 'theme/Colors';
-
-// Utilities
-import { windowWidth } from 'utils/Dimensions';
 
 type LoginNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 interface LoginProps {
@@ -56,6 +61,10 @@ const LoginScreen = ({ navigation }: LoginProps) => {
     }
   }, [email, password]);
 
+  useEffect(() => {
+    SplashScreen.hide();
+  });
+
   const handleChangeEmail = (userEmail: string) => {
     setEmail(userEmail);
   };
@@ -87,62 +96,64 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   };
 
   return (
-    <>
-      <View style={styles.container}>
-        <Ionicons name="logo-react" size={150} color="#0ff" style={styles.textCenter} />
-        <TextInput
-          mode="outlined"
-          activeOutlineColor={colors.royalBlue}
-          label="Email"
-          value={email}
-          onChangeText={handleChangeEmail}
-          keyboardType="email-address"
-          autoFocus
-          autoCorrect={false}
-          autoCapitalize="none"
-          error={!!error.email}
-          testID="emailInput"
-        />
-        <HelperText type="error" visible={!!error.email} testID="emailError">
-          {error.email}
-        </HelperText>
-        <TextInput
-          mode="outlined"
-          activeOutlineColor={colors.royalBlue}
-          label="Password"
-          secureTextEntry={hidden}
-          right={
-            <TextInput.Icon
-              name={hidden ? 'eye' : 'eye-off'}
-              onPress={handleHiddenPassword}
-              testID="icon"
-            />
-          }
-          value={password}
-          onChangeText={handleChangePassword}
-          error={!!error.password}
-          testID="passwordInput"
-        />
-        <HelperText type="error" visible={!!error.password} testID="passwordError">
-          {error.password}
-        </HelperText>
-        <View style={styles.alignCenter}>
-          <Button
-            mode="contained"
-            color={colors.royalBlue}
-            disabled={disableButton}
-            uppercase={false}
-            style={{
-              width: windowWidth / 2
-            }}
-            onPress={handleLogin}
-            testID="loginButton"
-          >
-            Login
-          </Button>
+    <KeyboardAvoidingView behavior="height" style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+          <Ionicons name="logo-react" size={150} color="#0ff" style={styles.textCenter} />
+          <TextInput
+            mode="outlined"
+            activeOutlineColor={colors.royalBlue}
+            label="Email"
+            value={email}
+            onChangeText={handleChangeEmail}
+            keyboardType="email-address"
+            autoFocus
+            autoCorrect={false}
+            autoCapitalize="none"
+            error={!!error.email}
+            testID="emailInput"
+          />
+          <HelperText type="error" visible={!!error.email} testID="emailError">
+            {error.email}
+          </HelperText>
+          <TextInput
+            mode="outlined"
+            activeOutlineColor={colors.royalBlue}
+            label="Password"
+            secureTextEntry={hidden}
+            right={
+              <TextInput.Icon
+                name={hidden ? 'eye' : 'eye-off'}
+                onPress={handleHiddenPassword}
+                testID="icon"
+              />
+            }
+            value={password}
+            onChangeText={handleChangePassword}
+            error={!!error.password}
+            testID="passwordInput"
+          />
+          <HelperText type="error" visible={!!error.password} testID="passwordError">
+            {error.password}
+          </HelperText>
+          <View style={styles.alignCenter}>
+            <Button
+              mode="contained"
+              color={colors.royalBlue}
+              disabled={disableButton}
+              uppercase={false}
+              style={{
+                width: windowWidth / 2
+              }}
+              onPress={handleLogin}
+              testID="loginButton"
+            >
+              Login
+            </Button>
+          </View>
         </View>
-      </View>
-    </>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
